@@ -3,10 +3,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: aqua;
   width: 350px;
   margin: auto;
-  margin-top: 70px;
+  margin-top: 30px;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid rgb(231, 223, 233);
@@ -35,7 +34,11 @@
   padding: 10px 20px;
   margin-top: 20px;
   cursor: pointer;
-  background-color: #134b70;
+
+  background: #136a8a;
+  background: -webkit-linear-gradient(to right, #267871, #136a8a);
+  background: linear-gradient(to right, #267871, #136a8a);
+
   border: none;
   outline: none;
   color: white;

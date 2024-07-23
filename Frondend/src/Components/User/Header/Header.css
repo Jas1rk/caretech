@@ -1,0 +1,38 @@
+.headerParent-container {
+  padding: 5px;
+  position: fixed;
+  width: 100vw;
+  z-index: 999;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.headerChild {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logContainr {
+  width: 100px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 30px;
+  margin-right: 50px;
+}
+
+.navLinks a {
+  font-size: smaller;
+  font-family: sans-serif;
+  text-decoration: none;
+  color: black;
+}
+
+.profileIcon {
+  width: 20px;
+  height: 20px;
+  margin-top: -2px;
+}
