@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import Logo from "../../../assets/Logo/Logo";
 
 const Register = () => {
   return (
+    <>
+    <Logo/>
     <div className="register-container">
       <h2>Register</h2>
       <form>
@@ -23,6 +26,7 @@ const Register = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 
