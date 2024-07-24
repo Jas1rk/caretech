@@ -1,11 +1,13 @@
 import React from "react";
-import { Header, BannerImage } from "../Components";
+import { Header, BannerImage, DoctorsRow, CategoriesRow } from "../Components";
 
 const Home = () => {
   return (
     <div className="homeParent">
       <Header />
       <BannerImage />
+      <DoctorsRow />
+      <CategoriesRow />
     </div>
   );
 };
