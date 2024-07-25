@@ -4,13 +4,14 @@
   align-items: center;
   justify-content: center;
   width: 350px;
+  height: 400px;
   margin: auto;
   margin-top: 30px;
-  padding: 10px;
   border-radius: 10px;
   border: 1px solid rgb(231, 223, 233);
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px 10px;
 }
 
 .register-container form {
@@ -54,4 +55,8 @@
 .loginLink:hover {
   color: #134b70;
   text-decoration: underline;
+}
+
+.toSignup {
+  margin-top: 10px;
 }
