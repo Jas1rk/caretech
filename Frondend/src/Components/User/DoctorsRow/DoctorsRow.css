@@ -5,10 +5,11 @@
   margin-top: 10px;
   width: 100%;
   overflow-x: auto;
+
 }
 
-.main-row::-webkit-scrollbar{
-    display: none;
+.main-row::-webkit-scrollbar {
+  display: none;
 }
 
 .flip-card {
@@ -19,7 +20,6 @@
   margin: 15px;
   border-radius: 10px;
   flex-shrink: 0;
- 
 }
 
 .flip-card-inner {
@@ -86,21 +86,63 @@
 }
 
 .flib-back-content {
-    margin: 40px;
+  margin: 40px;
 }
-
 
 .deatailes-button {
-    padding: 10px 20px;
-    margin-top: 20px;
-    cursor: pointer;
-    background: #fdfdfd;
-    border: none;
-    outline: none;
-    color: black;
-    width: 150px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgb(231, 223, 233);
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  background: #fdfdfd;
+  border: none;
+  outline: none;
+  color: black;
+  width: 150px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(231, 223, 233);
+  transition: transform 0.3s ease-in-out;
+}
+
+.deatailes-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
 
 }
+
+
+@media (max-width: 768px) {
+    .main-row {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .flip-card {
+      width: 90%;
+      margin: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .circleimage {
+      width: 150px;
+      height: 150px;
+    }
+  
+    .doctor-name {
+      font-size: 18px;
+    }
+  
+    .flib-back-content h1 {
+      font-size: 20px;
+    }
+  
+    .flib-back-content p {
+      font-size: 14px;
+    }
+  
+    .deatailes-button {
+      width: 120px;
+      padding: 8px 16px;
+    }
+  }

@@ -1,5 +1,11 @@
 import React from "react";
-import { Header, BannerImage, DoctorsRow, CategoriesRow } from "../Components";
+import {
+  Header,
+  BannerImage,
+  DoctorsRow,
+  CategoriesRow,
+  Footer,
+} from "../Components";
 
 const Home = () => {
   return (
@@ -8,6 +14,8 @@ const Home = () => {
       <BannerImage />
       <DoctorsRow />
       <CategoriesRow />
+      <BannerImage isSmall />
+      <Footer />
     </div>
   );
 };
