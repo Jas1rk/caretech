@@ -1,9 +1,9 @@
 .headerParent-container {
   padding: 5px;
   position: fixed;
-  width: 100vw;
+  width: 100%;
   z-index: 999;
-  background-color: transparent;
+  background-color: white;
 }
 
 .headerChild {

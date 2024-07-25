@@ -2,9 +2,11 @@ import React from "react";
 import bannerimg from "../../../assets/Public/bannerimage.png";
 import "./Banner.css";
 
-const Banner = () => {
+const Banner = (props) => {
   return (
-    <div className="banner-container">
+    <div
+      className={props.isSmall ? "small-Banner-container" : "banner-container"}
+    >
       <div className="banner-content">
         <div className="banner-title">
           <h1>Find your perfect match</h1>
