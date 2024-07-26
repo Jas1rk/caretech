@@ -6,7 +6,7 @@
   width: 350px;
   margin: auto;
   margin-top: 50px;
-  padding: 10px;
+  padding: 30px 10px;
   border-radius: 10px;
   border: 1px solid rgb(231, 223, 233);
   background-color: white;
@@ -42,4 +42,8 @@
   color: white;
   width: 150px;
   border-radius: 20px;
+}
+
+.verify-otp-timer{
+  margin-top: 10px;
 }

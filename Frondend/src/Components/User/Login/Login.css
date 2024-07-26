@@ -6,11 +6,12 @@
   width: 350px;
   margin: auto;
   margin-top: 70px;
-  padding: 10px;
+  padding: 30px 10px;
   border-radius: 10px;
   border: 1px solid rgb(231, 223, 233);
   background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
 }
 
 .login-container form {
@@ -63,4 +64,12 @@
 .registerLink:hover {
   color: #134b70;
   text-decoration: underline;
+}
+
+.dont-have-accound {
+  margin-top: 20px;
+}
+
+.forgetpass {
+  margin-top: 20px;
 }

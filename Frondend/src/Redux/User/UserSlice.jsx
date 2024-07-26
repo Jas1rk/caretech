@@ -61,3 +61,31 @@ export const userRegistration = async ({
     }
   }
 };
+
+export const verifyOTP = async ({
+  otp,
+  username,
+  email,
+  mobile,
+  password,
+  toast,
+}) => {
+  otp = otp.trim();
+  if (otp === "") {
+    toast.error("Please enter otp");
+  } else {
+    const response = await axios.post(`${backendUrl}/otp`, {
+      otp,
+      username,
+      email,
+      mobile,
+      password,
+    });
+    if(response.data === 'invalidOtp'){
+      toast.error('Invalid OTP')
+    }else{
+      toast.success("Verification completed");
+      return 'userRegistered'
+    }
+  }
+};

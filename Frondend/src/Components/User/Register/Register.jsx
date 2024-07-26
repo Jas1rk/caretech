@@ -19,7 +19,6 @@ const Register = () => {
 
   const handleRegistration = async(event) => {
     event.preventDefault();
-
     const response = await userRegistration({
       username,
       email,

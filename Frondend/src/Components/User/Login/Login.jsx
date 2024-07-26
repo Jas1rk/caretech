@@ -6,7 +6,7 @@ import Logo from "../../../assets/Logo/Logo";
 const Login = () => {
   return (
     <>
-    <Logo/>
+      <Logo />
       <div className="login-container">
         <h2>Login</h2>
         <form>
@@ -16,11 +16,11 @@ const Login = () => {
         </form>
         <div className="forget-pass">
           <Link to="/forgetpassword" className="forgetLink">
-            <p>Forget password</p>
+            <p className="forgetpass">Forget password</p>
           </Link>
         </div>
         <div>
-          <p>
+          <p className="dont-have-accound">
             Don't have an accound ?
             <Link to="/register" className="registerLink">
               Register
