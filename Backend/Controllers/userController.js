@@ -11,7 +11,7 @@ const userRegister = async (req, res) => {
       res.json("userExist");
     } else {
       const genaratedOTP = await emailVerification(email);
-      OTPstore[email] = genaratedOTP;
+      OTPstore[email] = genaratedOTP
       console.log("this is otp getting", OTPstore[email]);
       res.json(genaratedOTP);
     }
@@ -23,8 +23,6 @@ const userRegister = async (req, res) => {
 const verifyOtp = async (req, res) => {
   try {
     const { otp, username, email, mobile, password } = req.body;
-    console.log("Entered,otp", otp);
-    console.log("this is otp getting", OTPstore[email]);
     if (otp === OTPstore[email]) {
       const passwordHash = await bcrypt.hash(password, 10);
       const newUser = new User({
@@ -34,7 +32,7 @@ const verifyOtp = async (req, res) => {
         password: passwordHash,
       });
       await newUser.save();
-      delete OTPstore[email];
+      delete OTPstore[email]
       res.json("userRegistered");
     } else {
       console.log("invalid otp");
@@ -49,11 +47,19 @@ const verifyResendOtp = async (req, res) => {
   try {
     const { email } = req.body;
     const genaratedOTP = await emailVerification(email);
-    OTPstore[email] = genaratedOTP;
+    OTPstore[email] = genaratedOTP
     res.json(genaratedOTP);
   } catch (err) {
     console.log(err.message);
   }
 };
 
-module.exports = { userRegister, verifyOtp, verifyResendOtp };
+const userLogin = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+
+module.exports = { userRegister, verifyOtp, verifyResendOtp, userLogin };
