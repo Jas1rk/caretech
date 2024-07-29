@@ -81,16 +81,34 @@ export const verifyOTP = async ({
       mobile,
       password,
     });
-    if(response.data === 'invalidOtp'){
-      toast.error('Invalid OTP')
-    }else{
+    if (response.data === "invalidOtp") {
+      toast.error("Invalid OTP");
+    } else {
       toast.success("Verification completed");
-      return 'userRegistered'
+      return "userRegistered";
     }
   }
 };
 
+export const userLogin = createAsyncThunk(
+  "user/userLogin",
+  async ({ email, password, toast }, { rejectWithValue }) => {
+    email = email.trim();
+    password = password.trim();
 
-export const userLogin = createAsyncThunk('user/userLogin', async()=>{
-  
-})
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email === "" || password === "") {
+      toast.error("Please enter email and password");
+      return rejectWithValue("Please enter email and password");
+    } else if (!emailRegex.test(email)) {
+      toast.error("Please enter Invalid email");
+      return rejectWithValue("Please enter Invalid email");
+    } else {
+      const response = await axios.post(`${backendUrl}/login`, {
+        email,
+        password,
+      });
+    }
+  }
+);

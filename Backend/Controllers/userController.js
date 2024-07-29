@@ -56,6 +56,8 @@ const verifyResendOtp = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
+    const {email,password} = req.body
+    console.log('getting ',email,password)
   } catch (err) {
     console.log(err.message);
   }
