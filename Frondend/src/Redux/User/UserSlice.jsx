@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../service/backendUrl";
 
-
 const INITIAL_STATE = {
   userData: sessionStorage.getItem("userData")
     ? JSON.parse(sessionStorage.getItem("userData"))
@@ -17,14 +16,13 @@ const userSlice = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
   extraReducers: (builder) => {
-    builder
-    .addCase(userLogin.fulfilled, (state, action) => {
+    builder.addCase(userLogin.fulfilled, (state, action) => {
       const { userData, token } = action.payload;
       state.userData = userData;
       state.token = token;
       sessionStorage.setItem("userData", JSON.stringify(userData));
       sessionStorage.setItem("token", JSON.stringify(token));
-      console.log('userdata is herereeee==>>',userData)
+      console.log("userdata is herereeee==>>", userData);
     });
   },
 });
@@ -122,7 +120,7 @@ export const userLogin = createAsyncThunk(
       toast.error("Please enter email and password");
       return rejectWithValue("Please enter email and password");
     } else if (!emailRegex.test(email)) {
-      toast.error("Please enter Invalid email");
+      toast.error("Please enter valid email");
       return rejectWithValue("Please enter Invalid email");
     } else {
       const response = await axios.post(`${backendUrl}/login`, {
@@ -140,9 +138,28 @@ export const userLogin = createAsyncThunk(
       } else if (response.data === "invalidPassword") {
         toast.error("Invalid password");
         return rejectWithValue("Invalid password");
-      }else{
-        return response.data
+      } else {
+        return response.data;
       }
     }
   }
 );
+
+export const userForgetPassword = async ({ email, toast }) => {
+  email = email.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email === "") {
+    toast.error("Please enter email");
+  } else if (!emailRegex.test(email)) {
+    toast.error("Please enter valid email");
+  } else {
+    const response = await axios.post(`${backendUrl}/forgetPassword`, {
+      email,
+    });
+    if(response.data === 'emailNotFound'){
+      toast.error('Email not found Try again')
+    }else{
+      return response.data
+    }
+  }
+};

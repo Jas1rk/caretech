@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/Logo/Logo";
+import Useform from "../../../Hooks/Useform";
+import { userForgetPassword } from "../../../Redux/User/UserSlice";
+import toast, { Toaster } from "react-hot-toast";
 import "./Forgetpassword.css";
 
 const Forgetpassword = () => {
-  const [timer, setTimer] = useState(15);
+  const [timer, setTimer] = useState(60);
   const [isResend, setIsResend] = useState(false);
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [isOTPVerified, setIsOTPVerified] = useState(false);
+  const [values, handleInput, setValues] = Useform({
+    email: "",
+    otp: "",
+    newPassword: "",
+    reNewPassword: "",
+  });
+  const { email, otp, newPassword, reNewPassword } = values;
 
   useEffect(() => {
     let countDown;
@@ -20,24 +30,41 @@ const Forgetpassword = () => {
     return () => clearInterval(countDown);
   }, [timer, isOTPSent]);
 
-  const handleSendOTP = () => {
-    setIsOTPSent(true);
-    setTimer(15);
-    setIsResend(false);
+  const handleSendOTP = async () => {
+    const response = await userForgetPassword({ email, toast });
+    if (response) {
+      setIsOTPSent(true);
+      setTimer(60);
+      setIsResend(false);
+      setValues(email);
+    } else {
+      setValues({ email: "" });
+    }
   };
 
   const handleVerifyOTP = () => {
     setIsOTPVerified(true);
+    console.log("this is otp", otp);
+  };
+
+  const handleNewPassword = () => {
+    console.log("new and re-pass", newPassword, reNewPassword);
   };
 
   return (
     <>
+      <Toaster />
       <Logo />
       <div className="forget-container">
         <h2>Recover Password</h2>
-
         <div className="email-container">
-          <input type="email" placeholder="Enter email" />
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={handleInput}
+            placeholder="Enter email"
+          />
           <button onClick={handleSendOTP}>Send OTP</button>
         </div>
 
@@ -45,7 +72,13 @@ const Forgetpassword = () => {
           <>
             <p className="otp-row">Enter your OTP</p>
             <div className="otpContainer">
-              <input type="text" placeholder="Enter OTP" />
+              <input
+                type="text"
+                name="otp"
+                value={otp}
+                onChange={handleInput}
+                placeholder="Enter OTP"
+              />
               {!isResend ? (
                 <button className="verify-otp" onClick={handleVerifyOTP}>
                   Verify OTP
@@ -59,14 +92,25 @@ const Forgetpassword = () => {
             <p>Timer: {`00:${timer}`}</p>
           </>
         )}
-
         {isOTPVerified && (
           <>
             <p className="password-row">Enter your new password</p>
             <div className="password-container">
-              <input type="password" placeholder="Enter new password" />
-              <input type="password" placeholder="Re-enter password" />
-              <button>Continue</button>
+              <input
+                type="password"
+                name="newPassword"
+                value={newPassword}
+                onChange={handleInput}
+                placeholder="Enter new password"
+              />
+              <input
+                type="password"
+                name="reNewPassword"
+                value={reNewPassword}
+                onChange={handleInput}
+                placeholder="Re-enter password"
+              />
+              <button onClick={handleNewPassword}>Continue</button>
             </div>
           </>
         )}
