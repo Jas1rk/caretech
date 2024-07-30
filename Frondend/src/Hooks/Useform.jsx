@@ -10,6 +10,7 @@ const Useform = (initialstate) => {
         [event.target.name]: event.target.value,
       });
     },
+    setValues
   ];
 };
 

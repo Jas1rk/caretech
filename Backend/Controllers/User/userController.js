@@ -89,4 +89,27 @@ const userLogin = async (req, res) => {
   }
 };
 
-module.exports = { userRegister, verifyOtp, verifyResendOtp, userLogin };
+const forgetPassword = async (req, res) => {
+  try {
+    const {email} = req.body
+    const findEmail = await User.findOne({email})
+    if(findEmail){
+      const genaratedOTP = await emailVerification(email);
+      OTPstore[email] = genaratedOTP;
+      console.log("otp getting", OTPstore[email]);
+      res.json(genaratedOTP)
+    }else{
+      res.json('emailNotFound')
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+module.exports = {
+  userRegister,
+  verifyOtp,
+  verifyResendOtp,
+  userLogin,
+  forgetPassword,
+};
