@@ -1,6 +1,7 @@
-const User = require("../Model/userModel");
-const emailVerification = require("../Utils/modemailer");
+const User = require("../../Model/userModel");
+const emailVerification = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
+const { createToken } = require("../../Utils/jwt");
 
 const OTPstore = {};
 const userRegister = async (req, res) => {
@@ -11,7 +12,7 @@ const userRegister = async (req, res) => {
       res.json("userExist");
     } else {
       const genaratedOTP = await emailVerification(email);
-      OTPstore[email] = genaratedOTP
+      OTPstore[email] = genaratedOTP;
       console.log("this is otp getting", OTPstore[email]);
       res.json(genaratedOTP);
     }
@@ -32,7 +33,7 @@ const verifyOtp = async (req, res) => {
         password: passwordHash,
       });
       await newUser.save();
-      delete OTPstore[email]
+      delete OTPstore[email];
       res.json("userRegistered");
     } else {
       console.log("invalid otp");
@@ -47,7 +48,7 @@ const verifyResendOtp = async (req, res) => {
   try {
     const { email } = req.body;
     const genaratedOTP = await emailVerification(email);
-    OTPstore[email] = genaratedOTP
+    OTPstore[email] = genaratedOTP;
     res.json(genaratedOTP);
   } catch (err) {
     console.log(err.message);
@@ -56,12 +57,36 @@ const verifyResendOtp = async (req, res) => {
 
 const userLogin = async (req, res) => {
   try {
-    const {email,password} = req.body
-    console.log('getting ',email,password)
+    const { email, password } = req.body;
+    const findUser = await User.findOne({ email });
+    if (findUser) {
+      if (findUser.isBloked) {
+        res.json("userBlocked");
+      } else {
+        const comparePassword = await bcrypt.compare(
+          password,
+          findUser.password
+        );
+        if (comparePassword) {
+          const userData = {
+            id: findUser._id,
+            username: findUser.username,
+            email: findUser.email,
+            mobile: findUser.mobile,
+            isBloked: findUser.isBloked,
+          };
+          const token = createToken(userData.id);
+          res.json({ userData, token });
+        } else {
+          res.json("invalidPassword");
+        }
+      }
+    } else {
+      res.json("userNotFound");
+    }
   } catch (err) {
     console.log(err.message);
   }
 };
-
 
 module.exports = { userRegister, verifyOtp, verifyResendOtp, userLogin };

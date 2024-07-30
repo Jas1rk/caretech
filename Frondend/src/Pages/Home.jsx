@@ -7,7 +7,9 @@ import {
   Footer,
 } from "../Components";
 
+
 const Home = () => {
+ 
   return (
     <div className="homeParent">
       <Header />

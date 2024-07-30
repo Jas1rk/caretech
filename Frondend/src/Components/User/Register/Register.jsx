@@ -17,7 +17,7 @@ const Register = () => {
   const { username, email, mobile, password, confirmPassword } = values;
   const navigate = useNavigate();
 
-  const handleRegistration = async(event) => {
+  const handleRegistration = async (event) => {
     event.preventDefault();
     const response = await userRegistration({
       username,

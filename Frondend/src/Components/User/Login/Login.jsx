@@ -1,32 +1,50 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
-import toast , {Toaster} from "react-hot-toast"
-import {useDispatch, } from "react-redux"
+import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { userLogin } from "../../../Redux/User/UserSlice";
 import "./Login.css";
 
 const Login = () => {
-  const [values, handleInput] = Useform({email:"",password:""})
-  const {email,password} = values
-  const dispatch = useDispatch()
+  const [values, handleInput] = Useform({ email: "", password: "" });
+  const { email, password } = values;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    dispatch(userLogin({ email, password, toast }))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      });
+  };
+
  
 
-  const handleLogin = (event)=>{
-    event.preventDefault()
-    dispatch(userLogin({email,password,toast}))
-  }
-  
   return (
     <>
-    <Toaster/>
+      <Toaster />
       <Logo />
       <div className="login-container">
         <h2>Login</h2>
         <form onSubmit={handleLogin}>
-          <input type="email" placeholder="Enter email" name="email" value={email} onChange={handleInput} />
-          <input type="password" placeholder="Enter password" name="password" value={password} onChange={handleInput} />
+          <input
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={handleInput}
+          />
+          <input
+            type="password"
+            placeholder="Enter password"
+            name="password"
+            value={password}
+            onChange={handleInput}
+          />
           <button>Login</button>
         </form>
         <div className="forget-pass">

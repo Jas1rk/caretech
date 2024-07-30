@@ -2,11 +2,31 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../service/backendUrl";
 
-const INITIAL_STATE = {};
+
+const INITIAL_STATE = {
+  userData: sessionStorage.getItem("userData")
+    ? JSON.parse(sessionStorage.getItem("userData"))
+    : null,
+
+  token: sessionStorage.getItem("token")
+    ? JSON.parse(sessionStorage.getItem("token"))
+    : null,
+};
 
 const userSlice = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
+  extraReducers: (builder) => {
+    builder
+    .addCase(userLogin.fulfilled, (state, action) => {
+      const { userData, token } = action.payload;
+      state.userData = userData;
+      state.token = token;
+      sessionStorage.setItem("userData", JSON.stringify(userData));
+      sessionStorage.setItem("token", JSON.stringify(token));
+      console.log('userdata is herereeee==>>',userData)
+    });
+  },
 });
 
 export default userSlice.reducer;
@@ -109,6 +129,20 @@ export const userLogin = createAsyncThunk(
         email,
         password,
       });
+      if (response.data === "userNotFound") {
+        toast.error("User does not exist ! Please sign up");
+        return rejectWithValue("User does not exist ! Please sign up");
+      } else if (response.data === "userBlocked") {
+        toast.error("Your account is blocked ! Please contact admin");
+        return rejectWithValue(
+          "Your account is blocked ! Please contact admin"
+        );
+      } else if (response.data === "invalidPassword") {
+        toast.error("Invalid password");
+        return rejectWithValue("Invalid password");
+      }else{
+        return response.data
+      }
     }
   }
 );
