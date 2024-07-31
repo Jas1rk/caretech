@@ -3,6 +3,9 @@ import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
 import { userForgetPassword } from "../../../Redux/User/UserSlice";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import { backendUrl } from "../../../service/backendUrl";
+import { useNavigate } from "react-router-dom";
 import "./Forgetpassword.css";
 
 const Forgetpassword = () => {
@@ -17,6 +20,7 @@ const Forgetpassword = () => {
     reNewPassword: "",
   });
   const { email, otp, newPassword, reNewPassword } = values;
+  const navigate = useNavigate();
 
   useEffect(() => {
     let countDown;
@@ -33,22 +37,68 @@ const Forgetpassword = () => {
   const handleSendOTP = async () => {
     const response = await userForgetPassword({ email, toast });
     if (response) {
+      toast.success("OTP has sent to your mail ! check");
       setIsOTPSent(true);
       setTimer(60);
       setIsResend(false);
-      setValues(email);
     } else {
       setValues({ email: "" });
     }
   };
 
-  const handleVerifyOTP = () => {
-    setIsOTPVerified(true);
-    console.log("this is otp", otp);
+  const handleResendOTP = async () => {
+    setIsResend(false);
+    setTimer(60);
+    await axios.post(`${backendUrl}/forgetPassResendotp`, { email });
   };
 
-  const handleNewPassword = () => {
-    console.log("new and re-pass", newPassword, reNewPassword);
+  const handleVerifyOTP = async () => {
+    try {
+      if (otp.trim() === "") {
+        toast.error("Please enter otp");
+      } else {
+        const response = await axios.post(`${backendUrl}/forgetPassOtp`, {
+          email,
+          otp,
+        });
+        if (response.data === "otpCorrect") {
+          setIsOTPVerified(true);
+          setValues({ ...values, otp: "" });
+        } else if (response.data === "incorrectOtp") {
+          toast.error("Incorrect OTP. Please try again.");
+          setValues({ ...values, otp: "" });
+        }
+      }
+    } catch (err) {
+      console.log(err.message);
+      toast.error("An error occurred. Please try again later.");
+    }
+  };
+
+  const handleNewPassword = async () => {
+    const newpasswordRegex = /[a-zA-Z]/;
+    if (newPassword.trim() === "" || reNewPassword.trim() === "") {
+      toast.error("Please fill fields");
+    } else if (!newpasswordRegex.test(newPassword)) {
+      toast.error(
+        "Password must contain alphabet ,number,symbol,and capital letters"
+      );
+    } else if (newPassword.length < 6) {
+      toast.error("Password must be 6 characters long");
+    } else if (newPassword !== reNewPassword) {
+      toast.error("Password and confirm password must be same");
+    } else {
+      const response = await axios.post(`${backendUrl}/newPassword`, {
+        email,
+        newPassword,
+      });
+      if (response) {
+        toast.success("password updated successfully");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
+    }
   };
 
   return (
@@ -68,7 +118,7 @@ const Forgetpassword = () => {
           <button onClick={handleSendOTP}>Send OTP</button>
         </div>
 
-        {isOTPSent && (
+        {isOTPSent && !isOTPVerified && (
           <>
             <p className="otp-row">Enter your OTP</p>
             <div className="otpContainer">
@@ -84,7 +134,7 @@ const Forgetpassword = () => {
                   Verify OTP
                 </button>
               ) : (
-                <button className="resend-otp" onClick={handleSendOTP}>
+                <button className="resend-otp" onClick={handleResendOTP}>
                   Resend OTP
                 </button>
               )}
