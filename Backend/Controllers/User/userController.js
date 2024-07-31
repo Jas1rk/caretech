@@ -36,7 +36,6 @@ const verifyOtp = async (req, res) => {
       delete OTPstore[email];
       res.json("userRegistered");
     } else {
-      console.log("invalid otp");
       res.json("invalidOtp");
     }
   } catch (err) {
@@ -49,6 +48,7 @@ const verifyResendOtp = async (req, res) => {
     const { email } = req.body;
     const genaratedOTP = await emailVerification(email);
     OTPstore[email] = genaratedOTP;
+    console.log("resendotp getting ", OTPstore[email]);
     res.json(genaratedOTP);
   } catch (err) {
     console.log(err.message);
@@ -91,16 +91,56 @@ const userLogin = async (req, res) => {
 
 const forgetPassword = async (req, res) => {
   try {
-    const {email} = req.body
-    const findEmail = await User.findOne({email})
-    if(findEmail){
+    const { email } = req.body;
+    const findEmail = await User.findOne({ email });
+    if (findEmail) {
       const genaratedOTP = await emailVerification(email);
       OTPstore[email] = genaratedOTP;
-      console.log("otp getting", OTPstore[email]);
-      res.json(genaratedOTP)
-    }else{
-      res.json('emailNotFound')
+      console.log("otp getting for forgetpassword", OTPstore[email]);
+      res.json(genaratedOTP);
+    } else {
+      res.json("emailNotFound");
     }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const forgetPassOtpVerify = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (otp === OTPstore[email]) {
+      delete OTPstore[email];
+      res.json("otpCorrect");
+    } else {
+      res.json("incorrectOtp");
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const forgetPassResendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const genaratedOTP = await emailVerification(email);
+    OTPstore[email] = genaratedOTP;
+    console.log("resendotp for forgetpassword", OTPstore[email]);
+    res.json(genaratedOTP);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const userNewPassword = async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+    const updatePassword = await User.findOneAndUpdate(
+      { email: email },
+      { $set: { password: passwordHash } }
+    );
+    res.json(updatePassword);
   } catch (err) {
     console.log(err.message);
   }
@@ -112,4 +152,7 @@ module.exports = {
   verifyResendOtp,
   userLogin,
   forgetPassword,
+  forgetPassOtpVerify,
+  forgetPassResendOtp,
+  userNewPassword,
 };
