@@ -22,7 +22,6 @@ const userSlice = createSlice({
       state.token = token;
       sessionStorage.setItem("userData", JSON.stringify(userData));
       sessionStorage.setItem("token", JSON.stringify(token));
-      console.log("userdata is herereeee==>>", userData);
     });
   },
 });
