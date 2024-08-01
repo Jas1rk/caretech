@@ -1,6 +1,7 @@
 const express = require("express");
 const userRouter = express.Router();
 const userController = require("../Controllers/User/userController");
+const userProfileController = require('../Controllers/User/userProfileController')
 
 const {
   userRegister,
@@ -12,6 +13,8 @@ const {
   forgetPassResendOtp,
   userNewPassword
 } = userController;
+
+
 
 userRouter
   .post("/register", userRegister)

@@ -1,4 +1,11 @@
-import { Register, Otp, Login, Forgetpassword } from "./Components";
+import {
+  Register,
+  Otp,
+  Login,
+  Forgetpassword,
+  AdminLogin,
+  AdminHome,
+} from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
@@ -13,6 +20,9 @@ function App() {
           <Route exact path="/otp" element={<Otp />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/forgetpassword" element={<Forgetpassword />} />
+
+          <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
+          <Route exact path="/admin/adminhome" element={<AdminHome />} />
         </Routes>
       </Router>
     </>

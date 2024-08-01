@@ -8,3 +8,14 @@ export {default as BannerImage} from './User/Banner/Banner'
 export {default as DoctorsRow} from './User/DoctorsRow/DoctorsRow'
 export {default as CategoriesRow} from './User/CategoriesRow/CategoriesRow'
 export {default as Footer} from './User/Footer/Footer'
+
+
+
+
+
+
+
+///////////// admin side /////////////////
+
+export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
+export {default as AdminHome} from './Admin/AdminHome/Adminhome'
