@@ -18,11 +18,12 @@ const Login = () => {
     dispatch(userLogin({ email, password, toast }))
       .unwrap()
       .then(() => {
-        navigate("/");
+        toast.success("Login successfull");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
       });
   };
-
- 
 
   return (
     <>
