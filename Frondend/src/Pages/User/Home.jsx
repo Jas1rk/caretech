@@ -5,7 +5,7 @@ import {
   DoctorsRow,
   CategoriesRow,
   Footer,
-} from "../Components";
+} from "../../Components";
 
 
 const Home = () => {

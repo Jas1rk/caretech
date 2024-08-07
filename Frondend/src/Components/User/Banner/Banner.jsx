@@ -3,6 +3,7 @@ import bannerimg from "../../../assets/Public/bannerimage.png";
 import "./Banner.css";
 
 const Banner = (props) => {
+
   return (
     <div
       className={props.isSmall ? "small-Banner-container" : "banner-container"}
