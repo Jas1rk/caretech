@@ -11,8 +11,15 @@ const INITIAL_STATE = {
 const adminSlice = createSlice({
   name: "admin",
   initialState: INITIAL_STATE,
+  reducers: {
+    adminLogout: (state) => {
+      state.adminToken = null;
+      sessionStorage.removeItem("admin-token");
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(adminLogin.fulfilled, (state, action) => {
+    builder
+    .addCase(adminLogin.fulfilled, (state, action) => {
       const newToken = action.payload;
       state.adminToken = newToken;
       sessionStorage.setItem("admin-token", JSON.stringify(newToken));
@@ -20,6 +27,7 @@ const adminSlice = createSlice({
   },
 });
 
+export const { adminLogout } = adminSlice.actions;
 export default adminSlice.reducer;
 
 export const adminLogin = createAsyncThunk(

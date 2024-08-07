@@ -18,4 +18,5 @@ export {default as Footer} from './User/Footer/Footer'
 ///////////// admin side /////////////////
 
 export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
-export {default as AdminHome} from './Admin/AdminHome/Adminhome'
+export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
+export {default as AdminSidebar} from './Admin/AdminSidebar/Adminsidebar'
