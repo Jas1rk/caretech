@@ -1,6 +1,33 @@
-.adminSidebar-main{
-    background-color: aqua;
-    width: 300px;
-    height: 100px;
-    margin: 50px;
+.adminSidebar-main {
+  background-color: rgb(255, 255, 255);
+  width: 25%;
+  height: 400px;
+  margin: 40px;
+  border-radius: 15px;
+  border: 1px solid rgb(231, 223, 233);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.adminSidebar-ulList {
+  margin: 25px;
+}
+
+.adminSidebar-List {
+  background-color: rgb(255, 255, 255);
+  margin: 20px;
+  list-style: none;
+  cursor: pointer;
+  padding: 15px;
+  border: 1px solid rgb(231, 223, 233);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+  border-radius: 12px;
+}
+
+.adminSidebar-icon {
+  margin-right: 10px;
+}
+
+.next-link {
+  text-decoration: none;
+  color: black;
 }
