@@ -1,0 +1,6 @@
+.adminHome-parent {
+    background-color: rgba(80, 39, 39, 0.548);
+    height: 100vh;
+    backdrop-filter: blur(10px);
+
+}
