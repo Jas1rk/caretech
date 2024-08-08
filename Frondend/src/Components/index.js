@@ -1,3 +1,4 @@
+//////////////userside///////////
 export {default as Register} from './User/Register/Register'
 export {default as Otp} from './User/Otp/Otp'
 export {default as Login} from './User/Login/Login'
@@ -21,3 +22,10 @@ export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
 export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
 export {default as AdminSidebar} from './Admin/AdminSidebar/Adminsidebar'
 export {default as AdminUserList} from './Admin/UsersList/Userlist'
+
+
+
+////////////////commen//////////////////////
+
+
+export {default as Pagination} from "./Commen/Pagination/Pagination"
