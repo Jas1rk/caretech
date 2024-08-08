@@ -1,0 +1,34 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination button {
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px;
+}
+
+.pagination button:disabled {
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+.pagination span {
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px;
+}
+
+.pagination .active {
+  font-weight: bold;
+  color: #007bff;
+}

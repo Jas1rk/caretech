@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -7,10 +7,17 @@ import {
   faList,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Adminsidebar.css";
 
 const Adminsidebar = () => {
+  const location = useLocation();
+  const [isActive, setIsActive] = useState(location.pathname);
+
+  const handleActive = (path) => {
+    setIsActive(path);
+  };
+
   return (
     <div className="adminSidebar-main">
       <div className="adminSidebar-child">
@@ -22,9 +29,16 @@ const Adminsidebar = () => {
             />
             Admin Dashboard
           </li>
-          <li className="adminSidebar-List">
+          <li
+            className={`adminSidebar-List ${
+              isActive === "/admin/userlist" ? "active" : ""
+            }`}
+            onClick={() => handleActive()}
+          >
             <FontAwesomeIcon icon={faUser} className="adminSidebar-icon" />
-            <Link to="/admin/userlist" className="next-link"> Users</Link>
+            <Link to="/admin/userlist" className="next-link">
+              Users
+            </Link>
           </li>
           <li className="adminSidebar-List">
             <FontAwesomeIcon icon={faUserMd} className="adminSidebar-icon" />

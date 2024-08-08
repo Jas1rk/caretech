@@ -24,7 +24,7 @@ function App() {
 
           <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
           <Route exact path="/admin/adminhome" element={<AdminHomePage />} />
-          {/* <Route exact path="/admin/userlist" element={<AdminUserList />} /> */}
+          <Route exact path="/admin/userlist" element={<AdminUserList />} />
         </Routes>
       </Router>
     </>
