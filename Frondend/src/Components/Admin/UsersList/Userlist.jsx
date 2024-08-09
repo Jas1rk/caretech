@@ -4,15 +4,15 @@ import "./Userlist.css";
 
 const users = [
   { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  { id: 1, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
-  // { id: 1, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
-  // { id: 1, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
-  // { id: 1, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
-  // { id: 1, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
+  { id: 2, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
+  { id: 3, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
+  { id: 4, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
+  { id: 5, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
+  { id: 6, name: "John Doe", email: "john@example.com", mobile: "1234567890" },
+  { id: 7, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
+  { id: 8, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
+  { id: 9, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
+  { id: 10, name: 'John Doe', email: 'john@example.com' , mobile:'1234567890' },
 ];
 const Userlist = () => {
   const [currentPage,setCurrentPage] = useState(1)
@@ -47,7 +47,7 @@ const Userlist = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
+                {currentUsers.map((user, index) => (
                   <tr key={index}>
                     <td>{user.id}</td>
                     <td>{user.name}</td>
