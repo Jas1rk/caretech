@@ -1,9 +1,12 @@
-const express = require('express')
-const adminRoute = express.Router()
-const admimController = require('../Controllers/Admin/adminController')
+const express = require("express");
+const adminRoute = express.Router();
+const { verifyToken } = require("../Utils/jwt");
+const admimController = require("../Controllers/Admin/adminController");
 
-const {adminLoginVerify} = admimController
+const { adminLoginVerify, adminFetchUsers } = admimController;
 
-adminRoute.post('/adminlogin',adminLoginVerify)
+adminRoute
+  .post("/adminlogin", adminLoginVerify)
+  .get("/fetchusers", adminFetchUsers);
 
-module.exports = adminRoute
+module.exports = adminRoute;

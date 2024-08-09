@@ -25,5 +25,6 @@ userRouter
   .post("/forgetPassOtp", forgetPassOtpVerify)
   .post('/forgetPassResendotp',forgetPassResendOtp)
   .post('/newPassword',userNewPassword)
+  
 
 module.exports = userRouter;

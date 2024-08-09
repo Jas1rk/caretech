@@ -63,6 +63,12 @@
   color: white;
   width: 150px;
   border-radius: 20px;
+  transition: transform 0.3s ease-in-out;
 }
 
+.banner-content button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.616);
+  border: none;
+}
 

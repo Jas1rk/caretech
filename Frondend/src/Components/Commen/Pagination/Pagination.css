@@ -14,10 +14,11 @@
   box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px;
 }
 
-.pagination button:disabled {
-  background-color: #c0c0c0;
-  cursor: not-allowed;
+.pagination button:hover {
+  background-color: #161515;
+  color: white;
 }
+
 .pagination span {
   background-color: white;
   color: rgb(0, 0, 0);
@@ -30,5 +31,6 @@
 
 .pagination .active {
   font-weight: bold;
-  color: #007bff;
+  color: #ffffff;
+  background-color: rgba(34, 31, 31, 0.767);
 }
