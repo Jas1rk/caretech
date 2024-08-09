@@ -6,6 +6,7 @@ import {
   faUserMd,
   faList,
   faCalendarCheck,
+  faImage
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import "./Adminsidebar.css";
@@ -54,6 +55,13 @@ const Adminsidebar = () => {
               className="adminSidebar-icon"
             />
             Booking Details
+          </li>
+          <li className="adminSidebar-List">
+            <FontAwesomeIcon
+              icon={faImage}
+              className="adminSidebar-icon"
+            />
+            Banners
           </li>
         </ul>
       </div>

@@ -20,7 +20,7 @@ const Userlist = () => {
   const lastUser = currentPage * usersList
   const firstUser  = lastUser - usersList
   const currentUsers = users.slice(firstUser,lastUser)
-  const totalPages = Math.ceil(users.length/usersList)
+  const totalPages = Math.ceil(users.length / usersList)
   return (
     <>
       <AdminNavbar />

@@ -24,6 +24,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+    
       <div className="footer-bottom-container">
         <ul className="list-container">
           <li>Home</li>
@@ -38,9 +39,6 @@ const Footer = () => {
           <FontAwesomeIcon icon={faGoogle} className="social-icon" />
           <FontAwesomeIcon icon={faEnvelope} className="social-icon" />
         </div>
-        <br />
-        <hr />
-
         <div className="footer-copyright">&copy; 2024 CareTech</div>
       </div>
     </div>

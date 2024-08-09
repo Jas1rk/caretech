@@ -20,6 +20,15 @@ const adminLoginVerify = async (req, res) => {
   }
 };
 
+const adminFetchUsers = async(req,res)=>{
+  try {
+    
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 module.exports = {
   adminLoginVerify,
+  adminFetchUsers
 };
