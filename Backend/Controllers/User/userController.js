@@ -60,7 +60,7 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ email });
     if (findUser) {
-      if (findUser.isBloked) {
+      if (findUser.isBlocked) {
         res.json("userBlocked");
       } else {
         const comparePassword = await bcrypt.compare(
