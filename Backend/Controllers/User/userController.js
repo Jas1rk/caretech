@@ -73,7 +73,8 @@ const userLogin = async (req, res) => {
             username: findUser.username,
             email: findUser.email,
             mobile: findUser.mobile,
-            isBloked: findUser.isBloked,
+            isBlocked: findUser.isBlocked,
+            profileImage: findUser.profileImage
           };
           const token = createToken(userData.id);
           res.json({ userData, token });
