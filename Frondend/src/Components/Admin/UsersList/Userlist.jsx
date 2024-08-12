@@ -4,6 +4,9 @@ import { fetchUsers, searchUsers } from "../../../Redux/Admin/AdminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import admin_Api from "../../../service/AxiosInstance";
 import toast, { Toaster } from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import dummyImage from "../../../assets/Public/dummy.jpg";
 import "./Userlist.css";
 
 const Userlist = () => {
@@ -87,22 +90,31 @@ const Userlist = () => {
                 <tbody>
                   {currentUsers.map((user, index) => (
                     <tr key={index}>
-                      <td>{user._id}</td>
+                      <td>
+                        {user.profileImage ? (
+                          <img
+                            src={dummyImage}
+                            alt="profile"
+                            className="users-profile-imges"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faUserCircle}
+                            className="default-users-Profile-icon"
+                          />
+                        )}
+                      </td>
+
                       <td>{user.username}</td>
                       <td>{user.email}</td>
                       <td>{user.mobile}</td>
                       {user.isBlocked ? (
-                        <td >
-                          <div className="DeActiveUserStatus">
-                            Deactive
-                          </div>
-                        </td>
-
-                      ):(
                         <td>
-                          <div className="ActiveUsesrStatus">
-                            Active
-                          </div>
+                          <div className="DeActiveUserStatus">Deactive</div>
+                        </td>
+                      ) : (
+                        <td>
+                          <div className="ActiveUsesrStatus">Active</div>
                         </td>
                       )}
                       <td>

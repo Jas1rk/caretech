@@ -17,12 +17,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profileImage: {
+      type: String,
+    },
     isBlocked: {
       type: Boolean,
       default: false,
     },
   },
-  { versionKey: false}
+  { versionKey: false }
 );
 const User = mongoose.model("User", userSchema);
 module.exports = User;

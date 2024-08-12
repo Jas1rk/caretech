@@ -130,5 +130,19 @@ tbody tr:nth-child(even) {
   border-radius: 10px;
   border: 1px solid #023104;
   box-shadow: #b9fbb7;
- font-size: small;
+  font-size: small;
+}
+
+.default-users-Profile-icon {
+   width: 40px;
+  height: 25px;
+  
+}
+
+.users-profile-imges {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 3px solid #a65a50;
+ 
 }
