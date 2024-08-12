@@ -110,3 +110,25 @@ tbody tr:nth-child(even) {
   background-color: #a65a50;
   transform: scale(1.1);
 }
+
+.DeActiveUserStatus {
+  background-color: #ffa1a1;
+  width: 70px;
+  height: 20px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #470808;
+  box-shadow: #b9fbb7;
+  font-size: small;
+}
+
+.ActiveUsesrStatus {
+  background-color: #b9fbb7;
+  width: 60px;
+  height: 20px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #023104;
+  box-shadow: #b9fbb7;
+ font-size: small;
+}

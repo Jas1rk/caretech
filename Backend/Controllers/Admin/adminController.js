@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const { createToken } = require("../../Utils/jwt");
-const User = require('../../Model/userModel')
+const User = require("../../Model/userModel");
 
 const adminLoginVerify = async (req, res) => {
   try {
@@ -21,27 +21,38 @@ const adminLoginVerify = async (req, res) => {
   }
 };
 
-const adminFetchUsers = async(req,res)=>{
+const adminFetchUsers = async (req, res) => {
   try {
-    const allUsers = await User.find({})
-    res.json(allUsers)
+    const allUsers = await User.find({});
+    res.json(allUsers);
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
-const adminBlockUser = async(req,res)=>{
-  try{
-    const userID = req.query.userid
-    const blockUser = await User.findByIdAndUpdate(userID,{isBlocked:true})
-    res.json(blockUser)
-  }catch(err){
-    console.log(err)
+const adminBlockUser = async (req, res) => {
+  try {
+    const userID = req.query.userid;
+    const blockUser = await User.findByIdAndUpdate(userID, { isBlocked: true });
+    res.json(blockUser);
+  } catch (err) {
+    console.log(err);
   }
-}
+};
+
+const adminUnblockUser = async (req, res) => {
+  try {
+    const userID = req.query._userId
+    const unblockUser = await User.findByIdAndUpdate(userID,{isBlocked:false})
+    res.json(unblockUser)
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
 module.exports = {
   adminLoginVerify,
   adminFetchUsers,
-  adminBlockUser
+  adminBlockUser,
+  adminUnblockUser,
 };
