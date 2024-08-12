@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AdminNavbar, AdminSidebar, Pagination } from "../..";
+import { AdminNavbar, AdminSidebar, Pagination, ConfirmAlert } from "../..";
 import { fetchUsers, searchUsers } from "../../../Redux/Admin/AdminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import admin_Api from "../../../service/AxiosInstance";
@@ -20,19 +20,32 @@ const Userlist = () => {
     dispatch(fetchUsers());
   }, []);
 
-  const handleBlockUser = async (userID) => {
-    await admin_Api
-      .post(`/admin/blockuser?userid=${userID}`)
-      .then((response) => {
-        toast.success("User Blocked Successfully");
-      })
-      .catch((err) => {
-        toast.error("Failed to Block User");
-      });
+  const handleBlockUser = (userID) => {
+    ConfirmAlert("Doy you want to block this user").then(async (response) => {
+      if (response.isConfirmed) {
+        try {
+          await admin_Api.post(`/admin/blockuser?userid=${userID}`);
+          toast.success("User Blocked successfully");
+          dispatch(fetchUsers());
+        } catch (error) {
+          toast.error("Failed to block");
+        }
+      }
+    });
   };
 
   const handleUnblockUser = async (userID) => {
-    toast.success(userID)
+    ConfirmAlert("Do you want to unblock this user").then(async (response) => {
+      if (response.isConfirmed) {
+        try {
+          await admin_Api.post(`/admin/unblockuser?_userId=${userID}`);
+          toast.success("User Unblocked successfully");
+          dispatch(fetchUsers());
+        } catch (error) {
+          toast.error("Failed to unblock");
+        }
+      }
+    });
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -67,6 +80,7 @@ const Userlist = () => {
                     <th>Username</th>
                     <th>Email</th>
                     <th>Mobile</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -77,6 +91,20 @@ const Userlist = () => {
                       <td>{user.username}</td>
                       <td>{user.email}</td>
                       <td>{user.mobile}</td>
+                      {user.isBlocked ? (
+                        <td >
+                          <div className="DeActiveUserStatus">
+                            Deactive
+                          </div>
+                        </td>
+
+                      ):(
+                        <td>
+                          <div className="ActiveUsesrStatus">
+                            Active
+                          </div>
+                        </td>
+                      )}
                       <td>
                         {user.isBlocked ? (
                           <button
