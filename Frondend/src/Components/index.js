@@ -9,6 +9,8 @@ export {default as BannerImage} from './User/Banner/Banner'
 export {default as DoctorsRow} from './User/DoctorsRow/DoctorsRow'
 export {default as CategoriesRow} from './User/CategoriesRow/CategoriesRow'
 export {default as Footer} from './User/Footer/Footer'
+export {default as Usersidebar} from './User/UserSidebar/Usersidebar'
+export {default as Userprofile} from './User/UserProfile/Userprofile'
 
 
 
@@ -31,3 +33,4 @@ export {default as AdminBanner} from './Admin/AdminBanners/Adminbanner'
 
 export {default as Pagination} from "./Commen/Pagination/Pagination"
 export {default as ConfirmAlert} from "./Commen/SweatAlert/Sweatalert"
+export {default as Warning} from "./Commen/Warning/Warning"
