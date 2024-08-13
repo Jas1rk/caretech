@@ -76,8 +76,8 @@ const userLogin = async (req, res) => {
             isBlocked: findUser.isBlocked,
             profileImage: findUser.profileImage
           };
-          const token = createToken(userData.id);
-          res.json({ userData, token });
+          const usertoken = createToken(userData.id);
+          res.json({ userData,usertoken});
         } else {
           res.json("invalidPassword");
         }

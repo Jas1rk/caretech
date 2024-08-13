@@ -7,8 +7,8 @@ const INITIAL_STATE = {
     ? JSON.parse(sessionStorage.getItem("userData"))
     : null,
 
-  token: sessionStorage.getItem("token")
-    ? JSON.parse(sessionStorage.getItem("token"))
+  usertoken: sessionStorage.getItem("usertoken")
+    ? JSON.parse(sessionStorage.getItem("usertoken"))
     : null,
 };
 
@@ -17,11 +17,11 @@ const userSlice = createSlice({
   initialState: INITIAL_STATE,
   extraReducers: (builder) => {
     builder.addCase(userLogin.fulfilled, (state, action) => {
-      const { userData, token } = action.payload;
+      const { userData, usertoken } = action.payload;
       state.userData = userData;
-      state.token = token;
+      state.usertoken = usertoken;
       sessionStorage.setItem("userData", JSON.stringify(userData));
-      sessionStorage.setItem("token", JSON.stringify(token));
+      sessionStorage.setItem("usertoken", JSON.stringify(usertoken));
     });
   },
 });

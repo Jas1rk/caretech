@@ -5,6 +5,7 @@ import {
   Forgetpassword,
   AdminLogin,
   AdminUserList,
+  Userprofile,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/otp" element={<Otp />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/forgetpassword" element={<Forgetpassword />} />
+          <Route exact path="/profile" element={<Userprofile/>}/>
 
           <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
           <Route exact path="/admin/adminhome" element={<AdminHomePage />} />

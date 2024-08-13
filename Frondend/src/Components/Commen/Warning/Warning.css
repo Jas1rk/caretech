@@ -1,0 +1,29 @@
+.custom-popup {
+    border-radius: 20px;
+    font-family: 'Arial, sans-serif'; 
+  }
+  
+  .custom-button {
+    border-radius: 8px; 
+    font-family: 'Arial, sans-serif'; 
+    padding: 8px 16px; 
+    border: none;
+    background: -webkit-linear-gradient(to right, #267871, #136a8a);
+    background: linear-gradient(to right, #267871, #136a8a);
+    transition: transform 0.3s ease-in-out
+  }
+
+  .custom-button:hover{
+    transform: scale(1.1);
+    background-color: #136a8a;
+  }
+
+  .cancel-button {
+    border-radius: 8px; 
+    font-family: 'Arial, sans-serif'; 
+    padding: 8px 16px; 
+    background-color: #abc0c4;
+    color: #000;
+  }
+
+
