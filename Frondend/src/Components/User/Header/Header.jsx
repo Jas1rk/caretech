@@ -43,7 +43,7 @@ const Header = () => {
           <div className="profileIcon" onClick={handleProfile}>
             {userData && userData.profileImage ? (
               <img
-                src={dummyImgae}
+              src={`../src/assets/images/${userData.profileImage}`}
                 alt="profileimage"
                 className="userDataProfileImage"
               />

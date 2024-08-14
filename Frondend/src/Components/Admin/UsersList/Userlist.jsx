@@ -93,7 +93,7 @@ const Userlist = () => {
                       <td>
                         {user.profileImage ? (
                           <img
-                            src={dummyImage}
+                          src={`../src/assets/images/${user.profileImage}`}
                             alt="profile"
                             className="users-profile-imges"
                           />
