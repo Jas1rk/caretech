@@ -1,21 +1,54 @@
 import React, { useEffect, useState } from "react";
 import { Footer, Header, Usersidebar } from "../..";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
-import dummyImage from "../../../assets/Public/dummy.jpg";
 import Fileupload from "../../../assets/Svg/Fileupload";
+import Useform from "../../../Hooks/Useform";
+import { userProfileEdit } from "../../../Redux/User/ProfileSlice";
+import toast, { Toaster } from "react-hot-toast";
+
 import "./Userprofile.css";
 
 const Userprofile = () => {
-  const { usertoken, userData } = useSelector((state) => state.user);
-  const navigate = useNavigate();
+  const userData  = useSelector((state) => state.user.userData);
+  const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState(null);
+  const [values, handleInput, setValues] = Useform({
+    username: "",
+    mobile: "",
+  });
+  const { username, mobile } = values;
+
+  const handleEditOpen = () => {
+    setIsEdit(true);
+    setValues({
+      username: userData.username || "",
+      mobile: userData.mobile || "",
+    }); 
+  };
+
+  useEffect(() => {
+    setIsEdit(false);
+  },[userData]);
+
+
+  const handleUpdateProfile = () => {
+    const formData = new FormData();
+    formData.append("userID", userData.id);
+    formData.append("username", username);
+    formData.append("mobile", mobile);
+    if (image) {
+      formData.append("image", image);
+    }
+    dispatch(userProfileEdit({ formData, username, mobile, image, toast }))
+    
+  };
 
   return (
     <>
+      <Toaster />
       <Header />
       <div className="userProfileMailContainer">
         <Usersidebar />
@@ -30,7 +63,7 @@ const Userprofile = () => {
                   />
                 ) : (
                   <img
-                    src={dummyImage}
+                    src={`../src/assets/images/${userData.profileImage}`}
                     alt="profile"
                     className="profileMainImage"
                   />
@@ -44,7 +77,7 @@ const Userprofile = () => {
               <div className="profileEditMainbuttonContainer">
                 <button
                   className="profileEditMainButton"
-                  onClick={() => setIsEdit(true)}
+                  onClick={handleEditOpen}
                 >
                   Edit
                 </button>
@@ -52,8 +85,20 @@ const Userprofile = () => {
             </>
           ) : (
             <div className="profileMainEditContainer">
-              <input type="text" name="username" placeholder="Enter username" />
-              <input type="number" name="mobile" placeholder="Enter mobile" />
+              <input
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                onChange={handleInput}
+                value={username}
+              />
+              <input
+                type="number"
+                name="mobile"
+                placeholder="Enter mobile"
+                onChange={handleInput}
+                value={mobile}
+              />
 
               <div className="profieEditPreview">
                 {image && (
@@ -81,7 +126,12 @@ const Userprofile = () => {
               />
 
               <div className="profileEditSaveandCancel">
-                <button className="profileEditSaveButton">Save</button>
+                <button
+                  className="profileEditSaveButton"
+                  onClick={handleUpdateProfile}
+                >
+                  Save
+                </button>
                 <button
                   className="profileEditCancelButton"
                   onClick={() => setIsEdit(false)}
