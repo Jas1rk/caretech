@@ -1,0 +1,167 @@
+.userProfileMailContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+  gap: 40px;
+}
+
+.userProfileDetails {
+  width: 65%;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(231, 223, 233);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+  border-radius: 12px;
+  flex-direction: column;
+}
+
+.profileimageAndIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.ProfileMailIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.profileMainImage {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 5px solid #136a8a;
+}
+
+.pofaileDetailsMain {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(231, 223, 233);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+  border-radius: 12px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.pofaileDetailsMain h4 {
+  text-align: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  margin: 5px;
+}
+
+.profileEditMainbuttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.profileEditSaveButton,
+.profileEditMainButton {
+  background: -webkit-linear-gradient(to right, #267871, #136a8a);
+  background: linear-gradient(to right, #267871, #136a8a);
+  border: none;
+  color: white;
+  width: 100px;
+  height: 40px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.profileEditSaveButton:hover,
+.profileEditMainButton:hover {
+  background-color: #267871b9;
+  transform: scale(1.1);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
+}
+
+.profileMainEditContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.profileMainEditContainer input {
+  padding: 15px;
+  margin: 10px;
+  width: 30%;
+  border-radius: 50px;
+  border: 1px solid rgb(231, 223, 233);
+  outline: none;
+}
+.profileMainEditContainer input:focus {
+  border-color: #136a8a;
+}
+
+.profieEditPreview {
+  position: relative;
+}
+
+.discard {
+  width: 15px;
+  height: 15px;
+  background-color: #d3cbcb71;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.profileEditSaveandCancel {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 10px;
+}
+
+
+.profileEditCancelButton {
+  border: none;
+  color: #23625d;
+  width: 100px;
+  height: 40px;
+  border-radius: 24px;
+  cursor: pointer;
+  background-color: #0c2726;
+  transition: transform 0.3s ease-in;
+}
+
+.profileEditCancelButton:hover{
+  transform: scale(1.1);
+ 
+}
+
+.labelFile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 150px;
+  height: 100px;
+  border: 2px dashed #ccc;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  color: #404040;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.profile-imageInput {
+  display: none;
+  max-width: 190px;
+}

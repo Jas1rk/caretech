@@ -11,21 +11,26 @@ import {
 import { userLogout } from "../../../Redux/User/ProfileSlice";
 import { useDispatch } from "react-redux";
 import "./Usersidebar.css";
+import { ConfirmAlert } from "../..";
 
 const Usersidebar = () => {
   const location = useLocation();
   const [isActive, setIsActive] = useState(location.pathname);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleActive = (path) => {
     setIsActive(path);
   };
 
-  const handleUserLogout = ()=>{
-     dispatch(userLogout())
-     navigate('/')
-  }
+  const handleUserLogout = () => {
+    ConfirmAlert("Are you sure to sign out").then((result) => {
+      if (result.isConfirmed) {
+        dispatch(userLogout());
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <div className="User-sidebar-main-container">
