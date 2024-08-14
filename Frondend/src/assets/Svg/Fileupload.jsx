@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const Fileupload = () => {
   return (
     <label htmlFor="file" className="labelFile">
@@ -43,7 +44,7 @@ const Fileupload = () => {
           </g>
         </svg>
       </span>
-      <p>drag and drop your file here or click to select a file!</p>
+      <p>upload your file</p>
     </label>
   );
 };
