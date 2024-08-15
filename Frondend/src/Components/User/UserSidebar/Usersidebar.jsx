@@ -8,7 +8,7 @@ import {
   faUserNurse,
   faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { userLogout } from "../../../Redux/User/ProfileSlice";
+import { userLogout } from "../../../Redux/User/UserSlice";
 import { useDispatch } from "react-redux";
 import "./Usersidebar.css";
 import { ConfirmAlert } from "../..";

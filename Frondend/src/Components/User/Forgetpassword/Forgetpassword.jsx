@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
-import { userForgetPassword } from "../../../Redux/User/UserSlice";
+import { userForgetPassword } from "../../../Redux/User/UserThunk";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";

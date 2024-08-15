@@ -1,49 +1,64 @@
 import React, { useEffect, useState } from "react";
-import { Footer, Header, Usersidebar } from "../..";
+import { BlockAlert, Footer, Header, Usersidebar  } from "../..";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Fileupload from "../../../assets/Svg/Fileupload";
 import Useform from "../../../Hooks/Useform";
-import { userProfileEdit } from "../../../Redux/User/ProfileSlice";
+import { userProfileEdit } from "../../../Redux/User/UserThunk";
 import toast, { Toaster } from "react-hot-toast";
 
 import "./Userprofile.css";
+import { useNavigate } from "react-router-dom";
 
 const Userprofile = () => {
-  const userData  = useSelector((state) => state.user.userData);
+  const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [isEdit, setIsEdit] = useState(false);
-  const [image, setImage] = useState(null);
+  const [profileImage, setImage] = useState(null);
   const [values, handleInput, setValues] = Useform({
     username: "",
     mobile: "",
   });
   const { username, mobile } = values;
 
+  useEffect(() => {
+    console.log("old userData====>>>", userData);
+  });
+
   const handleEditOpen = () => {
     setIsEdit(true);
     setValues({
       username: userData.username || "",
       mobile: userData.mobile || "",
-    }); 
+    });
   };
 
   useEffect(() => {
     setIsEdit(false);
-  },[userData]);
+  }, [userData]);
 
+  useEffect(()=>{
+    if(userData.isBlocked === true){
+      BlockAlert().then(()=>{
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000);
+      })
+    }
+  },[userData])
 
   const handleUpdateProfile = () => {
     const formData = new FormData();
     formData.append("userID", userData.id);
     formData.append("username", username);
     formData.append("mobile", mobile);
-    if (image) {
-      formData.append("image", image);
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
     }
-    dispatch(userProfileEdit({ formData, username, mobile, image, toast }))
-    
+    dispatch(userProfileEdit({ formData, username, mobile, profileImage, toast }));
+    console.log("new userData===>",userData);
   };
 
   return (
@@ -101,7 +116,7 @@ const Userprofile = () => {
               />
 
               <div className="profieEditPreview">
-                {image && (
+                {profileImage && (
                   <>
                     <FontAwesomeIcon
                       icon={faXmark}
@@ -109,7 +124,7 @@ const Userprofile = () => {
                       onClick={() => setImage(null)}
                     />
                     <img
-                      src={image ? URL.createObjectURL(image) : ""}
+                      src={profileImage ? URL.createObjectURL(profileImage) : userData.profileImage}
                       alt="profile image"
                       className="preview-image"
                     />
