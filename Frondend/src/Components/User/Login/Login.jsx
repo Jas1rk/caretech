@@ -4,7 +4,7 @@ import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { userLogin } from "../../../Redux/User/UserSlice";
+import { userLogin } from "../../../Redux/User/UserThunk";
 import "./Login.css";
 
 const Login = () => {

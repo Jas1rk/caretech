@@ -34,3 +34,4 @@ export {default as AdminBanner} from './Admin/AdminBanners/Adminbanner'
 export {default as Pagination} from "./Commen/Pagination/Pagination"
 export {default as ConfirmAlert} from "./Commen/SweatAlert/Sweatalert"
 export {default as Warning} from "./Commen/Warning/Warning"
+export {default as BlockAlert} from "./Commen/BlockAlert/Blockalert"

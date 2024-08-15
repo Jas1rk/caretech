@@ -103,6 +103,7 @@ tbody tr:nth-child(even) {
   border-radius: 15px;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
 
 }
 
@@ -112,25 +113,25 @@ tbody tr:nth-child(even) {
 }
 
 .DeActiveUserStatus {
-  background-color: #ffa1a1;
+  background-color: #ff3030;
   width: 70px;
-  height: 20px;
+   padding: 4px;
   text-align: center;
-  border-radius: 10px;
-  border: 1px solid #470808;
-  box-shadow: #b9fbb7;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
   font-size: small;
+  color: white;
 }
 
 .ActiveUsesrStatus {
-  background-color: #b9fbb7;
+  background-color: #20e924;
   width: 60px;
-  height: 20px;
+  padding: 4px;
   text-align: center;
-  border-radius: 10px;
-  border: 1px solid #023104;
-  box-shadow: #b9fbb7;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 10px;
   font-size: small;
+  color: white;
 }
 
 .default-users-Profile-icon {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { verifyOTP } from "../../../Redux/User/UserSlice";
+import { verifyOTP } from "../../../Redux/User/UserThunk";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";

@@ -26,6 +26,6 @@ userRouter
   .post("/forgetPassOtp", forgetPassOtpVerify)
   .post("/forgetPassResendotp", forgetPassResendOtp)
   .post("/newPassword", userNewPassword)
-  .post("/editProfile", upload.single("image"), updateUserProfile);
+  .post("/editProfile", upload.single("profileImage"), updateUserProfile);
 
 module.exports = userRouter;

@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import { UserSearch, Warning } from "../..";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileICon from "../../../assets/Svg/Profile";
 import { useSelector } from "react-redux";
-import dummyImgae from "../../../assets/Public/dummy.jpg";
 import "./Header.css";
 
 const Header = () => {
@@ -41,7 +40,7 @@ const Header = () => {
             <p>Contact</p>
           </Link>
           <div className="profileIcon" onClick={handleProfile}>
-            {userData && userData.profileImage ? (
+            {userData && userData.profileImage  ? (
               <img
               src={`../src/assets/images/${userData.profileImage}`}
                 alt="profileimage"

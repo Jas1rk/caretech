@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../../assets/Logo/Logo";
 import toast, { Toaster } from "react-hot-toast";
 import Useform from "../../../Hooks/Useform";
-import { userRegistration } from "../../../Redux/User/UserSlice";
+import { userRegistration } from "../../../Redux/User/UserThunk";
 import "./Register.css";
 
 const Register = () => {
