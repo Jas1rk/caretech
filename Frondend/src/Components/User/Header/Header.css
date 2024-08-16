@@ -44,3 +44,63 @@
   margin: auto;
   border: 2px solid rgb(51, 145, 140)
 }
+
+.menuIcon {
+  cursor: pointer;
+  margin-right: 10px;
+  display: none;
+}
+
+
+.dropItem {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 5px;
+  width: 100px;
+  margin-right: -21px;
+}
+
+
+
+.dropItem .dropdownProfileIcon {
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.menu-link {
+  text-decoration: none;
+  display: flex;
+  margin: 15px 0;
+  cursor: pointer;
+  color: black;
+  gap: 10px;
+}
+
+.close-menu {
+  position: relative;
+  cursor: pointer;
+ 
+}
+
+.menu-icons {
+  font-size: 13px;
+}
+
+
+@media (max-width:430px) {
+  .navLinks {
+    display: none;
+  }
+
+  .menuIcon {
+    display: block;
+    margin-right: 30px;
+    font-size: 20px;
+  }
+}
