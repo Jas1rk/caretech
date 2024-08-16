@@ -72,7 +72,8 @@ const Usersidebar = () => {
             icon={faRightToBracket}
             className="user-profile-icon"
           />
-          Logout
+          <p className="profile-link">Logout</p>
+          
         </li>
       </ul>
     </div>
