@@ -129,7 +129,6 @@
   padding-bottom: 10px;
 }
 
-
 .profileEditCancelButton {
   border: none;
   color: #23625d;
@@ -141,9 +140,8 @@
   transition: transform 0.3s ease-in;
 }
 
-.profileEditCancelButton:hover{
+.profileEditCancelButton:hover {
   transform: scale(1.1);
- 
 }
 
 .labelFile {
@@ -164,4 +162,21 @@
 .profile-imageInput {
   display: none;
   max-width: 190px;
+}
+
+@media (max-width: 430px) {
+  .userProfileDetails {
+    width: 85%;
+    padding: 40px;
+  }
+
+  .pofaileDetailsMain {
+    width: 80%;
+  }
+
+  .pofaileDetailsMain h4 {
+    font-size: 15px;
+    padding: 5px;
+    margin: 0;
+  }
 }

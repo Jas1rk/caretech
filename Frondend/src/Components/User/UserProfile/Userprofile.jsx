@@ -40,14 +40,19 @@ const Userprofile = () => {
   }, [userData]);
 
   useEffect(()=>{
-    if(userData.isBlocked === true){
+    if(userData?.isBlocked === true){
+      sessionStorage.removeItem("userData");
+      sessionStorage.removeItem("usertoken");
+      sessionStorage.setItem('isBlocked','true')
       BlockAlert().then(()=>{
         setTimeout(() => {
-          navigate('/login')
+          navigate("/login", { replace: true });
         }, 2000);
       })
+    }else{
+      sessionStorage.setItem('isBlocked','false')
     }
-  },[userData])
+  },[userData,navigate])
 
   const handleUpdateProfile = () => {
     const formData = new FormData();
@@ -58,7 +63,7 @@ const Userprofile = () => {
       formData.append("profileImage", profileImage);
     }
     dispatch(userProfileEdit({ formData, username, mobile, profileImage, toast }));
-    console.log("new userData===>",userData);
+    
   };
 
   return (
