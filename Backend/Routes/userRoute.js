@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const userController = require("../Controllers/User/userController");
 const userProfileController = require("../Controllers/User/userProfileController");
 const upload = require("../Utils/multer");
+const { verifyToken } = require("../Utils/jwt");
 
 const {
   userRegister,
@@ -15,10 +16,7 @@ const {
   userNewPassword,
 } = userController;
 
-const { 
-   updateUserProfile 
-  ,checkIsBlockUserProfile
-} = userProfileController;
+const { updateUserProfile, checkIsBlockUserProfile } = userProfileController;
 
 userRouter
   .post("/register", userRegister)
@@ -29,7 +27,12 @@ userRouter
   .post("/forgetPassOtp", forgetPassOtpVerify)
   .post("/forgetPassResendotp", forgetPassResendOtp)
   .post("/newPassword", userNewPassword)
-  .post("/editProfile", upload.single("profileImage"), updateUserProfile)
-  .get('/profile',checkIsBlockUserProfile)
+  .post(
+    "/editProfile",
+    verifyToken,
+    upload.single("profileImage"),
+    updateUserProfile
+  )
+  .get("/profile", checkIsBlockUserProfile);
 
 module.exports = userRouter;
