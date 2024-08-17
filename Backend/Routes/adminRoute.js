@@ -8,8 +8,8 @@ const { adminLoginVerify, adminFetchUsers, adminBlockUser, adminUnblockUser } =
 
 adminRoute
   .post("/adminlogin", adminLoginVerify)
-  .get("/fetchusers", adminFetchUsers)
-  .post("/blockuser", adminBlockUser)
-  .post("/unblockuser", adminUnblockUser);
+  .get("/fetchusers",verifyToken, adminFetchUsers)
+  .post("/blockuser",verifyToken, adminBlockUser)
+  .post("/unblockuser",verifyToken, adminUnblockUser);
 
 module.exports = adminRoute;

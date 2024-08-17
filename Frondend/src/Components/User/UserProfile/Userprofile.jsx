@@ -9,9 +9,8 @@ import { userProfileEdit } from "../../../Redux/User/UserThunk";
 import { toast } from "sonner";
 import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";
-import "./Userprofile.css";
 import { useNavigate } from "react-router-dom";
-import { response } from "express";
+import "./Userprofile.css";
 
 const Userprofile = () => {
   const userData = useSelector((state) => state.user.userData);
@@ -25,10 +24,6 @@ const Userprofile = () => {
   });
   const { username, mobile } = values;
 
-  useEffect(() => {
-    console.log("old userData====>>>", userData);
-  });
-
   const handleEditOpen = () => {
     setIsEdit(true);
     setValues({
@@ -41,35 +36,31 @@ const Userprofile = () => {
     setIsEdit(false);
   }, [userData]);
 
-  // useEffect(()=>{
-  //   if(userData?.isBlocked === true){
-  //     sessionStorage.removeItem("userData");
-  //     sessionStorage.removeItem("usertoken");
-  //     sessionStorage.setItem('isBlocked','true')
-  //     BlockAlert().then(()=>{
-  //       setTimeout(() => {
-  //         navigate("/login", { replace: true });
-  //       }, 2000);
-  //     })
-  //   }else{
-  //     sessionStorage.setItem('isBlocked','false')
-  //   }
-  // },[userData,navigate])
-
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const usertoken = sessionStorage.getItem("usertoken");
-        const response = await axios.get(`${backendUrl}/profile`, {
-          headers: { Authorization: `Bearer${usertoken}` },
-        })
-         
+        const response = await axios.get(
+          `${backendUrl}/profile?userId=${userData.id}`,
+          {
+            headers: { Authorization: `Bearer ${usertoken}` },
+          }
+        );
+        const data = response.data;
+        if (data === "userblocked") {
+          BlockAlert().then(() => {
+            navigate("/login");
+            sessionStorage.removeItem("userData");
+            sessionStorage.removeItem("usertoken");
+          });
+        }
       } catch (err) {
         console.log(err);
       }
     };
+
     fetchProfile();
-  });
+  }, [userData]);
 
   const handleUpdateProfile = () => {
     const formData = new FormData();
