@@ -17,6 +17,14 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+const checkIsBlockUserProfile = async (req, res) => {
+  try {
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   updateUserProfile,
+  checkIsBlockUserProfile,
 };

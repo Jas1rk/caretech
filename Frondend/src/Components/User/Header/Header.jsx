@@ -33,13 +33,13 @@ const Header = () => {
         </div>
         <UserSearch />
         <div className="navLinks">
-          <Link to="/">
+          <Link to="/" className="navlink-a">
             <p>Home</p>
           </Link>
-          <Link to="/home">
+          <Link to="/home" className="navlink-a">
             <p>About</p>
           </Link>
-          <Link to="/home">
+          <Link to="/home" className="navlink-a">
             <p>Contact</p>
           </Link>
           <div className="profileIcon" onClick={handleProfile}>

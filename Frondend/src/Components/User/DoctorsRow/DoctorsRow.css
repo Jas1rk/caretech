@@ -5,7 +5,6 @@
   margin-top: 10px;
   width: 100%;
   overflow-x: auto;
-
 }
 
 .main-row::-webkit-scrollbar {
@@ -107,42 +106,15 @@
 .deatailes-button:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
-
 }
 
+@media (max-width: 430px) {
+  .main-row {
+    width: 212%;
+  }
 
-@media (max-width: 768px) {
-    .main-row {
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .flip-card {
-      width: 90%;
-      margin: 10px;
-    }
+  .flip-card {
+    width: 80%;
+    /* margin: 10px; */
   }
-  
-  @media (max-width: 480px) {
-    .circleimage {
-      width: 150px;
-      height: 150px;
-    }
-  
-    .doctor-name {
-      font-size: 18px;
-    }
-  
-    .flib-back-content h1 {
-      font-size: 20px;
-    }
-  
-    .flib-back-content p {
-      font-size: 14px;
-    }
-  
-    .deatailes-button {
-      width: 120px;
-      padding: 8px 16px;
-    }
-  }
+}

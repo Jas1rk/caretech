@@ -15,7 +15,10 @@ const {
   userNewPassword,
 } = userController;
 
-const { updateUserProfile } = userProfileController;
+const { 
+   updateUserProfile 
+  ,checkIsBlockUserProfile
+} = userProfileController;
 
 userRouter
   .post("/register", userRegister)
@@ -26,6 +29,7 @@ userRouter
   .post("/forgetPassOtp", forgetPassOtpVerify)
   .post("/forgetPassResendotp", forgetPassResendOtp)
   .post("/newPassword", userNewPassword)
-  .post("/editProfile", upload.single("profileImage"), updateUserProfile);
+  .post("/editProfile", upload.single("profileImage"), updateUserProfile)
+  .get('/profile',checkIsBlockUserProfile)
 
 module.exports = userRouter;
