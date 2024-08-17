@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { BlockAlert, Footer, Header, Usersidebar  } from "../..";
+import { BlockAlert, Footer, Header, Usersidebar } from "../..";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Fileupload from "../../../assets/Svg/Fileupload";
 import Useform from "../../../Hooks/Useform";
 import { userProfileEdit } from "../../../Redux/User/UserThunk";
-import toast, { Toaster } from "react-hot-toast";
-
+import { toast } from "sonner";
+import axios from "axios";
+import { backendUrl } from "../../../service/backendUrl";
 import "./Userprofile.css";
 import { useNavigate } from "react-router-dom";
+import { response } from "express";
 
 const Userprofile = () => {
   const userData = useSelector((state) => state.user.userData);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [profileImage, setImage] = useState(null);
   const [values, handleInput, setValues] = Useform({
@@ -39,20 +41,35 @@ const Userprofile = () => {
     setIsEdit(false);
   }, [userData]);
 
-  useEffect(()=>{
-    if(userData?.isBlocked === true){
-      sessionStorage.removeItem("userData");
-      sessionStorage.removeItem("usertoken");
-      sessionStorage.setItem('isBlocked','true')
-      BlockAlert().then(()=>{
-        setTimeout(() => {
-          navigate("/login", { replace: true });
-        }, 2000);
-      })
-    }else{
-      sessionStorage.setItem('isBlocked','false')
-    }
-  },[userData,navigate])
+  // useEffect(()=>{
+  //   if(userData?.isBlocked === true){
+  //     sessionStorage.removeItem("userData");
+  //     sessionStorage.removeItem("usertoken");
+  //     sessionStorage.setItem('isBlocked','true')
+  //     BlockAlert().then(()=>{
+  //       setTimeout(() => {
+  //         navigate("/login", { replace: true });
+  //       }, 2000);
+  //     })
+  //   }else{
+  //     sessionStorage.setItem('isBlocked','false')
+  //   }
+  // },[userData,navigate])
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const usertoken = sessionStorage.getItem("usertoken");
+        const response = await axios.get(`${backendUrl}/profile`, {
+          headers: { Authorization: `Bearer${usertoken}` },
+        })
+         
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchProfile();
+  });
 
   const handleUpdateProfile = () => {
     const formData = new FormData();
@@ -62,13 +79,13 @@ const Userprofile = () => {
     if (profileImage) {
       formData.append("profileImage", profileImage);
     }
-    dispatch(userProfileEdit({ formData, username, mobile, profileImage, toast }));
-    
+    dispatch(
+      userProfileEdit({ formData, username, mobile, profileImage, toast })
+    );
   };
 
   return (
     <>
-      <Toaster />
       <Header />
       <div className="userProfileMailContainer">
         <Usersidebar />
@@ -129,7 +146,11 @@ const Userprofile = () => {
                       onClick={() => setImage(null)}
                     />
                     <img
-                      src={profileImage ? URL.createObjectURL(profileImage) : userData.profileImage}
+                      src={
+                        profileImage
+                          ? URL.createObjectURL(profileImage)
+                          : userData.profileImage
+                      }
                       alt="profile image"
                       className="preview-image"
                     />

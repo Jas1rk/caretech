@@ -23,11 +23,35 @@
   margin-right: 50px;
 }
 
-.navLinks a {
+.navlink-a {
   font-size: smaller;
   font-family: sans-serif;
   text-decoration: none;
   color: black;
+  position: relative;
+  transition: color 0.25s;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}
+
+.navlink-a::after {
+  position: absolute;
+  content: "";
+  inset: 0;
+  background: -webkit-linear-gradient(to right, #267871, #136a8a);
+  background: linear-gradient(to right, #267871, #136a8a);
+  scale: 1 0;
+  z-index: -1;
+  transition: 0.45s;
+  border-radius: 15px;
+}
+
+.navlink-a:hover {
+  color: white;
+}
+
+.navlink-a:hover::after {
+  scale: 1 1;
 }
 
 .profileIcon {
@@ -42,5 +66,60 @@
   height: 40px;
   border-radius: 50%;
   margin: auto;
-  border: 2px solid rgb(51, 145, 140)
+  border: 2px solid rgb(51, 145, 140);
+}
+
+.menuIcon {
+  cursor: pointer;
+  margin-right: 10px;
+  display: none;
+}
+
+.dropItem {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 5px;
+  width: 100px;
+  margin-right: -21px;
+}
+
+.dropItem .dropdownProfileIcon {
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.menu-link {
+  text-decoration: none;
+  display: flex;
+  margin: 15px 0;
+  cursor: pointer;
+  color: black;
+  gap: 10px;
+}
+
+.close-menu {
+  position: relative;
+  cursor: pointer;
+}
+
+.menu-icons {
+  font-size: 13px;
+}
+
+@media (max-width: 430px) {
+  .navLinks {
+    display: none;
+  }
+
+  .menuIcon {
+    display: block;
+    margin-right: 30px;
+    font-size: 20px;
+  }
 }

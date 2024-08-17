@@ -13,6 +13,7 @@ import Home from "./Pages/User/Home";
 import AdminHomePage from "./Pages/Admin/AdminHomePage";
 import IsUser from "./ProtectedRoutes/User/IsUser";
 import IsAdmin from "./ProtectedRoutes/Admin/IsAdmin";
+import {Toaster }from 'sonner'
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           />
         </Routes>
       </Router>
+      <Toaster  richColors />
     </>
   );
 }
