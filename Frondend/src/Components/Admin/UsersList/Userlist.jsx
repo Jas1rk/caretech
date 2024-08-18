@@ -6,7 +6,6 @@ import admin_Api from "../../../service/AxiosInstance";
 import toast, { Toaster } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-import dummyImage from "../../../assets/Public/dummy.jpg";
 import "./Userlist.css";
 
 const Userlist = () => {
