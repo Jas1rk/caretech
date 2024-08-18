@@ -25,6 +25,7 @@ export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
 export {default as AdminSidebar} from './Admin/AdminSidebar/Adminsidebar'
 export {default as AdminUserList} from './Admin/UsersList/Userlist'
 export {default as AdminBanner} from './Admin/AdminBanners/Adminbanner'
+export {default as AdminCategory} from './Admin/AdminCategory/Admincategory'
 
 
 

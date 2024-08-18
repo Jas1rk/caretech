@@ -6,6 +6,7 @@ import {
   AdminLogin,
   AdminUserList,
   Userprofile,
+  AdminCategory,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -13,7 +14,7 @@ import Home from "./Pages/User/Home";
 import AdminHomePage from "./Pages/Admin/AdminHomePage";
 import IsUser from "./ProtectedRoutes/User/IsUser";
 import IsAdmin from "./ProtectedRoutes/Admin/IsAdmin";
-import {Toaster }from 'sonner'
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               </IsUser>
             }
           />
+
           <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
           <Route
             exact
@@ -53,9 +55,18 @@ function App() {
               </IsAdmin>
             }
           />
+          <Route
+            exact
+            path="/admin/admincategory"
+            element={
+              <IsAdmin>
+                <AdminCategory />
+              </IsAdmin>
+            }
+          />
         </Routes>
       </Router>
-      <Toaster  richColors />
+      <Toaster richColors  position="top-center"/>
     </>
   );
 }

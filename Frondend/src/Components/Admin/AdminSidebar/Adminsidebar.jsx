@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -6,7 +6,7 @@ import {
   faUserMd,
   faList,
   faCalendarCheck,
-  faImage
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 import "./Adminsidebar.css";
@@ -45,9 +45,16 @@ const Adminsidebar = () => {
             <FontAwesomeIcon icon={faUserMd} className="adminSidebar-icon" />
             Doctors
           </li>
-          <li className="adminSidebar-List">
+          <li
+            className={`adminSidebar-List ${
+              isActive === "/admin/admincategory" ? "active" : ""
+            }`}
+            onClick={() => handleActive()}
+          >
             <FontAwesomeIcon icon={faList} className="adminSidebar-icon" />
-            Categories
+            <Link to="/admin/admincategory" className="next-link">
+              Categories
+            </Link>
           </li>
           <li className="adminSidebar-List">
             <FontAwesomeIcon
@@ -57,10 +64,7 @@ const Adminsidebar = () => {
             Booking Details
           </li>
           <li className="adminSidebar-List">
-            <FontAwesomeIcon
-              icon={faImage}
-              className="adminSidebar-icon"
-            />
+            <FontAwesomeIcon icon={faImage} className="adminSidebar-icon" />
             Banners
           </li>
         </ul>
