@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AdminNavbar, AdminSidebar, Pagination, ConfirmAlert } from "../..";
-import { fetchUsers, searchUsers } from "../../../Redux/Admin/AdminSlice";
+import {fetchUsers} from "../../../Redux/Admin/AdminThunk";
+import { searchUsers } from "../../../Redux/Admin/AdminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import admin_Api from "../../../service/AxiosInstance";
 import toast, { Toaster } from "react-hot-toast";
@@ -21,6 +22,8 @@ const Userlist = () => {
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
+
+  
 
   const handleBlockUser = (userID) => {
     ConfirmAlert("Doy you want to block this user").then(async (response) => {

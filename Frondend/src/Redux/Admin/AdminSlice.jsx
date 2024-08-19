@@ -1,14 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { backendUrl } from "../../service/backendUrl";
-import admin_Api from "../../service/AxiosInstance";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  adminLogin,
+  fetchUsers,
+  fetchCategories,
+  editCategory,
+  createCategory,
+} from "./AdminThunk";
 
 const INITIAL_STATE = {
   adminToken: sessionStorage.getItem("admin-token")
     ? JSON.parse(sessionStorage.getItem("admin-token"))
     : null,
   usersList: [],
-  filteredUsers:[]
+  filteredUsers: [],
+  categories: [],
 };
 
 const adminSlice = createSlice({
@@ -37,43 +42,22 @@ const adminSlice = createSlice({
         const allUsers = action.payload;
         state.usersList = allUsers;
         state.filteredUsers = allUsers;
+      })
+      .addCase(createCategory.fulfilled, (state, action) => {
+        state.categories.push(action.payload);
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        const allCategories = action.payload;
+        state.categories = allCategories;
+      })
+      .addCase(editCategory.fulfilled, (state, action) => {
+        const { categoryid, category, description } = action.payload;
+        state.categories = state.categories.map((cat) =>
+          cat._id === categoryid ? { ...cat, category, description } : cat
+        );
       });
   },
 });
 
-export const { adminLogout , searchUsers } = adminSlice.actions;
+export const { adminLogout, searchUsers } = adminSlice.actions;
 export default adminSlice.reducer;
-
-export const adminLogin = createAsyncThunk(
-  "admin/adminLogin",
-  async ({ email, password, toast }, { rejectWithValue }) => {
-    if (email.trim() === "" || password.trim() === "") {
-      toast.error("Please fill in all fields");
-      return rejectWithValue("Please fill in all fields");
-    } else {
-      try {
-        const response = await axios.post(`${backendUrl}/admin/adminlogin`, {
-          email,
-          password,
-        });
-        if (response.data === "incorrectemail") {
-          toast.error("Incorrect email");
-          return rejectWithValue("Incorrect email");
-        } else if (response.data === "incorrectpassaword") {
-          toast.error("Incorrect password");
-          return rejectWithValue("Incorrect password");
-        } else {
-          return response.data;
-        }
-      } catch (err) {
-        toast.error("An error ouccurs Please try again");
-        return rejectWithValue(err.message);
-      }
-    }
-  }
-);
-
-export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
-  const response = await admin_Api.get("/admin/fetchusers");
-  return response.data;
-});
