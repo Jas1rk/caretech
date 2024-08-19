@@ -23,7 +23,7 @@ const adminLoginVerify = async (req, res) => {
 
 const adminFetchUsers = async (req, res) => {
   try {
-    const allUsers = await User.find({});
+    const allUsers = await User.find({}).sort({_id:-1})
     res.json(allUsers);
   } catch (error) {
     console.log(error.message);

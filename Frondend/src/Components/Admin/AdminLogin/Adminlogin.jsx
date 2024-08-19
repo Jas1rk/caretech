@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
 import toast, { Toaster } from "react-hot-toast";
-import { adminLogin } from "../../../Redux/Admin/AdminSlice";
+import { adminLogin } from "../../../Redux/Admin/AdminThunk";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./Adminlogin.css";
