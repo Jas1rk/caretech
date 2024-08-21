@@ -42,6 +42,9 @@ const Header = () => {
           <Link to="/home" className="navlink-a">
             <p>Contact</p>
           </Link>
+          <Link to="/home" className="navlink-a">
+            <p>Join as Doctor</p>
+          </Link>
           <div className="profileIcon" onClick={handleProfile}>
             {userData && userData.profileImage ? (
               <img
@@ -76,6 +79,9 @@ const Header = () => {
           <p className="menu-link" onClick={handleProfile}>
             <FontAwesomeIcon icon={faUserCog} className="menu-icons"/>
             Profile</p>
+            <Link to="/home" className="navlink-a">
+            <p>Join as Doctor</p>
+          </Link>
         </div>
       )}
     </div>

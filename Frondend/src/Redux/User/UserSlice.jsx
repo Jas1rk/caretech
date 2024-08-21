@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userProfileEdit } from "./UserThunk";
+import { findAllCatgory, userLogin, userProfileEdit } from "./UserThunk";
 
 const INITIAL_STATE = {
   userData: sessionStorage.getItem("userData")
@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   usertoken: sessionStorage.getItem("usertoken")
     ? JSON.parse(sessionStorage.getItem("usertoken"))
     : null,
+  homeCategories: [],
 };
 
 const userSlice = createSlice({
@@ -32,7 +33,6 @@ const userSlice = createSlice({
         sessionStorage.setItem("usertoken", JSON.stringify(usertoken));
       })
       .addCase(userProfileEdit.fulfilled, (state, action) => {
-        console.log("=======",action.payload)
         const { username, mobile, profileImage } = action.payload;
         state.userData.username = username;
         state.userData.mobile = mobile;
@@ -41,6 +41,10 @@ const userSlice = createSlice({
         }
         state.editConfirm = true;
         sessionStorage.setItem("userData", JSON.stringify(state.userData));
+      })
+      .addCase(findAllCatgory.fulfilled, (state, action) => {
+        const allCat = action.payload;
+        state.homeCategories = allCat;
       });
   },
 });

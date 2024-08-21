@@ -46,7 +46,7 @@ export const createCategory = createAsyncThunk(
     } else if (category.length < 3) {
       toast.error("Category name must be at least 3 characters");
       return rejectWithValue("Category name must be at least 3 characters");
-    } else if (!/^[A-Z]+$/.test(category)) {
+    } else if (!/^[A-Z\s]+$/.test(category)) {
       toast.error("Category name must be in uppercase");
       return rejectWithValue("Category name must be in uppercase");
     } else if (!/^[a-zA-Z0-9\s,'/.()-]+$/.test(description)) {
@@ -89,7 +89,7 @@ export const editCategory = createAsyncThunk(
     } else if (category.length < 3) {
       toast.error("Category name must be at least 3 characters");
       return rejectWithValue("Category name must be at least 3 characters");
-    } else if (!/^[A-Z]+$/.test(category)) {
+    } else if (!/^[A-Z\s]+$/.test(category)) {
       toast.error("Category name must be in uppercase");
       return rejectWithValue("Category name must be in uppercase");
     } else if (!/^[a-zA-Z0-9\s,'/.()-]+$/.test(description)) {
