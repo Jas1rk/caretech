@@ -26,8 +26,14 @@ export {default as AdminSidebar} from './Admin/AdminSidebar/Adminsidebar'
 export {default as AdminUserList} from './Admin/UsersList/Userlist'
 export {default as AdminBanner} from './Admin/AdminBanners/Adminbanner'
 export {default as AdminCategory} from './Admin/AdminCategory/Admincategory'
+export {default as AdminDoctorList} from './Admin/DoctorList/Doctorlist'
 
 
+////////////////////////Docter section//////////////////////
+
+
+export {default as DoctorLogin} from './Doctor/DoctorLogin/Doctorlogin'
+export {default as DoctorRegister} from './Doctor/DoctorRegister/Doctorregister'
 
 ////////////////commen//////////////////////
 
@@ -36,3 +42,4 @@ export {default as Pagination} from "./Commen/Pagination/Pagination"
 export {default as ConfirmAlert} from "./Commen/SweatAlert/Sweatalert"
 export {default as Warning} from "./Commen/Warning/Warning"
 export {default as BlockAlert} from "./Commen/BlockAlert/Blockalert"
+export {default as ShimmerEffect} from './Commen/Shimmer/Shimmer'

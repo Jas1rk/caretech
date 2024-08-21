@@ -202,4 +202,10 @@ export const userRegistration = async ({
       }
     }
   );
+
+
+  export const findAllCatgory = createAsyncThunk('user/findAllCategoy',async()=>{
+    const response = await axios.get(`${backendUrl}/categories`)
+    return response.data;
+  })
   

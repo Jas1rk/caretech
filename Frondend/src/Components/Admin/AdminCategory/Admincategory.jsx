@@ -226,7 +226,7 @@ const Admincategory = () => {
                 <tbody>
                   {currentCategory.map((category, index) => (
                     <tr key={index}>
-                      <td>{category.categoryName}</td>
+                      <td><h4>{category.categoryName}</h4></td>
                       <td className="category-Discription">
                         {category.categoryDescription}
                       </td>

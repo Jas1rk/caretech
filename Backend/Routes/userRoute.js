@@ -4,6 +4,7 @@ const userController = require("../Controllers/User/userController");
 const userProfileController = require("../Controllers/User/userProfileController");
 const upload = require("../Utils/multer");
 const { verifyToken } = require("../Utils/jwt");
+const landingPageController = require('../Controllers/User/lanidingPageController')
 
 const {
   userRegister,
@@ -17,6 +18,8 @@ const {
 } = userController;
 
 const { updateUserProfile, checkIsBlockUserProfile } = userProfileController;
+
+const {getCategories} = landingPageController
 
 userRouter
   .post("/register", userRegister)
@@ -33,6 +36,7 @@ userRouter
     upload.single("profileImage"),
     updateUserProfile
   )
-  .get("/profile", checkIsBlockUserProfile);
+  .get("/profile", checkIsBlockUserProfile)
+  .get('/categories',getCategories)
 
 module.exports = userRouter;
