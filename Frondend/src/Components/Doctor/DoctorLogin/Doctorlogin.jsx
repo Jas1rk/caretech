@@ -1,10 +1,13 @@
 import React from 'react'
+import Logo from '../../../assets/Logo/Logo'
 
 const Doctorlogin = () => {
   return (
-    <div>
-      <h2>helooo i am doctor</h2>
-    </div>
+    <>
+    <Logo/>
+    
+    </>
+   
   )
 }
 

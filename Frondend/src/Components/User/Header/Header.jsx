@@ -5,7 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import ProfileICon from "../../../assets/Svg/Profile";
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars , faClose , faHouse , faContactBook ,  faAddressCard , faUserCog} from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faClose,
+  faHouse,
+  faContactBook,
+  faAddressCard,
+  faUserCog,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
 
 const Header = () => {
@@ -42,7 +49,7 @@ const Header = () => {
           <Link to="/home" className="navlink-a">
             <p>Contact</p>
           </Link>
-          <Link to="/home" className="navlink-a">
+          <Link to="/doctor/doctorlogin" className="navlink-a">
             <p>Join as Doctor</p>
           </Link>
           <div className="profileIcon" onClick={handleProfile}>
@@ -63,23 +70,28 @@ const Header = () => {
       </div>
       {menu && (
         <div className="dropItem">
-          <FontAwesomeIcon icon={faClose} className="close-menu" onClick={()=> setMenu(false)}/>
+          <FontAwesomeIcon
+            icon={faClose}
+            className="close-menu"
+            onClick={() => setMenu(false)}
+          />
           <Link to="/" onClick={() => setMenu(false)} className="menu-link">
-          <FontAwesomeIcon icon={faHouse} className="menu-icons"/>
+            <FontAwesomeIcon icon={faHouse} className="menu-icons" />
             <p>Home</p>
           </Link>
           <Link to="/home" onClick={() => setMenu(false)} className="menu-link">
-          <FontAwesomeIcon icon={faAddressCard} className="menu-icons"/> 
+            <FontAwesomeIcon icon={faAddressCard} className="menu-icons" />
             <p>About</p>
           </Link>
           <Link to="/home" onClick={() => setMenu(false)} className="menu-link">
-          <FontAwesomeIcon icon={faContactBook} className="menu-icons"/>
+            <FontAwesomeIcon icon={faContactBook} className="menu-icons" />
             <p>Contact</p>
           </Link>
           <p className="menu-link" onClick={handleProfile}>
-            <FontAwesomeIcon icon={faUserCog} className="menu-icons"/>
-            Profile</p>
-            <Link to="/home" className="navlink-a">
+            <FontAwesomeIcon icon={faUserCog} className="menu-icons" />
+            Profile
+          </p>
+          <Link to="/home" className="navlink-a">
             <p>Join as Doctor</p>
           </Link>
         </div>
