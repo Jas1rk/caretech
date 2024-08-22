@@ -7,6 +7,8 @@ import {
   AdminUserList,
   Userprofile,
   AdminCategory,
+  DoctorLogin,
+  DoctorOtp,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -64,6 +66,10 @@ function App() {
               </IsAdmin>
             }
           />
+
+          <Route exact path="/doctor/doctorlogin" element={<DoctorLogin/>}/>
+          <Route exact path="/doctor/doctorotp" element={<DoctorOtp/>}/>
+          
         </Routes>
       </Router>
       <Toaster richColors  position="top-center"/>
