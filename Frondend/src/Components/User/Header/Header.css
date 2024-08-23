@@ -54,20 +54,15 @@
   scale: 1 1;
 }
 
-.profileIcon {
-  width: 20px;
-  height: 20px;
-  margin-top: -2px;
-  cursor: pointer;
-}
 
-.userDataProfileImage {
-  width: 40px;
-  height: 40px;
+
+/* .userDataProfileImage {
+  width: 30px;
+  height: 50px;
   border-radius: 50%;
   margin: auto;
   border: 2px solid rgb(51, 145, 140);
-}
+} */
 
 .menuIcon {
   cursor: pointer;

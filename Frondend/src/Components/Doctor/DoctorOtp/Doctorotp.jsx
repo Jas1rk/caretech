@@ -20,7 +20,7 @@ const Doctorotp = () => {
     },
     validate,
     onSubmit: (values) => {
-      console.log("values are getting", values.otp.join(''));
+      console.log("values are getting", values.otp.join(""));
     },
   });
 
@@ -75,7 +75,7 @@ const Doctorotp = () => {
         type="text"
         value={value}
         name={index}
-        className="w-16 h-12 bg-white border  border-solid   outline-none rounded-lg text-center mr-3 text-xl focus:ring-1"
+        className="w-16 h-12 md:w-16 md:h-12  bg-white border  border-solid   outline-none rounded-lg text-center mr-3 md:mr-3 text-lg md:text-xl focus:ring-1"
         onChange={(event) => handleChange(event, index)}
         onKeyUp={(event) => handleBack(event, index)}
       />
@@ -84,16 +84,16 @@ const Doctorotp = () => {
   return (
     <>
       <Logo className="mb-8" />
-      <div className="bg-white flex flex-col justify-center items-center w-40 m-auto border rounded-2xl p-5 shadow-lg">
+      <div className="bg-white flex flex-col justify-center items-center w-40 md:w-64 sm:w-80 lg:w-96  m-auto border rounded-3xl md:p-5  shadow-lg">
         <h1 className="text-2xl font-bold p-5">Enter OTP</h1>
         <Formik>
-          <div className="p-2">{renderInput()}</div>
+          <div className="p-2 lg:p-15">{renderInput()}</div>
         </Formik>
         {formik.errors.otp && (
           <p className="mt-3 text-sm text-red-500">Please fill the fields</p>
         )}
         <button
-          className="bg-gradient-to-r from-teal-700 to-blue-900 w-20 p-1 rounded-3xl mt-3 text-stone-100 transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-lg"
+          className="bg-gradient-to-r from-teal-700 to-blue-900 w-20 md:w-32 sm:w-32 p-1 rounded-3xl mt-3 text-stone-100 transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-lg"
           onClick={formik.handleSubmit}
           type="button"
         >

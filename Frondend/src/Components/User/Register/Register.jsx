@@ -37,7 +37,7 @@ const Register = () => {
       <Toaster />
       <Logo />
       <div className="register-container">
-        <h2>Register</h2>
+        <h2 className="text-2xl font-bold">Register</h2>
         <form onSubmit={handleRegistration}>
           <input
             type="text"

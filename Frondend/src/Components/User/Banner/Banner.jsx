@@ -3,7 +3,6 @@ import bannerimg from "../../../assets/Public/bannerimage.png";
 import "./Banner.css";
 
 const Banner = (props) => {
-
   return (
     <div
       className={props.isSmall ? "small-Banner-container" : "banner-container"}
@@ -20,7 +19,9 @@ const Banner = (props) => {
             facere.
           </p>
         </div>
-        <button>Explore more</button>
+        <button className="mt-20 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl">
+          Explore more
+        </button>
       </div>
       <div className="banner-child-container">
         <img src={bannerimg} alt="banner image" />

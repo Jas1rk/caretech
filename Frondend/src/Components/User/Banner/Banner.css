@@ -51,35 +51,13 @@
   padding-bottom: 0.3rem;
 }
 
-.banner-content button {
-  padding: 10px 20px;
-  margin-top: 20px;
-  cursor: pointer;
-  background: #136a8a;
-  background: -webkit-linear-gradient(to right, #267871, #136a8a);
-  background: linear-gradient(to right, #267871, #136a8a);
-  border: none;
-  outline: none;
-  color: white;
-  width: 150px;
-  border-radius: 20px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.banner-content button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.616);
-  border: none;
-}
 
 
-@media (max-width:430px) {
+@media (max-width: 430px) {
   .banner-container {
-     width: 212%;
+    width: 212%;
   }
   .small-Banner-container {
     width: 212%;
   }
-
 }
-
