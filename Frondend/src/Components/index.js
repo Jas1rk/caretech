@@ -44,3 +44,4 @@ export {default as ConfirmAlert} from "./Commen/SweatAlert/Sweatalert"
 export {default as Warning} from "./Commen/Warning/Warning"
 export {default as BlockAlert} from "./Commen/BlockAlert/Blockalert"
 export {default as ShimmerEffect} from './Commen/Shimmer/Shimmer'
+export {default as CommenInput} from './Commen/InputFields/InputField'

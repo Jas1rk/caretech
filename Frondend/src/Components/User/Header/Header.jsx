@@ -52,12 +52,12 @@ const Header = () => {
           <Link to="/doctor/doctorlogin" className="navlink-a">
             <p>Join as Doctor</p>
           </Link>
-          <div className="profileIcon" onClick={handleProfile}>
+          <div className="mt-2 cursor-pointer w-5 h-5" onClick={handleProfile}>
             {userData && userData.profileImage ? (
               <img
                 src={`../src/assets/images/${userData.profileImage}`}
                 alt="profileimage"
-                className="userDataProfileImage"
+                className=" mt-2 rounded-3xl  border border-[#136a8a]"
               />
             ) : (
               <ProfileICon />

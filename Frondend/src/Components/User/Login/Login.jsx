@@ -2,9 +2,10 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../../assets/Logo/Logo";
 import Useform from "../../../Hooks/Useform";
-import toast, { Toaster } from "react-hot-toast";
-import { useDispatch, } from "react-redux";
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
 import { userLogin } from "../../../Redux/User/UserThunk";
+import { CommenInput } from "../..";
 import "./Login.css";
 
 const Login = () => {
@@ -25,44 +26,51 @@ const Login = () => {
       });
   };
 
-
+  const inputFields = [
+    { type: "email", name: "email", placeholder: "Enter email" },
+    { type: "password", name: "password", placeholder: "Enter password" },
+  ];
 
   return (
     <>
-      <Toaster />
       <Logo />
-      <div className="login-container">
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={email}
-            onChange={handleInput}
-          />
-          <input
-            type="password"
-            placeholder="Enter password"
-            name="password"
-            value={password}
-            onChange={handleInput}
-          />
-          <button>Login</button>
+      <div className="flex flex-col justify-center items-center w-40 m-auto p-3  shadow-2xl rounded-3xl bg-white">
+        <h2 className="text-2xl font-medium">Login</h2>
+        <form
+          onSubmit={handleLogin}
+          className="flex flex-col items-center mt-2 m-10"
+        >
+          {inputFields.map((field, index) => (
+            <CommenInput
+              key={index}
+              type={field.type}
+              name={field.name}
+              values={values[field.name]}
+              handleInput={handleInput}
+              placeholder={field.placeholder}
+            />
+          ))}
+          <button className="mt-5 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x">
+            Login
+          </button>
         </form>
-        <div className="forget-pass">
-          <Link to="/forgetpassword" className="forgetLink">
-            <p className="forgetpass">Forget password</p>
+
+        <Link
+          to="/forgetpassword"
+          className="cursor-pointer hover:underline hover:text-slate-500"
+        >
+          <p className="mb-4">Forget password</p>
+        </Link>
+
+        <p>
+          Don't have an accound ?
+          <Link
+            to="/register"
+            className="cursor-pointer hover:underline hover:text-slate-500"
+          >
+            Register
           </Link>
-        </div>
-        <div>
-          <p className="dont-have-accound">
-            Don't have an accound ?
-            <Link to="/register" className="registerLink">
-              Register
-            </Link>
-          </p>
-        </div>
+        </p>
       </div>
     </>
   );
