@@ -1,27 +1,14 @@
-.category-row {
-  margin-left: 20px;
-}
 
-.main-cat-row {
-  display: flex;
-  overflow-x: scroll;
-  overflow-y: hidden;
-}
 
-.category-row-container {
-  background: -webkit-linear-gradient(to right, #267871, #136a8a);
-  background: linear-gradient(to right, #267871, #136a8a);
-  width: 150px;
-  height: 200px;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.616);
- 
-}
 
-.main-cat-row::-webkit-scrollbar {
+
+.scrollbar-hide {
   display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
 }
 
 .categoryText-container {
