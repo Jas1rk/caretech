@@ -13,12 +13,12 @@
 
 .categoryText-container {
   background-color: rgb(243, 243, 243);
-  width: 150px;
-  height: 200px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.616);
   transition: transform 0.3s ease-in-out;
-  
+  z-index: 1;
+  overflow: hidden;
+  padding: 10px;
 }
 
 .categoryText-container:hover {
@@ -29,10 +29,14 @@
   font-size: 15px;
   text-align: center;
   padding: 10px;
+  font-weight: bold;
 }
 
 .cat-discription {
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
-  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: inherit
+  
 }

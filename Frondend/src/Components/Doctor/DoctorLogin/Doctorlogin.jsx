@@ -44,10 +44,10 @@ const Doctorlogin = () => {
         >
           <p className="mb-4">Forget password</p>
         </Link>
-        <p className="mb-3">
+        <p className="mb-3 text-base ">
           Don't have an accound ?
           <Link
-            to="/register"
+            to="/doctor/doctorregister"
             className="cursor-pointer hover:underline hover:text-slate-500 ml-2"
           >
             Register

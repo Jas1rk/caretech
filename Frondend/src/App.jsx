@@ -9,6 +9,7 @@ import {
   AdminCategory,
   DoctorLogin,
   DoctorOtp,
+  DoctorRegister,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -69,6 +70,7 @@ function App() {
 
           <Route exact path="/doctor/doctorlogin" element={<DoctorLogin/>}/>
           <Route exact path="/doctor/doctorotp" element={<DoctorOtp/>}/>
+          <Route exact path="/doctor/doctorregister" element={<DoctorRegister/>}/>
           
         </Routes>
       </Router>
