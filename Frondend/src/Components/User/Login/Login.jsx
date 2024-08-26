@@ -48,6 +48,7 @@ const Login = () => {
               values={values[field.name]}
               handleInput={handleInput}
               placeholder={field.placeholder}
+              onChange={handleInput}
             />
           ))}
           <button className="mt-5 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x">

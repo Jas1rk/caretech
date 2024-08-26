@@ -8,7 +8,7 @@ const InputField = ({ type, name, value, onChange, placeholder }) => {
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="p-2 m-3 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] w-full focus:shadow-lg"
+      className="p-2 m-3 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a]  focus:shadow-lg text-sm w-56"
     />
   );
 };

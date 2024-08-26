@@ -21,10 +21,10 @@ const CategoriesRow = () => {
           <div className="flex overflow-x-auto overflow-y-hidden scrollbar-hide">
             {categoryData.map((cat, index) => (
               <div
-                className="w-40 h-48  bg-gradient-to-r from-teal-700 to-blue-900 p-5 m-3 rounded-3xl shadow-2xl"
+                className="w-40 h-40  bg-gradient-to-r from-teal-700 to-blue-900 p-5 m-3 rounded-3xl "
                 key={index}
               >
-                <div className="categoryText-container">
+                <div className="categoryText-container w-36 h-40 ">
                   <h2 className="cat-title">{cat.categoryName}</h2>
                   <p className="cat-discription">{cat.categoryDescription}</p>
                 </div>

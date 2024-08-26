@@ -9,7 +9,7 @@ const Banner = (props) => {
     >
       <div className="banner-content">
         <div className="banner-title">
-          <h1>Find your perfect match</h1>
+          <h2 className="text-3xl font-semibold">Find your perfect match</h2>
         </div>
         <div className="banner-description">
           <p>
