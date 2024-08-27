@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
     .required("Email is required"),
   doctorMobile: Yup.string()
     .required("Mobile is required")
-    .min(10, "Mobile must be valid"),
+    .min(10, "Mobile must be 10 digits"),
   doctorPass: Yup.string()
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
@@ -74,8 +74,11 @@ const Doctorregister = () => {
     }
   };
 
+
   const handleSubmit = (values) => {
-    console.log(values);
+    console.log("the entire values of formik",values)
+     const {doctorName} = values
+     console.log("here is doctor name",doctorName)
   };
 
   const categoryData = useSelector((state) => state.user.homeCategories);
