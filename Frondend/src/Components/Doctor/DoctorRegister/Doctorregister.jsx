@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { findAllCatgory } from "../../../Redux/User/UserThunk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { backendUrl } from "../../../service/backendUrl";
+import { toast } from "sonner";
 
 const validationSchema = Yup.object({
   doctorName: Yup.string()
@@ -26,8 +30,6 @@ const validationSchema = Yup.object({
     .oneOf([Yup.ref("doctorPass"), null], "Passwords must match")
     .required("Confirm Password is required"),
   specialization: Yup.string().required("Specialization is required"),
-  about: Yup.string().required("About section is required"),
-  location: Yup.string().required("Location is required"),
   certificate: Yup.mixed().required("Certificate is required"),
 });
 
@@ -39,8 +41,6 @@ const Doctorregister = () => {
     doctorPass: "",
     doctorConfimPass: "",
     specialization: "",
-    about: "",
-    location: "",
     certificate: null,
   };
 
@@ -74,11 +74,35 @@ const Doctorregister = () => {
     }
   };
 
+  const handleSubmit = async (values) => {
+    console.log("the entire values of formik", values);
+    try {
+      const formData = new FormData();
+      formData.append("doctorName", values.doctorName);
+      formData.append("doctorEmail", values.doctorEmail);
+      formData.append("doctorMobile", values.doctorMobile);
+      formData.append("doctorPass", values.doctorPass);
+      formData.append("doctorConfimPass", values.doctorConfimPass);
+      formData.append("specialization", values.specialization);
+      formData.append("certificate", values.certificate);
+      const response = await axios.post(
+        `${backendUrl}/doctor/doctorregister`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-  const handleSubmit = (values) => {
-    console.log("the entire values of formik",values)
-     const {doctorName} = values
-     console.log("here is doctor name",doctorName)
+      if (response.data === "doctorExist") {
+        toast.error("You're already exist in caretech family Please login");
+      } else {
+        return response.data;
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const categoryData = useSelector((state) => state.user.homeCategories);
@@ -92,7 +116,9 @@ const Doctorregister = () => {
   return (
     <>
       <Logo />
-      <h2 className="ml-60 font-bold text-2xl">Doctor Register</h2>
+      <h2 className="flex justify-center items-center font-bold text-2xl">
+        Doctor Register
+      </h2>
       <div className="m-10 flex  justify-center items-center">
         <Formik
           initialValues={initialValues}
@@ -101,10 +127,13 @@ const Doctorregister = () => {
         >
           {({ isSubmitting, setFieldValue, errors, touched }) => (
             <Form>
-              <div className="flex justify-center gap-6">
-                <div className="flex flex-col w-1/2 pr-4 shadow-2xl rounded-3xl p-5">
+              <div className="flex flex-col justify-center gap-6 sm:flex-row">
+                <div className="flex flex-col w-3/4 justify-center m-auto items-center sm:w-2/1 pr-4 shadow-2xl rounded-3xl p-5">
                   {inputFieldsLeft.map((field, index) => (
-                    <div className="flex flex-col mb-3 " key={index}>
+                    <div
+                      className=" flex flex-col justify-center ite sm:flex sm:flex-col mb-3"
+                      key={index}
+                    >
                       <Field
                         name={field.name}
                         type={field.type}
@@ -120,65 +149,65 @@ const Doctorregister = () => {
                   ))}
                 </div>
 
-                <div className=" rounded-3xl shadow-2xl p-8">
-                  <div className="flex justify-center items-center gap-7">
-                    <div className="flex flex-col mb-3">
-                      <Field
-                        as="select"
-                        name="specialization"
-                        className="border p-2 rounded-md drop-shadow flex justify-start items-start cursor-pointer outline-none focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg"
-                      >
-                        <option value="" disabled>
-                          Specialization
+                <div className=" flex flex-col w-3/4 justify-center m-auto items-center sm:w-2/1  shadow-2xl rounded-3xl p-8">
+                  {/* <div className="flex justify-center items-center gap-7 p-7 sm:p-0"> */}
+                  <div className="flex flex-col mb-3">
+                    <Field
+                      as="select"
+                      name="specialization"
+                      className="border p-2 rounded-md drop-shadow flex justify-start items-start cursor-pointer outline-none focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg"
+                    >
+                      <option value="" disabled>
+                        Specialization
+                      </option>
+                      {categoryData.map((cat, index) => (
+                        <option key={index} value={cat.name}>
+                          {cat.categoryName}
                         </option>
-                        {categoryData.map((cat, index) => (
-                          <option key={index} value={cat.name}>
-                            {cat.categoryName}
-                          </option>
-                        ))}
-                      </Field>
-                      <ErrorMessage
-                        name="specialization"
-                        component="div"
-                        className="text-red-600 text-sm font-bold ml-3"
-                      />
-                    </div>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="specialization"
+                      component="div"
+                      className="text-red-600 text-sm font-bold ml-3"
+                    />
+                  </div>
 
-                    <div className="flex flex-col mb-3">
+                  {/* <div className="flex flex-col mb-3">
                       <Field
                         as="textarea"
                         name="about"
                         placeholder="About you"
-                        className="p-2 mt-3 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg text-sm"
+                        className="p-1 mt-3 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg text-sm"
                       />
                       <ErrorMessage
                         name="about"
                         component="div"
                         className="text-red-600 text-sm font-bold ml-3"
                       />
-                    </div>
+                    </div> */}
+                  {/* </div> */}
+                  {/* 
+                  <div className="flex justify-center items-center"> */}
+                  <div className="flex flex-col mr-2">
+                    <p className="font-bold">Upload Your Certificate</p>
+                    <Fileupload />
+                    <input
+                      type="file"
+                      id="file"
+                      className="hidden"
+                      onChange={(event) => {
+                        handleFile(event, setFieldValue);
+                      }}
+                    />
+
+                    {errors.certificate && touched.certificate && (
+                      <div className="text-red-600 text-sm font-bold mt-1">
+                        {errors.certificate}
+                      </div>
+                    )}
                   </div>
-
-                  <div className="flex justify-center items-center">
-                    <div className="flex flex-col mr-2">
-                      <p className="font-bold">Upload Your Certificate</p>
-                      <Fileupload />
-                      <input
-                        type="file"
-                        id="file"
-                        className="hidden"
-                        onChange={(event) => {
-                          handleFile(event, setFieldValue);
-                        }}
-                      />
-
-                      {errors.certificate && touched.certificate && (
-                        <div className="text-red-600 text-sm font-bold mt-1">
-                          {errors.certificate}
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                       <Field
                         name="location"
                         placeholder="Location"
@@ -189,21 +218,21 @@ const Doctorregister = () => {
                         component="div"
                         className="text-red-600 text-sm font-bold ml-3"
                       />
-                    </div>
-                  </div>
-                  <div className="certicate">
+                    </div> */}
+                  {/* </div> */}
+                  <div className="certicate flex justify-center items-center ">
                     {certificate && (
                       <>
                         <FontAwesomeIcon
                           icon={faXmark}
-                          className="w-4 h-4 bg-slate-400 rounded-full p-1 flex justify-center items-center absolute cursor-pointer ml-4 -mt-2"
+                          className="w-4 h-4 bg-slate-400 rounded-full p-2 absolute cursor-pointer "
                           onClick={() => setImage(!certificate)}
                         />
 
                         <img
                           src={certificate}
                           alt="Certificate"
-                          className="m-5 w-36 h-36 object-cover rounded-lg shadow-lg"
+                          className="m-5 w-36 h-36 object-cover rounded-lg shadow-lg "
                         />
                       </>
                     )}
@@ -222,6 +251,15 @@ const Doctorregister = () => {
           )}
         </Formik>
       </div>
+      <p className="mb-3 text-base flex justify-center items-center">
+        Already have an Accound ?
+        <Link
+          to="/doctor/doctorlogin"
+          className="cursor-pointer hover:underline hover:text-slate-500 ml-2"
+        >
+          Login
+        </Link>
+      </p>
     </>
   );
 };

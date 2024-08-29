@@ -1,5 +1,5 @@
 const User = require("../../Model/userModel");
-const emailVerification = require("../../Utils/modemailer");
+const {emailVerification} = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../../Utils/jwt");
 
