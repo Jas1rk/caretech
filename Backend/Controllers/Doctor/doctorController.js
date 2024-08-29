@@ -18,7 +18,17 @@ const registerForDoctor = async (req, res) => {
   }
 };
 
+const sendOtpToDoctor = async(req,res)=>{
+  try{
+      const drEmail = req.query.doctorEmail
+      console.log("here is doctor email",drEmail)
+  }catch(err){
+    console.log(err.message)
+  }
+}
+
 module.exports = {
   registerForDoctor,
+  sendOtpToDoctor
 };
 
