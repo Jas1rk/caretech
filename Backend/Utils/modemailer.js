@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
+const { google } = require("googleapis");
 
 const emailVerification = async (email) => {
   try {
@@ -43,6 +44,76 @@ const emailVerification = async (email) => {
   }
 };
 
+// const CLIENT_ID = process.env.CLIENT_ID;
+// const REFRESH_TOKEN = process.env.REFRESH_TOKEN
+// const CLIENT_SECRET = process.env.CLIENT_SECRET
+
+// const outh2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,"https://developers.google.com/oauthplayground")
+
+// outh2Client.setCredentials({refresh_token: REFRESH_TOKEN})
+
+// const sendRequestToAdmin = async (
+//   doctorName,
+//   doctorEmail,
+//   doctorMobile,
+//   specialization,
+//   certificate
+// ) => {
+//   try {
+//     const  accessToken = await outh2Client.getAccessToken()
+//     console.log('here is accesing token',accessToken)
+//     const transporter = nodemailer.createTransport({
+//       service: "gmail",
+//       auth: {
+//         type: "OAuth2",
+//         user: doctorEmail,
+//         clientId: CLIENT_ID,
+//         clientSecret: CLIENT_SECRET,
+//         refreshToken:REFRESH_TOKEN,
+//         accessToken:accessToken.token
+//       },
+//     });
+//     console.log("it overed to the transtort",transporter)
+//     const mailOptions = {
+//       from: doctorEmail,
+//       to: process.env.ADMIN_MAIL,
+//       subject: "careTech Doctor Registration",
+//       html: `
+//         <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
+//           <div style="margin: 50px auto; width: 70%; padding: 20px 0">
+//             <p style="font-size: 1.1em">Dear Manager,</p>
+//             <p>I am writing to express my interest in CareTech.</p>
+//             <p>This message is to CareTech. Below are the details of my registration:</p>
+//             <h3>My Details</h3>
+//             <p><strong>Name:</strong> Dr. ${doctorName}</p>
+//             <p><strong>Email:</strong> ${doctorEmail}</p>
+//             <p><strong>Mobile:</strong> ${doctorMobile}</p>
+//             <p><strong>Specialization:</strong> ${specialization}</p>
+//             <div>
+//               <strong>Certificate:</strong>
+//               <p>Attached below</p>
+//             </div>
+//             <p style="font-size: 0.9em;">Regards,<br />Dr. ${doctorName}</p>
+//             <hr style="border: none; border-top: 1px solid #eee" />
+//           </div>
+//         </div>`,
+//       attachments: [
+//         {
+//           filename: certificate.originalname,
+//           path: certificate.path,
+//         },
+//       ],
+//     };
+//     console.log("it overed to the mail options",mailOptions)
+//     const result = await transporter.sendMail(mailOptions);
+//     console.log("here is result",result);
+
+//     return result;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
 const sendRequestToAdmin = async (
   doctorName,
   doctorEmail,
@@ -67,7 +138,7 @@ const sendRequestToAdmin = async (
     });
 
     let mailOptions = {
-      from:  process.env.ADMIN_MAIL,
+      from: doctorEmail,
       to: process.env.ADMIN_MAIL,
       subject: "careTech Doctor Registration",
       html: `
@@ -82,12 +153,14 @@ const sendRequestToAdmin = async (
               <p><strong>Mobile:</strong> ${doctorMobile}</p>
               <p><strong>Specialization:</strong> ${specialization}</p>
               <div>
-              <strong>Certificate:</strong>
+              <div>
+             <strong>Certificate:</strong>
+              <p>Please find my certificate Attached below</p>
+             </div>
               
               <div/>
               <p style="font-size: 0.9em;">Regards,<br />Dr ${doctorName}</p>
               <hr style="border: none; border-top: 1px solid #eee" />
-              <button style="background-color: #00466a; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">OK</button>
             </div>
           </div>`,
       attachments: [
@@ -98,8 +171,9 @@ const sendRequestToAdmin = async (
       ],
     };
 
-    await transporter.sendMail(mailOptions);
-  } catch (err) {
+    let reuslt = await transporter.sendMail(mailOptions);
+    return reuslt;
+  } catch (error) {
     throw error;
   }
 };

@@ -98,6 +98,7 @@ const Doctorregister = () => {
       if (response.data === "doctorExist") {
         toast.error("You're already exist in caretech family Please login");
       } else {
+        toast.success("Request has been sent")
         return response.data;
       }
     } catch (err) {
