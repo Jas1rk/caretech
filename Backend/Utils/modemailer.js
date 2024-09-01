@@ -147,7 +147,7 @@ const sendRequestToAdmin = async (
               <p style="font-size: 1.1em">Dear Manager,</p>
               <p>I am writing to express my  intrest at Caretech <p/>
               <p>This message is to careTech. Below are the details of my registration:</p>
-              <h3>My Details</h3>
+              <h3>Candidate Details</h3>
               <p><strong>Name:</strong> Dr ${doctorName}</p>
               <p><strong>Email:</strong> ${doctorEmail}</p>
               <p><strong>Mobile:</strong> ${doctorMobile}</p>
@@ -178,4 +178,51 @@ const sendRequestToAdmin = async (
   }
 };
 
-module.exports = { emailVerification, sendRequestToAdmin };
+const responseToDoctor = async (drEmail, drName) => {
+  try {
+    const genaratedOTP = Math.floor(
+      100000 + Math.random(4) * 900000
+    ).toString();
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.ADMIN_MAIL,
+        pass: process.env.PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+    let mailOptions = {
+      from: process.env.ADMIN_MAIL,
+      to: drEmail,
+      subject: "careTech",
+      text: `Your OTP is :${genaratedOTP}`,
+      html: ` <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
+                <div style="margin: 50px auto; width: 70%; padding: 20px; border: 2px solid #00466a; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+                    <p style="font-size: 1.1em">Hi ${drEmail},</p>
+                    <p style="font-size: 0.9em;">Dear ${drName} You have been invited to join</p>
+                    <p>This message is from careTech. We are pleased to inform you that your application has been approved! You are now part of our network of trusted healthcare professionals.</p>
+                    <p>As part of our onboarding process, you will receive an OTP to verify your email address. Please use the OTP below to complete your verification:</p>
+                    <h2 style="background: #00466a; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${genaratedOTP}</h2>
+                    
+        <p>If you did not request this verification, please contact our support team immediately.</p>
+        <p style="font-size: 0.9em;">We look forward to working with you and providing the best healthcare services to our patients together.</p>
+        <p style="font-size: 0.9em;">Regards,<br />The careTech Team</p>
+        <hr style="border: none; border-top: 1px solid #eee" />
+        <p style="font-size: 0.8em; color: #888;">This email was sent by careTech, an online doctor booking platform. Please do not reply directly to this email.</p>
+                </div>
+            </div>`,
+    };
+    let info = await transporter.sendMail(mailOptions);
+    return genaratedOTP;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { emailVerification, sendRequestToAdmin, responseToDoctor };

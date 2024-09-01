@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const { createToken } = require("../../Utils/jwt");
-const User = require("../../Model/userModel");
+const User = require("../../Model/userModel")
 
 const adminLoginVerify = async (req, res) => {
   try {
@@ -33,7 +33,7 @@ const adminFetchUsers = async (req, res) => {
 const adminBlockUser = async (req, res) => {
   try {
     const userID = req.query.userid;
-    const blockUser = await User.findByIdAndUpdate(userID, { isBlocked: true });
+    const blockUser = await User.findByIdAndUpdate(userID, { isBlocked: true })
     res.json(blockUser);
   } catch (err) {
     console.log(err);
@@ -50,9 +50,13 @@ const adminUnblockUser = async (req, res) => {
   }
 };
 
+
+
+
 module.exports = {
   adminLoginVerify,
   adminFetchUsers,
   adminBlockUser,
   adminUnblockUser,
+
 };

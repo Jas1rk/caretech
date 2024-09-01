@@ -35,7 +35,7 @@
   border-radius: 2px;
   border: none;
   outline: none;
-  height: 20px;
+  height: 40px;
   width: 200px;
 }
 
@@ -82,6 +82,11 @@
   color: #ffffff;
   font-size: 20px;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.social-icon:hover{
+  transform: translate(0,-20%);
 }
 
 .footer-copyright {

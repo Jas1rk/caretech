@@ -4,8 +4,12 @@ const { verifyToken } = require("../Utils/jwt");
 const admimController = require("../Controllers/Admin/adminController");
 const categoryController = require("../Controllers/Admin/categoryController");
 
-const { adminLoginVerify, adminFetchUsers, adminBlockUser, adminUnblockUser } =
-  admimController;
+const {
+  adminLoginVerify,
+  adminFetchUsers,
+  adminBlockUser,
+  adminUnblockUser,
+} = admimController;
 
 const {
   addCategory,
@@ -24,6 +28,7 @@ adminRoute
   .get("/fetchcategories", verifyToken, adminFetchCategories)
   .post("/categoryblock", verifyToken, blockCategory)
   .post("/unblockcategory", verifyToken, unblockCategory)
-  .post("/editcategory", verifyToken, editCategory);
+  .post("/editcategory", verifyToken, editCategory)
+  
 
 module.exports = adminRoute;
