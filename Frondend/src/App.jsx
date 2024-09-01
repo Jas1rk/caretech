@@ -19,62 +19,68 @@ import IsUser from "./ProtectedRoutes/User/IsUser";
 import IsAdmin from "./ProtectedRoutes/Admin/IsAdmin";
 import { Toaster } from "sonner";
 
+
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/otp" element={<Otp />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/forgetpassword" element={<Forgetpassword />} />
-          <Route
-            exact
-            path="/profile"
-            element={
-              <IsUser>
-                <Userprofile />
-              </IsUser>
-            }
-          />
 
-          <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
-          <Route
-            exact
-            path="/admin/adminhome"
-            element={
-              <IsAdmin>
-                <AdminHomePage />
-              </IsAdmin>
-            }
-          />
-          <Route
-            exact
-            path="/admin/userlist"
-            element={
-              <IsAdmin>
-                <AdminUserList />
-              </IsAdmin>
-            }
-          />
-          <Route
-            exact
-            path="/admin/admincategory"
-            element={
-              <IsAdmin>
-                <AdminCategory />
-              </IsAdmin>
-            }
-          />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/otp" element={<Otp />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/forgetpassword" element={<Forgetpassword />} />
+            <Route
+              exact
+              path="/profile"
+              element={
+                <IsUser>
+                  <Userprofile />
+                </IsUser>
+              }
+            />
 
-          <Route exact path="/doctor/doctorlogin" element={<DoctorLogin/>}/>
-          <Route exact path="/doctor/doctorotp" element={<DoctorOtp/>}/>
-          <Route exact path="/doctor/doctorregister" element={<DoctorRegister/>}/>
-          
-        </Routes>
+            <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
+            <Route
+              exact
+              path="/admin/adminhome"
+              element={
+                <IsAdmin>
+                  <AdminHomePage />
+                </IsAdmin>
+              }
+            />
+            <Route
+              exact
+              path="/admin/userlist"
+              element={
+                <IsAdmin>
+                  <AdminUserList />
+                </IsAdmin>
+              }
+            />
+            <Route
+              exact
+              path="/admin/admincategory"
+              element={
+                <IsAdmin>
+                  <AdminCategory />
+                </IsAdmin>
+              }
+            />
+
+            <Route exact path="/doctor/doctorlogin" element={<DoctorLogin />} />
+            <Route exact path="/doctor/doctorotp" element={<DoctorOtp />} />
+            <Route
+              exact
+              path="/doctor/doctorregister"
+              element={<DoctorRegister />}
+            />
+          </Routes>
+ 
       </Router>
-      <Toaster richColors  position="top-center"/>
+      <Toaster richColors position="top-center" />
     </>
   );
 }

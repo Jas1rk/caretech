@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { findAllCatgory } from "../../../Redux/User/UserThunk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";
 import { toast } from "sonner";
-
 
 const validationSchema = Yup.object({
   doctorName: Yup.string()
@@ -93,13 +92,13 @@ const Doctorregister = () => {
             "Content-Type": "multipart/form-data",
           },
         }
-      );  
+      );
 
       if (response.data === "doctorExist") {
         toast.error("You're already exist in caretech family Please login");
       } else {
-        toast.success("Request has been sent. Please wait for a while.");
-        setMessage(true)
+        toast.success("Otp has been sent to your mail please check");
+        navigate("/doctor/doctorotp");
         return response.data;
       }
     } catch (err) {
@@ -107,14 +106,14 @@ const Doctorregister = () => {
     }
   };
 
+  const navigate = useNavigate();
   const categoryData = useSelector((state) => state.user.homeCategories);
   const dispatch = useDispatch();
+  const [certificate, setImage] = useState(null);
+
   useEffect(() => {
     dispatch(findAllCatgory());
   }, [dispatch]);
-
-  const [certificate, setImage] = useState(null);
-  const [message,setMessage] = useState(false)
 
   return (
     <>
@@ -149,16 +148,10 @@ const Doctorregister = () => {
                         className="text-red-600 text-sm font-bold ml-6 mt-1"
                       />
                     </div>
-                      
                   ))}
-                  {message && (
-                   <p className="bg-slate-300 p-2 rounded-lg text-xs  border border-lime-600">Waite for a while for otp</p> 
-                  )}
-               
                 </div>
 
                 <div className=" flex flex-col w-3/4 justify-center m-auto items-center sm:w-2/1  shadow-2xl rounded-3xl p-8">
-                 
                   <div className="flex flex-col mb-3">
                     <Field
                       as="select"
@@ -181,7 +174,6 @@ const Doctorregister = () => {
                     />
                   </div>
 
-                 
                   <div className="flex flex-col mr-2">
                     <p className="font-bold">Upload Your Certificate</p>
                     <Fileupload />
@@ -200,7 +192,7 @@ const Doctorregister = () => {
                       </div>
                     )}
                   </div>
-                 
+
                   <div className="certicate flex justify-center items-center ">
                     {certificate && (
                       <>
@@ -246,3 +238,12 @@ const Doctorregister = () => {
 };
 
 export default Doctorregister;
+
+
+
+
+
+
+
+
+

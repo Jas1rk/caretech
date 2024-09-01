@@ -10,7 +10,7 @@ const doctorSchema = new mongoose.Schema(
     mobileOfDoctor: {
       type: Number,
     },
-    passwordOfDoctor: {
+    passwordOfDoctor:{
       type: String,
     },
     aboutDoctor: {
@@ -26,6 +26,17 @@ const doctorSchema = new mongoose.Schema(
     certificate: {
       type: String,
     },
+    isVerified:{
+      type:Boolean,
+    },
+    isBlocked:{
+      type:Boolean,
+      default:false
+    },
+    profileImageOfDoctor:{
+      type:String,
+
+    }
   },
   { versionKey: false }
 );

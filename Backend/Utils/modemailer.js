@@ -178,7 +178,7 @@ const sendRequestToAdmin = async (
   }
 };
 
-const responseToDoctor = async (drEmail, drName) => {
+const responseToDoctor = async (doctorEmail, doctorName) => {
   try {
     const genaratedOTP = Math.floor(
       100000 + Math.random(4) * 900000
@@ -199,13 +199,13 @@ const responseToDoctor = async (drEmail, drName) => {
     });
     let mailOptions = {
       from: process.env.ADMIN_MAIL,
-      to: drEmail,
+      to: doctorEmail,
       subject: "careTech",
       text: `Your OTP is :${genaratedOTP}`,
       html: ` <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
                 <div style="margin: 50px auto; width: 70%; padding: 20px; border: 2px solid #00466a; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
-                    <p style="font-size: 1.1em">Hi ${drEmail},</p>
-                    <p style="font-size: 0.9em;">Dear ${drName} You have been invited to join</p>
+                    <p style="font-size: 1.1em">Hi ${doctorEmail},</p>
+                    <p style="font-size: 0.9em;">Dear ${doctorName} You have been invited to join</p>
                     <p>This message is from careTech. We are pleased to inform you that your application has been approved! You are now part of our network of trusted healthcare professionals.</p>
                     <p>As part of our onboarding process, you will receive an OTP to verify your email address. Please use the OTP below to complete your verification:</p>
                     <h2 style="background: #00466a; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${genaratedOTP}</h2>

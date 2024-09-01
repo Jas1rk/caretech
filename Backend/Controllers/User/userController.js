@@ -79,7 +79,7 @@ const userLogin = async (req, res) => {
           const usertoken = createToken(userData.id);
           res.json({ userData,usertoken});
         } else {
-          res.json("invalidPassword");
+          res.json("invalidPassword")
         }
       }
     } else {
