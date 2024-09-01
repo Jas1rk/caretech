@@ -7,6 +7,7 @@ import {
   faWhatsapp,
   faTwitter,
   faGoogle,
+  faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import "./Footer.css";
@@ -38,6 +39,8 @@ const Footer = () => {
           <FontAwesomeIcon icon={faTwitter} className="social-icon" />
           <FontAwesomeIcon icon={faGoogle} className="social-icon" />
           <FontAwesomeIcon icon={faEnvelope} className="social-icon" />
+          <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
+
         </div>
         <div className="footer-copyright">&copy; 2024 CareTech</div>
       </div>

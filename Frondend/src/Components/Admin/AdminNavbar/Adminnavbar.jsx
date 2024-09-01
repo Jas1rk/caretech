@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { adminLogout } from "../../../Redux/Admin/AdminSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
+import axios from "axios";
+import { backendUrl } from "../../../service/backendUrl";
 import "./Adminnavbar.css";
 
 const customStyles = {
@@ -29,10 +31,27 @@ const Adminnavbar = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
+  const [data,setData] = useState()
   let subtitle;
   const hadleOpen = () => {
     setOpenModal(true);
   };
+  useEffect(() => {
+    if (openModal) {
+      const fetchNewDoctors = async () => {
+        try {
+          const response = await axios.get(
+            `${backendUrl}/doctor/newdoctorsrequest`
+          );
+          console.log(response.data);
+          setData(response.data)
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchNewDoctors();
+    }
+  }, [openModal]);
 
   function afterOpenModal() {
     subtitle.style.color = "#f00";
@@ -40,6 +59,14 @@ const Adminnavbar = () => {
 
   function closeModal() {
     setOpenModal(false);
+  }
+
+  const handleSendOtp = async(drEmail,drName) => {
+    try{
+      const response = await axios.post(`${backendUrl}/doctor/sendotptonewdoctor`,{drEmail,drName})
+    }catch(err){
+      console.log(err)
+    }
   }
 
   return (
@@ -69,28 +96,36 @@ const Adminnavbar = () => {
           >
             <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Notifications</h2>
 
-            <div className="flex flex-col">
-              <div className="flex justify-center items-center gap-5">
-                <p>name888888888</p>
-                <p>email99999999</p>
-                <button className="bg-lime-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg">
-                  send otp
-                </button>
-                <button className="bg-red-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg text-white">
-                  decline
-                </button>
-              </div>
+            <div className="flex flex-col justify-between items-center">
+            {data ? (
+                data.map((data, index) => (
+                  <div
+                  className="flex justify-between items-center gap-5 m-1 p-3 border-b"
+                  key={index}
+                >
+                  <div className="flex flex-col flex-1 text-start">
+                    <p className="font-semibold">{data.notifications.doctorname}</p>
+                    <p>{data.notifications.doctoremail}</p>
+                  </div>
+                 
+                    <button
+                      className="bg-lime-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg"
+                      onClick={() => handleSendOtp(data.notifications.doctoremail,data.notifications.doctorname)}
+                    >
+                      Send OTP
+                    </button>
+                    <button className="bg-red-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg text-white">
+                      Decline
+                    </button>
+                
+                </div>
+                
+                ))
+              ) : (
+                <p>Loading...</p> 
+              )}
 
-              <div className="flex justify-center items-center gap-5 m-2">
-                <p>name888888888</p>
-                <p>email99999999</p>
-                <button className="bg-lime-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg">
-                  send otp
-                </button>
-                <button className="bg-red-600 w-24 h-8 flex justify-center items-center outline-none rounded-lg">
-                  Decline
-                </button>
-              </div>
+         
             </div>
           </Modal>
         </div>

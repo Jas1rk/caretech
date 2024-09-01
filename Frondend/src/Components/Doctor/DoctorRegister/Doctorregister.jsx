@@ -12,6 +12,7 @@ import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";
 import { toast } from "sonner";
 
+
 const validationSchema = Yup.object({
   doctorName: Yup.string()
     .required("Name is required")
@@ -75,7 +76,6 @@ const Doctorregister = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log("the entire values of formik", values);
     try {
       const formData = new FormData();
       formData.append("doctorName", values.doctorName);
@@ -93,12 +93,13 @@ const Doctorregister = () => {
             "Content-Type": "multipart/form-data",
           },
         }
-      );
+      );  
 
       if (response.data === "doctorExist") {
         toast.error("You're already exist in caretech family Please login");
       } else {
-        toast.success("Request has been sent")
+        toast.success("Request has been sent. Please wait for a while.");
+        setMessage(true)
         return response.data;
       }
     } catch (err) {
@@ -113,6 +114,7 @@ const Doctorregister = () => {
   }, [dispatch]);
 
   const [certificate, setImage] = useState(null);
+  const [message,setMessage] = useState(false)
 
   return (
     <>
@@ -147,11 +149,16 @@ const Doctorregister = () => {
                         className="text-red-600 text-sm font-bold ml-6 mt-1"
                       />
                     </div>
+                      
                   ))}
+                  {message && (
+                   <p className="bg-slate-300 p-2 rounded-lg text-xs  border border-lime-600">Waite for a while for otp</p> 
+                  )}
+               
                 </div>
 
                 <div className=" flex flex-col w-3/4 justify-center m-auto items-center sm:w-2/1  shadow-2xl rounded-3xl p-8">
-                  {/* <div className="flex justify-center items-center gap-7 p-7 sm:p-0"> */}
+                 
                   <div className="flex flex-col mb-3">
                     <Field
                       as="select"
@@ -174,22 +181,7 @@ const Doctorregister = () => {
                     />
                   </div>
 
-                  {/* <div className="flex flex-col mb-3">
-                      <Field
-                        as="textarea"
-                        name="about"
-                        placeholder="About you"
-                        className="p-1 mt-3 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg text-sm"
-                      />
-                      <ErrorMessage
-                        name="about"
-                        component="div"
-                        className="text-red-600 text-sm font-bold ml-3"
-                      />
-                    </div> */}
-                  {/* </div> */}
-                  {/* 
-                  <div className="flex justify-center items-center"> */}
+                 
                   <div className="flex flex-col mr-2">
                     <p className="font-bold">Upload Your Certificate</p>
                     <Fileupload />
@@ -208,19 +200,7 @@ const Doctorregister = () => {
                       </div>
                     )}
                   </div>
-                  {/* <div className="flex flex-col">
-                      <Field
-                        name="location"
-                        placeholder="Location"
-                        className="p-2 m-1 outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg text-sm w-full"
-                      />
-                      <ErrorMessage
-                        name="location"
-                        component="div"
-                        className="text-red-600 text-sm font-bold ml-3"
-                      />
-                    </div> */}
-                  {/* </div> */}
+                 
                   <div className="certicate flex justify-center items-center ">
                     {certificate && (
                       <>
