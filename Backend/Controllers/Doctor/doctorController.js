@@ -1,16 +1,19 @@
 const Doctor = require("../../Model/doctorModel");
-const Notification = require("../../Model/notificationModel");
 const { responseToDoctor} = require("../../Utils/modemailer");
+const bcrypt = require('bcrypt')
+const Category = require('../../Model/categoryModel')
 
+const doctorOtpStore = {}
 const registerForDoctor = async (req, res) => {
   try {
-    const { doctorName, doctorEmail, doctorMobile, specialization } = req.body;
-    const certificate = req.file;
-    const findExist = await Doctor.findOne({ emailOfDoctor: doctorEmail });
+    const { drName, drEmail,drDegree } = req.body;
+    const findExist = await Doctor.findOne({ emailOfDoctor: drEmail });
     if (findExist) {
       res.json("doctorExist");
     } else {
-      const genaratedOTP = await responseToDoctor(doctorEmail,doctorName)
+      const genaratedOTP = await responseToDoctor(drEmail,drName,drDegree)
+      doctorOtpStore[drEmail] = genaratedOTP;
+      console.log("doctor otp",genaratedOTP)
       res.json(genaratedOTP);
     }
   } catch (err) {
@@ -18,40 +21,38 @@ const registerForDoctor = async (req, res) => {
   }
 };
 
-// const fetchNewDoctorsRequest = async(req,res) => {
-//   try {
-//     const findNewDoctors = await Notification.aggregate([
-//       { $project: { notifications: 1, _id: 0 } }, 
-//       { $unwind: "$notifications" }, 
-//       { $match: { "notifications.doctoremail": { $exists: true } } } 
-//     ]);
-//     console.log("here is the all ",findNewDoctors)
-//     res.json(findNewDoctors)
-//   }catch(err){
-//     console.log(err.message)
-//   }
-// }
+const doctorVerificationWithOtp  = async(req,res) => {
+  try {
+    const {doctorOtp,drName,drDegree,drEmail,drMobile,drPassword,drCat} = req.body
+    const certificate = req.file;
+    const specialization = await Category.findOne({categoryName:drCat})
+    if(doctorOtp === doctorOtpStore[drEmail]){
+        const passwordHash = await bcrypt.hash(drPassword,10)
+        const newDoctor = new Doctor({
+          nameOfDoctor: drName,
+          degreeOfDoctor:drDegree,
+          emailOfDoctor: drEmail,
+          mobileOfDoctor: drMobile,
+          passwordOfDoctor: passwordHash,
+          category: specialization,
+          certificate: certificate.originalname
+        })
+        await newDoctor.save()
+        delete doctorOtpStore[drEmail]
+        res.json("doctorRegister")
 
-// const sendOtpToDoctor = async (req, res) => {
-//   try {
-//     const {drEmail,drName} = req.body
-//     const genaratedOTP = await responseToDoctor(drEmail,drName)
-//     await Notification.updateOne({'notifications.doctoremail':drEmail},{
-//       $pull:{
-//         notifications:{
-//           doctoremail:drEmail,
-//           doctorname:drName
-//         }
-//       }
-//     })
-//     res.json(genaratedOTP)
-//   } catch (err) {
-//     console.log(err.message);
-//   }
-// };
+    }else{
+      res.json("Invalid OTP")
+    }
+  }catch(err){
+    console.log(err)
+  }
+}
+
 
 
 
 module.exports = {
-  registerForDoctor
+  registerForDoctor,
+  doctorVerificationWithOtp
 };

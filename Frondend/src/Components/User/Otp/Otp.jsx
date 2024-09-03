@@ -16,7 +16,7 @@ const Otp = () => {
 
   const { username, email, mobile, password } = location.state || {};
 
-  useEffect(() => {
+  useEffect(() => {   
     if (timer > 0) {
       const countDown = setInterval(() => {
         setTimer((prev) => prev - 1);

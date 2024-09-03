@@ -4,9 +4,10 @@ const doctorController = require('../Controllers/Doctor/doctorController')
 const upload = require('../Utils/multer')
 const { verifyToken } = require("../Utils/jwt");
 
-const {registerForDoctor} = doctorController
+const {registerForDoctor,doctorVerificationWithOtp} = doctorController
 
 doctorRoute
-    .post('/doctorregister',upload.single('certificate'),registerForDoctor)
+    .post('/doctorregister',registerForDoctor)
+    .post('/verify-otp',upload.single('certificate'),doctorVerificationWithOtp)
 
 module.exports = doctorRoute

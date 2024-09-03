@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import Logo from "../../../assets/Logo/Logo";
 import { Formik, useFormik } from "formik";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { backendUrl } from "../../../service/backendUrl";
 
 const validate = (values) => {
   const errors = {};
@@ -13,18 +16,78 @@ const validate = (values) => {
 
 const Doctorotp = () => {
   const inputRef = useRef({});
+  const location = useLocation();
+  const [timer, setTimer] = useState(20);
+  const [resend, setResend] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (timer > 0) {
+      const countDown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(countDown);
+    } else {
+      toast.warning("Time ended!Please resend");
+      setResend(true);
+    }
+  }, [timer]);
+
+  const handleResendOtp = () => {
+    setResend(false);
+    setTimer(20);
+  };
+
+  const {
+    drName,
+    drEmail,
+    drMobile,
+    drPassword,
+    drCat,
+    certificate,
+    drDegree,
+  } = location.state || {};
 
   const formik = useFormik({
     initialValues: {
-      otp: Array.from({ length: 6 }).fill(""),
+      otp: Array(6).fill(""),
     },
     validate,
-    onSubmit: (values) => {
-      console.log("values are getting", values.otp.join(""));
+    onSubmit: async (values, { resetForm }) => {
+      const doctorOtp = values.otp.join("");
+      const formData = new FormData();
+      formData.append("certificate", certificate);
+      formData.append("doctorOtp", doctorOtp);
+      formData.append("drName", drName);
+      formData.append("drEmail", drEmail);
+      formData.append("drMobile", drMobile);
+      formData.append("drPassword", drPassword);
+      formData.append("drCat", drCat);
+      formData.append("drDegree", drDegree);
+
+      try {
+        const { data } = await axios.post(
+          `${backendUrl}/doctor/verify-otp`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (data === "Invalid OTP") {
+          toast.error("Invalid OTP");
+        } else  {
+          navigate("/doctor/doctorlogin", {
+            state: { message: "OTP verified successfully" },
+          });
+          resetForm();
+        }
+      } catch (error) {
+        toast.error("Something went wrong");
+      }
     },
   });
-
-  console.log(formik.values);
 
   useEffect(() => {
     inputRef.current[0].focus();
@@ -78,6 +141,7 @@ const Doctorotp = () => {
         className="w-16 h-12 md:w-16 md:h-12  bg-white border  border-solid   outline-none rounded-lg text-center mr-3 md:mr-3 text-lg md:text-xl focus:ring-1"
         onChange={(event) => handleChange(event, index)}
         onKeyUp={(event) => handleBack(event, index)}
+        
       />
     ));
   };
@@ -89,16 +153,28 @@ const Doctorotp = () => {
         <Formik>
           <div className="p-2 lg:p-15">{renderInput()}</div>
         </Formik>
+        <p>Timer: {`00:${timer}`}</p>
         {formik.errors.otp && (
-          <p className="mt-3 text-sm text-red-500">Please fill the fields</p>
+          <p className="mt-3 text-sm text-red-500 font-bold">
+            Please fill the fields
+          </p>
         )}
-        <button
-          className="bg-gradient-to-r from-teal-700 to-blue-900 w-20 md:w-32 sm:w-32 p-1 rounded-3xl mt-3 text-stone-100 transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-lg"
-          onClick={formik.handleSubmit}
-          type="button"
-        >
-          Verify
-        </button>
+        {!resend ? (
+          <button
+            className="bg-gradient-to-r from-teal-700 to-blue-900 w-20 md:w-32 sm:w-32 p-1 rounded-3xl mt-3 text-stone-100 transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-lg"
+            onClick={formik.handleSubmit}
+            type="button"
+          >
+            Verify
+          </button>
+        ) : (
+          <button
+            className="bg-gradient-to-r from-teal-700 to-blue-900 w-20 md:w-32 sm:w-32 p-1 rounded-3xl mt-3 text-stone-100 transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-lg"
+            onClick={handleResendOtp}
+          >
+            Resend Otp
+          </button>
+        )}
       </div>
     </>
   );

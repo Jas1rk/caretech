@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import Fileupload from "../../../assets/Svg/Fileupload";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllCatgory } from "../../../Redux/User/UserThunk";
@@ -11,41 +10,15 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";
 import { toast } from "sonner";
+import { doctValidationSchema ,doctorInitialValues} from "./Doctorvalidation";
 
-const validationSchema = Yup.object({
-  doctorName: Yup.string()
-    .required("Name is required")
-    .min(3, "Name must be at least 3 characters")
-    .max(20, "Name must be at most 20 characters"),
-  doctorEmail: Yup.string()
-    .email("Invalid email")
-    .required("Email is required"),
-  doctorMobile: Yup.string()
-    .required("Mobile is required")
-    .min(10, "Mobile must be 10 digits"),
-  doctorPass: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-  doctorConfimPass: Yup.string()
-    .oneOf([Yup.ref("doctorPass"), null], "Passwords must match")
-    .required("Confirm Password is required"),
-  specialization: Yup.string().required("Specialization is required"),
-  certificate: Yup.mixed().required("Certificate is required"),
-});
+
 
 const Doctorregister = () => {
-  const initialValues = {
-    doctorName: "",
-    doctorEmail: "",
-    doctorMobile: "",
-    doctorPass: "",
-    doctorConfimPass: "",
-    specialization: "",
-    certificate: null,
-  };
 
   const inputFieldsLeft = [
     { type: "text", name: "doctorName", placeholder: "Enter Your Name" },
+    { type: "text", name: "lastName", placeholder: "Enter your dgree" },
     { type: "email", name: "doctorEmail", placeholder: "Enter Your Email" },
     { type: "number", name: "doctorMobile", placeholder: "Enter Your Mobile" },
     {
@@ -76,30 +49,34 @@ const Doctorregister = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const formData = new FormData();
-      formData.append("doctorName", values.doctorName);
-      formData.append("doctorEmail", values.doctorEmail);
-      formData.append("doctorMobile", values.doctorMobile);
-      formData.append("doctorPass", values.doctorPass);
-      formData.append("doctorConfimPass", values.doctorConfimPass);
-      formData.append("specialization", values.specialization);
-      formData.append("certificate", values.certificate);
-      const response = await axios.post(
-        `${backendUrl}/doctor/doctorregister`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      const {data} = await axios.post(
+        `${backendUrl}/doctor/doctorregister`,{
+          drName: values.doctorName,
+          drDegree: values.lastName,
+          drEmail: values.doctorEmail,
+          drMobile: values.doctorMobile,
+          drPassword: values.doctorPass,
+          drCat: values.specialization,
+          certificate: values.certificate,
         }
       );
 
-      if (response.data === "doctorExist") {
+      if (data === "doctorExist") {
         toast.error("You're already exist in caretech family Please login");
       } else {
         toast.success("Otp has been sent to your mail please check");
-        navigate("/doctor/doctorotp");
-        return response.data;
+        navigate("/doctor/doctorotp", {
+          state: {
+            drName: values.doctorName,
+            drDegree: values.lastName,
+            drEmail: values.doctorEmail,
+            drMobile: values.doctorMobile,
+            drPassword: values.doctorPass,
+            drCat: values.specialization,
+            certificate: values.certificate,
+          },
+        });
+        return data;
       }
     } catch (err) {
       console.log(err);
@@ -123,8 +100,8 @@ const Doctorregister = () => {
       </h2>
       <div className="m-10 flex  justify-center items-center">
         <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
+          initialValues={doctorInitialValues}
+          validationSchema={doctValidationSchema}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting, setFieldValue, errors, touched }) => (
@@ -238,12 +215,3 @@ const Doctorregister = () => {
 };
 
 export default Doctorregister;
-
-
-
-
-
-
-
-
-
