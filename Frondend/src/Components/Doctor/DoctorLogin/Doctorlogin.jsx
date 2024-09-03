@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import { CommenInput } from "../..";
 import Useform from "../../../Hooks/Useform";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 const Doctorlogin = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.message) {
+      toast.success(location.state.message);
+    }
+  }, [location.state?.message]);
+
   const [values, handleInput] = Useform({ email: "", password: "" });
   const inputFields = [
     { type: "email", name: "email", placeholder: "Enter email" },
@@ -34,6 +43,7 @@ const Doctorlogin = () => {
               onChange={handleInput}
             />
           ))}
+
           <button className="mt-5 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x">
             Login
           </button>

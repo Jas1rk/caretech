@@ -44,141 +44,11 @@ const emailVerification = async (email) => {
   }
 };
 
-// const CLIENT_ID = process.env.CLIENT_ID;
-// const REFRESH_TOKEN = process.env.REFRESH_TOKEN
-// const CLIENT_SECRET = process.env.CLIENT_SECRET
 
-// const outh2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,"https://developers.google.com/oauthplayground")
 
-// outh2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
-// const sendRequestToAdmin = async (
-//   doctorName,
-//   doctorEmail,
-//   doctorMobile,
-//   specialization,
-//   certificate
-// ) => {
-//   try {
-//     const  accessToken = await outh2Client.getAccessToken()
-//     console.log('here is accesing token',accessToken)
-//     const transporter = nodemailer.createTransport({
-//       service: "gmail",
-//       auth: {
-//         type: "OAuth2",
-//         user: doctorEmail,
-//         clientId: CLIENT_ID,
-//         clientSecret: CLIENT_SECRET,
-//         refreshToken:REFRESH_TOKEN,
-//         accessToken:accessToken.token
-//       },
-//     });
-//     console.log("it overed to the transtort",transporter)
-//     const mailOptions = {
-//       from: doctorEmail,
-//       to: process.env.ADMIN_MAIL,
-//       subject: "careTech Doctor Registration",
-//       html: `
-//         <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
-//           <div style="margin: 50px auto; width: 70%; padding: 20px 0">
-//             <p style="font-size: 1.1em">Dear Manager,</p>
-//             <p>I am writing to express my interest in CareTech.</p>
-//             <p>This message is to CareTech. Below are the details of my registration:</p>
-//             <h3>My Details</h3>
-//             <p><strong>Name:</strong> Dr. ${doctorName}</p>
-//             <p><strong>Email:</strong> ${doctorEmail}</p>
-//             <p><strong>Mobile:</strong> ${doctorMobile}</p>
-//             <p><strong>Specialization:</strong> ${specialization}</p>
-//             <div>
-//               <strong>Certificate:</strong>
-//               <p>Attached below</p>
-//             </div>
-//             <p style="font-size: 0.9em;">Regards,<br />Dr. ${doctorName}</p>
-//             <hr style="border: none; border-top: 1px solid #eee" />
-//           </div>
-//         </div>`,
-//       attachments: [
-//         {
-//           filename: certificate.originalname,
-//           path: certificate.path,
-//         },
-//       ],
-//     };
-//     console.log("it overed to the mail options",mailOptions)
-//     const result = await transporter.sendMail(mailOptions);
-//     console.log("here is result",result);
 
-//     return result;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
-const sendRequestToAdmin = async (
-  doctorName,
-  doctorEmail,
-  doctorMobile,
-  specialization,
-  certificate
-) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      service: "gmail",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: process.env.ADMIN_MAIL,
-        pass: process.env.PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    let mailOptions = {
-      from: doctorEmail,
-      to: process.env.ADMIN_MAIL,
-      subject: "careTech Doctor Registration",
-      html: `
-          <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
-            <div style="margin: 50px auto; width: 70%; padding: 20px 0">
-              <p style="font-size: 1.1em">Dear Manager,</p>
-              <p>I am writing to express my  intrest at Caretech <p/>
-              <p>This message is to careTech. Below are the details of my registration:</p>
-              <h3>Candidate Details</h3>
-              <p><strong>Name:</strong> Dr ${doctorName}</p>
-              <p><strong>Email:</strong> ${doctorEmail}</p>
-              <p><strong>Mobile:</strong> ${doctorMobile}</p>
-              <p><strong>Specialization:</strong> ${specialization}</p>
-              <div>
-              <div>
-             <strong>Certificate:</strong>
-              <p>Please find my certificate Attached below</p>
-             </div>
-              
-              <div/>
-              <p style="font-size: 0.9em;">Regards,<br />Dr ${doctorName}</p>
-              <hr style="border: none; border-top: 1px solid #eee" />
-            </div>
-          </div>`,
-      attachments: [
-        {
-          filename: certificate.originalname,
-          path: certificate.path,
-        },
-      ],
-    };
-
-    let reuslt = await transporter.sendMail(mailOptions);
-    return reuslt;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const responseToDoctor = async (doctorEmail, doctorName) => {
+const responseToDoctor = async (drEmail,drName,drDegree) => {
   try {
     const genaratedOTP = Math.floor(
       100000 + Math.random(4) * 900000
@@ -199,24 +69,23 @@ const responseToDoctor = async (doctorEmail, doctorName) => {
     });
     let mailOptions = {
       from: process.env.ADMIN_MAIL,
-      to: doctorEmail,
+      to: drEmail,
       subject: "careTech",
       text: `Your OTP is :${genaratedOTP}`,
       html: ` <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
-                <div style="margin: 50px auto; width: 70%; padding: 20px; border: 2px solid #00466a; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
-                    <p style="font-size: 1.1em">Hi ${doctorEmail},</p>
-                    <p style="font-size: 0.9em;">Dear ${doctorName} You have been invited to join</p>
-                    <p>This message is from careTech. We are pleased to inform you that your application has been approved! You are now part of our network of trusted healthcare professionals.</p>
-                    <p>As part of our onboarding process, you will receive an OTP to verify your email address. Please use the OTP below to complete your verification:</p>
-                    <h2 style="background: #00466a; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${genaratedOTP}</h2>
-                    
-        <p>If you did not request this verification, please contact our support team immediately.</p>
-        <p style="font-size: 0.9em;">We look forward to working with you and providing the best healthcare services to our patients together.</p>
-        <p style="font-size: 0.9em;">Regards,<br />The careTech Team</p>
+    <div style="margin: 50px auto; width: 70%; padding: 20px; border: 2px solid #00466a; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <p style="font-size: 1.1em">Hi ${drEmail} </p>
+        <p style="font-size: 0.9em;">Dear Dr.${drName} ${drDegree}</p>
+        <p>This message is from CareTech. You are required to verify your email address to complete your registration process.</p>
+        <p>Please use the OTP below to complete your email verification:</p>
+        <h2 style="background: #00466a; margin: 0 auto; width: max-content; padding: 0 10px; color: #fff; border-radius: 4px;">${genaratedOTP}</h2>
+        
+        <p>If you did not initiate this verification, please contact our support team immediately.</p>
+        <p style="font-size: 0.9em;">Regards,<br />The CareTech Team</p>
         <hr style="border: none; border-top: 1px solid #eee" />
-        <p style="font-size: 0.8em; color: #888;">This email was sent by careTech, an online doctor booking platform. Please do not reply directly to this email.</p>
-                </div>
-            </div>`,
+        <p style="font-size: 0.8em; color: #888;">This email was sent by CareTech, an online doctor booking platform. Please do not reply directly to this email.</p>
+    </div>
+</div>`,
     };
     let info = await transporter.sendMail(mailOptions);
     return genaratedOTP;
@@ -225,4 +94,4 @@ const responseToDoctor = async (doctorEmail, doctorName) => {
   }
 };
 
-module.exports = { emailVerification, sendRequestToAdmin, responseToDoctor };
+module.exports = { emailVerification, responseToDoctor };

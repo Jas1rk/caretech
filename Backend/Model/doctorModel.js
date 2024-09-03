@@ -4,6 +4,9 @@ const doctorSchema = new mongoose.Schema(
     nameOfDoctor: {
       type: String,
     },
+    degreeOfDoctor:{
+      type:String
+    },
     emailOfDoctor: {
       type: String,
     },
@@ -28,6 +31,7 @@ const doctorSchema = new mongoose.Schema(
     },
     isVerified:{
       type:Boolean,
+      default:false
     },
     isBlocked:{
       type:Boolean,
