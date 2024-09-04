@@ -15,7 +15,7 @@ admin_Api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  } 
 );
 
 export default admin_Api;
