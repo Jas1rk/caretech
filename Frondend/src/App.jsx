@@ -10,6 +10,7 @@ import {
   DoctorLogin,
   DoctorOtp,
   DoctorRegister,
+  AdminDoctorList,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -25,57 +26,25 @@ function App() {
     <>
       <Router>
           <Routes>
+                        {/* userRoute */}
             <Route exact path="/" element={<Home />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/otp" element={<Otp />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/forgetpassword" element={<Forgetpassword />} />
-            <Route
-              exact
-              path="/profile"
-              element={
-                <IsUser>
-                  <Userprofile />
-                </IsUser>
-              }
-            />
+            <Route exact path="/profile" element={<IsUser><Userprofile /></IsUser>} />
 
+                    {/* adminRoute */}
             <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
-            <Route
-              exact
-              path="/admin/adminhome"
-              element={
-                <IsAdmin>
-                  <AdminHomePage />
-                </IsAdmin>
-              }
-            />
-            <Route
-              exact
-              path="/admin/userlist"
-              element={
-                <IsAdmin>
-                  <AdminUserList />
-                </IsAdmin>
-              }
-            />
-            <Route
-              exact
-              path="/admin/admincategory"
-              element={
-                <IsAdmin>
-                  <AdminCategory />
-                </IsAdmin>
-              }
-            />
-
+            <Route exact path="/admin/adminhome" element={<IsAdmin><AdminHomePage /></IsAdmin>}/>
+            <Route exact path="/admin/userlist"element={<IsAdmin><AdminUserList /></IsAdmin>}/>
+            <Route exact path="/admin/admincategory" element={<IsAdmin><AdminCategory /></IsAdmin>}/>
+            <Route exact path="/admin/doctorlist" element={<IsAdmin><AdminDoctorList/></IsAdmin>}/>  
+          
+                 {/* /// doctorRoute */}
             <Route exact path="/doctor/doctorlogin" element={<DoctorLogin />} />
             <Route exact path="/doctor/doctorotp" element={<DoctorOtp />} />
-            <Route
-              exact
-              path="/doctor/doctorregister"
-              element={<DoctorRegister />}
-            />
+            <Route exact path="/doctor/doctorregister"element={<DoctorRegister />} />
           </Routes>
  
       </Router>
