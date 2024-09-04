@@ -10,7 +10,7 @@ const IsAdmin = ({ children }) => {
     if (!adminToken) {
       navigate("/admin/adminlogin");
     }
-  },[adminToken]);
+  },[]);
 
   if (adminToken) {
     return children;
