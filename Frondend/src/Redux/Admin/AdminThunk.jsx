@@ -109,3 +109,13 @@ export const editCategory = createAsyncThunk(
     }
   }
 );
+
+
+export const fetchNewDoctors = createAsyncThunk('admin/fetchNewDoctors',async()=>{
+  try{
+      const {data} = await admin_Api.get('/admin/doctors')
+      return data
+  }catch(err){
+    console.log(err.message)
+  }
+})

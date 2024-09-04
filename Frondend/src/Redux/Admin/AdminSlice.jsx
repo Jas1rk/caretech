@@ -5,6 +5,7 @@ import {
   fetchCategories,
   editCategory,
   createCategory,
+  fetchNewDoctors,
 } from "./AdminThunk";
 
 const INITIAL_STATE = {
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
   usersList: [],
   filteredUsers: [],
   categories: [],
+  doctorsList: [],
 };
 
 const adminSlice = createSlice({
@@ -49,13 +51,18 @@ const adminSlice = createSlice({
       .addCase(fetchCategories.fulfilled, (state, action) => {
         const allCategories = action.payload;
         state.categories = allCategories;
+        
       })
       .addCase(editCategory.fulfilled, (state, action) => {
         const { categoryid, category, description } = action.payload;
         state.categories = state.categories.map((cat) =>
           cat._id === categoryid ? { ...cat, category, description } : cat
-        );
-      });
+        )
+      })
+      .addCase(fetchNewDoctors.fulfilled,(state,action) => {
+        const allDoctors = action.payload
+        state.doctorsList = allDoctors
+      })
   },
 });
 

@@ -95,7 +95,7 @@ const Adminnavbar = () => {
         </button>
       </div>
 
-      {openModal && (
+      {/* {openModal && (
         <div>
           <Modal
             isOpen={openModal}
@@ -142,7 +142,7 @@ const Adminnavbar = () => {
             </div>
           </Modal>
         </div>
-      )}
+      )} */}
     </>
   );
 };

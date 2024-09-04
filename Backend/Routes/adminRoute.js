@@ -3,6 +3,9 @@ const adminRoute = express.Router();
 const { verifyToken } = require("../Utils/jwt");
 const admimController = require("../Controllers/Admin/adminController");
 const categoryController = require("../Controllers/Admin/categoryController");
+const doctorListController = require("../Controllers/Admin/doctorListController")
+
+const {fetchNewdoctors} = doctorListController
 
 const {
   adminLoginVerify,
@@ -29,6 +32,7 @@ adminRoute
   .post("/categoryblock", verifyToken, blockCategory)
   .post("/unblockcategory", verifyToken, unblockCategory)
   .post("/editcategory", verifyToken, editCategory)
+  .get('/doctors',verifyToken,fetchNewdoctors)
   
 
 module.exports = adminRoute;

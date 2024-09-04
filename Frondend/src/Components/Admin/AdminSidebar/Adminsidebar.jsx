@@ -41,9 +41,13 @@ const Adminsidebar = () => {
               Users
             </Link>
           </li>
-          <li className="adminSidebar-List">
+          <li className={`adminSidebar-List ${
+            isActive === "/admin/doctorlist" ? "active" : ""
+          }`} onClick={()=> handleActive()}>
             <FontAwesomeIcon icon={faUserMd} className="adminSidebar-icon" />
-            Doctors
+            <Link to="/admin/doctorlist" className="next-link">
+              Doctors
+            </Link>
           </li>
           <li
             className={`adminSidebar-List ${
