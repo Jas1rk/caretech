@@ -1,5 +1,5 @@
 const Doctor = require("../../Model/doctorModel");
-const { responseToDoctor} = require("../../Utils/modemailer");
+const { responseToDoctor , requestForVerification} = require("../../Utils/modemailer");
 const bcrypt = require('bcrypt')
 const Category = require('../../Model/categoryModel')
 
@@ -39,6 +39,7 @@ const doctorVerificationWithOtp  = async(req,res) => {
         })
         await newDoctor.save()
         delete doctorOtpStore[drEmail]
+        await requestForVerification(drEmail,drName,drDegree)
         res.json("doctorRegister")
 
     }else{
