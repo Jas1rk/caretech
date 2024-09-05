@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
-const { google } = require("googleapis");
+
 
 const createTransporter = () => {
   return nodemailer.createTransport({
@@ -24,6 +24,8 @@ const genarateOTP = () => {
   return Math.floor(100000 + Math.random(4) * 900000);
 }
 
+
+
 const commonStyles = `
    <div style="font-family: Helvetica, Arial, sans-serif; min-width: 100px; overflow: auto; line-height: 2">
     <div style="margin: 50px auto; width: 70%; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
@@ -34,6 +36,7 @@ const commonStyles = `
 const emailVerification = async (email) => {
   try {
     const genaratedOTP = genarateOTP()
+    console.log('otp',genaratedOTP)
     const transporter = createTransporter()
     let mailOptions = {
       from: process.env.ADMIN_MAIL,
@@ -105,8 +108,10 @@ const requestForVerification = async(drEmail,drName,drDegree) => {
       <hr style="border: none; border-top: 1px solid #eee" />
     </div></div>`,
     };
-    let info = await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
     return info
+  }catch (error) {
+    throw error;
   }
 }
 

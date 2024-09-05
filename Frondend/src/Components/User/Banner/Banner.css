@@ -45,11 +45,20 @@
   max-width: 360px;
 }
 
-.banner-title h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  padding-bottom: 0.3rem;
+/* @keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
+
+.banner-title h2,.banner-description p {
+  animation: slideInLeft 1s ease-out;
+} */
 
 
 

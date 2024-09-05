@@ -55,6 +55,7 @@ const Doctorotp = () => {
     validate,
     onSubmit: async (values, { resetForm }) => {
       const doctorOtp = values.otp.join("");
+      console.log("errro",doctorOtp)
       const formData = new FormData();
       formData.append("certificate", certificate);
       formData.append("doctorOtp", doctorOtp);
