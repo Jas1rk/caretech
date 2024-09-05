@@ -55,7 +55,6 @@ const Doctorotp = () => {
     validate,
     onSubmit: async (values, { resetForm }) => {
       const doctorOtp = values.otp.join("");
-      console.log("errro",doctorOtp)
       const formData = new FormData();
       formData.append("certificate", certificate);
       formData.append("doctorOtp", doctorOtp);
@@ -78,7 +77,7 @@ const Doctorotp = () => {
         );
         if (data === "Invalid OTP") {
           toast.error("Invalid OTP");
-        } else  {
+        } else {
           navigate("/doctor/doctorlogin", {
             state: { message: "OTP verified successfully" },
           });
@@ -91,9 +90,15 @@ const Doctorotp = () => {
   });
 
   useEffect(() => {
-    inputRef.current[0].focus();
-    inputRef.current[0].addEventListener("paste", pasteOtp);
-    return () => inputRef.current[0].removeEventListener("paste", pasteOtp);
+    if (inputRef.current[0]) {
+      inputRef.current[0].focus();
+      inputRef.current[0].addEventListener("paste", pasteOtp);
+    }
+    return () => {
+      if (inputRef.current[0]) {
+        inputRef.current[0].removeEventListener("paste", pasteOtp);
+      }
+    };
   }, []);
 
   const pasteOtp = (event) => {
@@ -142,7 +147,6 @@ const Doctorotp = () => {
         className="w-16 h-12 md:w-16 md:h-12  bg-white border  border-solid   outline-none rounded-lg text-center mr-3 md:mr-3 text-lg md:text-xl focus:ring-1"
         onChange={(event) => handleChange(event, index)}
         onKeyUp={(event) => handleBack(event, index)}
-        
       />
     ));
   };
