@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AdminNavbar, AdminSidebar } from "../..";
+import { AdminNavbar, AdminSidebar, ConfirmAlert } from "../..";
 import dummyImgae from "../../../assets/Public/doctorimage.png";
 import { fetchNewDoctors } from "../../../Redux/Admin/AdminThunk";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import admin_Api from "../../../service/AxiosInstance";
 
 const Doctorlist = () => {
   const [viewMore, setViewMore] = useState(null);
@@ -12,6 +14,45 @@ const Doctorlist = () => {
     dispatch(fetchNewDoctors());
   }, []);
 
+  const handleVerify = async (drid, drName, drEmail, drDegree) => {
+    ConfirmAlert("Are you sure to verify").then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await admin_Api.post("/admin/verifydr", {
+            drid,
+            drName,
+            drEmail,
+            drDegree,
+          });
+          toast.success("Doctor verified successfully");
+          dispatch(fetchNewDoctors());
+          setViewMore(null);
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }else{
+        setViewMore(null);
+      }
+    });
+  };
+  const handleUnVerify = (drid,drName,drEmail) => {
+    ConfirmAlert("are you sure to unverify this doctor").then(
+      async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await admin_Api.post("/admin/unverifydr", {drid,drName,drEmail});
+            toast.success("Doctor unverified successfully");
+            dispatch(fetchNewDoctors());
+            setViewMore(null)
+          } catch (error) {
+            toast.error(error.message);
+          }
+        }else{
+          setViewMore(null)
+        }
+      }
+    );
+  };
   return (
     <>
       <AdminNavbar />
@@ -33,7 +74,9 @@ const Doctorlist = () => {
             >
               {doctorsList.map((dr, index) => (
                 <div
-                  className="dr-info bg-white border shadow-md  w-[30%] rounded-lg p-2"
+                  className={`dr-info bg-white border shadow-md  w-[30%] rounded-lg p-2 transition-transform ${
+                    viewMore === dr._id ? "scale-110 bg-gray-100 " : "scale-100 bg-white"
+                  }`}
                   key={index}
                 >
                   {viewMore === dr._id ? (
@@ -54,12 +97,28 @@ const Doctorlist = () => {
                           <p className="font-bold">{dr?.mobileOfDoctor}</p>
                         </div>
                         <div className="flex flex-col justify-center items-center gap-2">
-                          <button className="bg-[#a65a50] text-white   w-[6.25rem] rounded-3xl">
+                          <button
+                            className="bg-[#a65a50] text-white   w-[6.25rem] rounded-3xl"
+                            onClick={() =>
+                              handleVerify(
+                                dr._id,
+                                dr.nameOfDoctor,
+                                dr.emailOfDoctor,
+                                dr.degreeOfDoctor
+                              )
+                            }
+                          >
                             verify
                           </button>
                           <button
                             className="bg-[#361c19] text-white   w-[6.25rem] rounded-3xl"
-                            onClick={() => setViewMore(null)}
+                            onClick={() =>
+                              handleUnVerify(
+                                dr._id,
+                                dr.nameOfDoctor,
+                                dr.emailOfDoctor
+                              )
+                            }
                           >
                             cancel
                           </button>
@@ -75,7 +134,7 @@ const Doctorlist = () => {
                           className="mt-[10px] h-auto w-[100%]"
                         />
                       </div>
-                      <div className="about-doctor bg-white border rounded-lg   m-3 p-3">
+                      <div className="about-doctor bg-white border rounded-lg  flex flex-col m-3 p-3">
                         <div className="name-doctor flex justify-center items-center gap-1">
                           <span className="font-bold">
                             Dr.{dr.nameOfDoctor}
@@ -89,6 +148,17 @@ const Doctorlist = () => {
                         >
                           view more
                         </button>
+                      </div>
+                      <div className="justify-center items-center m-auto flex mt-6">
+                        {dr.isVerified ? (
+                          <p className="text-center text-sm  border border-[#146716] bg-[#125516] text-white rounded-3xl  w-[68px] ">
+                            verified
+                          </p>
+                        ) : (
+                          <p className="text-center text-sm  border border-[#b10303] bg-[#920a0a] text-white rounded-3xl  w-[74px] ">
+                            unverified
+                          </p>
+                        )}
                       </div>
                     </>
                   )}

@@ -11,6 +11,7 @@ import {
   DoctorOtp,
   DoctorRegister,
   AdminDoctorList,
+  DoctorProfile,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -18,6 +19,7 @@ import Home from "./Pages/User/Home";
 import AdminHomePage from "./Pages/Admin/AdminHomePage";
 import IsUser from "./ProtectedRoutes/User/IsUser";
 import IsAdmin from "./ProtectedRoutes/Admin/IsAdmin";
+import IsDoctor from "./ProtectedRoutes/Doctor/IsDoctor"
 import { Toaster } from "sonner";
 
 
@@ -45,6 +47,7 @@ function App() {
             <Route exact path="/doctor/doctorlogin" element={<DoctorLogin />} />
             <Route exact path="/doctor/doctorotp" element={<DoctorOtp />} />
             <Route exact path="/doctor/doctorregister"element={<DoctorRegister />} />
+            <Route exact path="/doctor/doctorprofile" element={<IsDoctor><DoctorProfile/></IsDoctor>}/>
           </Routes>
  
       </Router>

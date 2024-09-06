@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/Logo/Logo";
 import { CommenInput } from "../..";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -19,6 +19,7 @@ const Doctorlogin = () => {
   const location = useLocation();
   const [messege, setMessage] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (location.state?.message) {
@@ -46,13 +47,15 @@ const Doctorlogin = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      await dispatch(
+       await dispatch(
         doctorLogin({
           doctorEmail: values.email,
           doctorPass: values.password,
           toast,
         })
-      );
+      ).unwrap()
+        toast.success("Login Successfull");
+        navigate('/')
     },
   });
 
