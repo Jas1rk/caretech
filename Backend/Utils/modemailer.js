@@ -20,8 +20,8 @@ const createTransporter = () => {
 };
 
 const OTP = () => {
-  const otp =  Math.floor(100000 + Math.random(4) * 900000).toString()
-  return otp
+  const otp = Math.floor(100000 + Math.random(4) * 900000).toString();
+  return otp;
 };
 
 const commonStyles = `
@@ -104,8 +104,56 @@ const requestForVerification = async (drEmail, drName, drDegree) => {
   }
 };
 
+const verificationSuccess = async (drName, drEmail, drDegree) => {
+  try {
+    const transporter = createTransporter();
+    let mailOptions = {
+      from: process.env.ADMIN_MAIL,
+      to: drEmail,
+      subject: "Your Account Has Been Successfully Verified",
+      html: `${commonStyles}
+          <p style="font-size: 1.1em">Hello Dr. ${drName},</p>
+          <p style="font-size: 0.9em;">Congratulations! Your account has been successfully verified on CareTech.</p>
+          <p><strong>Doctor Name:</strong> Dr. ${drName} ${drDegree}</p>
+          <p><strong>Email:</strong> ${drEmail}</p>
+          <p>You can now log in to your account and start providing your services on our platform.</p>
+          <p style="font-size: 0.9em;">If you have any questions, feel free to contact us.</p>
+          <p style="font-size: 0.9em;">Regards,<br />The CareTech Team</p>
+          <hr style="border: none; border-top: 1px solid #eee" />
+        </div></div>`,
+    };
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const unVerifyResponse = async (drEmail,drName) => {
+  try {
+    const transporter = createTransporter();
+    let mailOptions = {
+      from: process.env.ADMIN_MAIL,
+      to: drEmail,
+      subject: "Verification Unsuccessful: Certification Issue",
+      html: `${commonStyles}
+        <p style="font-size: 1.1em">Dear Dr. ${drName},</p>
+        <p style="font-size: 0.9em;">We regret to inform you that your account verification on CareTech was unsuccessful due to issues with the certification you provided.</p>
+        <p>Please review your submitted documents and ensure they meet the necessary requirements before trying again.</p>
+        <p>If you have any questions or need assistance, feel free to contact us.</p>
+        <p style="font-size: 0.9em;">Regards,<br />The CareTech Team</p>
+        <hr style="border: none; border-top: 1px solid #eee" />
+      </div></div>`,
+    };
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   emailVerification,
   responseToDoctor,
   requestForVerification,
+  verificationSuccess,
+  unVerifyResponse,
 };

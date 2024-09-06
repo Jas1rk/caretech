@@ -5,6 +5,7 @@ const {
 } = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
 const Category = require("../../Model/categoryModel");
+const { createToken } = require("../../Utils/jwt");
 
 const doctorOtpStore = {};
 const registerForDoctor = async (req, res) => {
@@ -63,9 +64,37 @@ const doctorVerificationWithOtp = async (req, res) => {
 const loginDoctor = async (req, res) => {
   try {
     const { doctorEmail, doctorPass } = req.body;
-    console.log("datas are here from body", doctorEmail, doctorPass);
+    const findDoctor = await Doctor.findOne({ emailOfDoctor: doctorEmail });
+    if (!findDoctor) {
+      return res.json("invalidemail");
+    }
+    if (!findDoctor.isVerified) {
+      return res.json("notverified");
+    }
+    const matchPassword = await bcrypt.compare(
+      doctorPass,
+      findDoctor.passwordOfDoctor
+    );
+
+    if (!matchPassword) {
+      return res.json("invalidpassword");
+    }
+
+    const doctorData = {
+      id: findDoctor._id,
+      drname: findDoctor.nameOfDoctor,
+      drdegree: findDoctor.degreeOfDoctor,
+      drEmail: findDoctor.emailOfDoctor,
+      drMobile: findDoctor.mobileOfDoctor,
+      drSpecialization: findDoctor.category,
+      drCertificate: findDoctor.certificate,
+      isVerified: findDoctor.isVerified,
+    };
+
+    const doctorToken = createToken(doctorData.id);
+    res.json({ doctorData, doctorToken });
   } catch (err) {
-    throw new err();
+    throw err;
   }
 };
 

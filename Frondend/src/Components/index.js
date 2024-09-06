@@ -35,6 +35,7 @@ export {default as AdminDoctorList} from './Admin/DoctorList/Doctorlist'
 export {default as DoctorLogin} from './Doctor/DoctorLogin/Doctorlogin'
 export {default as DoctorRegister} from './Doctor/DoctorRegister/Doctorregister'
 export {default as DoctorOtp} from './Doctor/DoctorOtp/Doctorotp'
+export {default as DoctorProfile} from './Doctor/DoctorProfile/Doctorprofile'
 
 ////////////////commen//////////////////////
 

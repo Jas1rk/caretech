@@ -5,7 +5,7 @@ const admimController = require("../Controllers/Admin/adminController");
 const categoryController = require("../Controllers/Admin/categoryController");
 const doctorListController = require("../Controllers/Admin/doctorListController")
 
-const {fetchNewdoctors} = doctorListController
+const {fetchNewdoctors,adminVerifyDr,adminUnverifyDr} = doctorListController
 
 const {
   adminLoginVerify,
@@ -33,6 +33,8 @@ adminRoute
   .post("/unblockcategory", verifyToken, unblockCategory)
   .post("/editcategory", verifyToken, editCategory)
   .get('/doctors',verifyToken,fetchNewdoctors)
+  .post('/verifydr',verifyToken,adminVerifyDr)
+  .post('/unverifydr',verifyToken,adminUnverifyDr)
   
 
 module.exports = adminRoute;
