@@ -31,6 +31,13 @@ export const doctValidationSchema = Yup.object({
       .required("Confirm Password is required"),
     specialization: Yup.string().required("Specialization is required"),
     certificate: Yup.mixed().required("Certificate is required"),
+    experience:Yup.string().required("Experience is required"),
+    profile:Yup.mixed().required("Profileimge is required"),
+    aboutyou:Yup.string().required("About you is required"),
+    Location:Yup.string().required("Location is required"),
+    Country:Yup.string().required("Country is required"),
+    State:Yup.string().required("State is required")
+
   });
 
 
@@ -44,4 +51,10 @@ export const doctValidationSchema = Yup.object({
     doctorConfimPass: "",
     specialization: "",
     certificate: null,
+    experience: "",
+    profile:null,
+    aboutyou:"",
+    Location:"",
+    Country:"",
+    State:""
   };

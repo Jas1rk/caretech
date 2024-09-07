@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Fileupload = () => {
+const Fileupload = ({certificate,profile}) => {
   return (
     <label htmlFor="file" className="labelFile">
       <span>
@@ -12,8 +12,8 @@ const Fileupload = () => {
           xmlns="http://www.w3.org/2000/svg"
           id="Capa_1"
           version="1.1"
-          width="60px"
-          height="60px"
+          width="30px"
+          height="30px"
         >
           <g>
             <g>
@@ -44,7 +44,12 @@ const Fileupload = () => {
           </g>
         </svg>
       </span>
-      <p>upload your file</p>
+      {certificate && (
+        <p className="text-sm">upload your file</p>
+      )}
+      {profile && (
+        <p className="text-sm">upload your profile</p>
+      )}
     </label>
   );
 };

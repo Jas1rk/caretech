@@ -55,7 +55,7 @@ const Doctorlogin = () => {
         })
       ).unwrap()
         toast.success("Login Successfull");
-        navigate('/')
+        navigate('/doctor/doctorprofile')
     },
   });
 
