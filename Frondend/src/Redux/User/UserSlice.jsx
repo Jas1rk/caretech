@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findAllCatgory, userLogin, userProfileEdit } from "./UserThunk";
+import {
+  fetchHomeDoctors,
+  findAllCatgory,
+  userLogin,
+  userProfileEdit,
+} from "./UserThunk";
 
 const INITIAL_STATE = {
   userData: sessionStorage.getItem("userData")
@@ -10,6 +15,7 @@ const INITIAL_STATE = {
     ? JSON.parse(sessionStorage.getItem("usertoken"))
     : null,
   homeCategories: [],
+  homeDoctors: [],
 };
 
 const userSlice = createSlice({
@@ -45,6 +51,10 @@ const userSlice = createSlice({
       .addCase(findAllCatgory.fulfilled, (state, action) => {
         const allCat = action.payload;
         state.homeCategories = allCat;
+      })
+      .addCase(fetchHomeDoctors.fulfilled, (state, action) => {
+        const allDr = action.payload;
+        state.homeDoctors = allDr;
       });
   },
 });
