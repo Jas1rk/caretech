@@ -40,7 +40,22 @@ const doctorSchema = new mongoose.Schema(
     profileImageOfDoctor:{
       type:String,
 
-    }
+    },
+    yearsOfExperience:{
+      type:Number
+    },
+    stateOfDoctor:{
+      type:String
+    },
+    countryOfDoctor:{
+      type:String
+    },
+    locationOfDoctor:{
+      type:String
+    },
+    aboutOfDoctor:{
+      type:String
+    },
   },
   { versionKey: false }
 );

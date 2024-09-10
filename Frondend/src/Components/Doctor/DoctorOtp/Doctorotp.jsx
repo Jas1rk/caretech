@@ -46,6 +46,12 @@ const Doctorotp = () => {
     drCat,
     certificate,
     drDegree,
+    profile,
+    drExperience,
+    drState,
+    drCountry,
+    drLocation,
+    drAbout,
   } = location.state || {};
 
   const formik = useFormik({
@@ -64,6 +70,12 @@ const Doctorotp = () => {
       formData.append("drPassword", drPassword);
       formData.append("drCat", drCat);
       formData.append("drDegree", drDegree);
+      formData.append("profile", profile);
+      formData.append("drExperience", drExperience);
+      formData.append("drState", drState);
+      formData.append("drCountry", drCountry);
+      formData.append("drLocation", drLocation);
+      formData.append("drAbout", drAbout);
 
       try {
         const { data } = await axios.post(
@@ -75,7 +87,7 @@ const Doctorotp = () => {
             },
           }
         );
-        if (data === "Invalid OTP") {
+        if (data === "InvalidOTP") {
           toast.error("Invalid OTP");
         } else {
           navigate("/doctor/doctorlogin", {

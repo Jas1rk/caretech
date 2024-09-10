@@ -21,11 +21,13 @@ const fetchNewdoctors = async (req, res) => {
           mobileOfDoctor: 1,
           certificate: 1,
           isVerified:1,
+          profileImageOfDoctor:1,
           "categoryData.categoryName": 1,
         },
       },
       { $sort: { _id: -1 } },
     ]);
+    console.log("found",findAllDr)
     res.json(findAllDr);
   } catch (err) {
     console.log(err);
