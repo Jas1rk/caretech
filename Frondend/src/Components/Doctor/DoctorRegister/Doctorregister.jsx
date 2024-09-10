@@ -30,44 +30,35 @@ const Doctorregister = () => {
     },
   ];
 
-  const handleFile = (event, setFieldValue) => {
+  const handleFile = (event, setFieldValue, type) => {
     const file = event.target.files[0];
-    setFieldValue("certificate", file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImage(null);
+    if (!file) {
+      type === "certificate" ? setImage(null) : setProfile(null);
+      return;
     }
-  };
+    if (type === "profile" && file.type !== "image/jpeg") {
+      toast.error("Please upload only jpg image");
+      event.target.value = "";
+      return;
+    }
 
-  const handleProfileFile = (event, setFieldValue) => {
-    const file = event.target.files[0];
-    setFieldValue("profile", file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfile(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setProfile(null);
-    }
+    setFieldValue(type, file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      type === "certificate"
+        ? setImage(reader.result)
+        : setProfile(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (values) => {
+    console.log("here are the values", values);
     try {
       const { data } = await axios.post(`${backendUrl}/doctor/doctorregister`, {
         drName: values.doctorName,
         drDegree: values.lastName,
         drEmail: values.doctorEmail,
-        drMobile: values.doctorMobile,
-        drPassword: values.doctorPass,
-        drCat: values.specialization,
-        certificate: values.certificate,
       });
 
       if (data === "doctorExist") {
@@ -83,12 +74,19 @@ const Doctorregister = () => {
             drPassword: values.doctorPass,
             drCat: values.specialization,
             certificate: values.certificate,
+            profile: values.profile,
+            drExperience: values.experience,
+            drState: values.State,
+            drCountry: values.Country,
+            drLocation: values.Location,
+            drAbout: values.aboutyou,
           },
         });
         return data;
       }
     } catch (err) {
       console.log(err);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -99,13 +97,18 @@ const Doctorregister = () => {
   const [profile, setProfile] = useState(null);
   const [about, setAbout] = useState(false);
 
-  const handleNext = () => {
-    setAbout(true);
-  };
-
   useEffect(() => {
     dispatch(findAllCatgory());
   }, [dispatch]);
+
+  const hadleDiscard = (event, type) => {
+    const resetData = {
+      profile: setProfile,
+      certificate: setImage,
+    };
+    resetData[type](null);
+    event.target.value = "";
+  };
 
   return (
     <>
@@ -149,10 +152,9 @@ const Doctorregister = () => {
                       <p className="font-bold">Profile</p>
                       <input
                         type="file"
-                        id="file"
                         className="w-full shadow-2xl border rounded-md text-sm"
                         onChange={(event) => {
-                          handleProfileFile(event, setFieldValue);
+                          handleFile(event, setFieldValue, "profile");
                         }}
                       />
                       {errors.profile && touched.profile && (
@@ -166,7 +168,9 @@ const Doctorregister = () => {
                             <FontAwesomeIcon
                               icon={faXmark}
                               className="w-2 h-2 bg-slate-400 rounded-full p-2 absolute cursor-pointer "
-                              onClick={() => setProfile(!profile)}
+                              onClick={(event) =>
+                                hadleDiscard(event, "profile")
+                              }
                             />
 
                             <img
@@ -180,7 +184,7 @@ const Doctorregister = () => {
                     </div>
                     <div className="flex justify-center items-center gap-2">
                       <div className="flex flex-col mb-3">
-                        <input
+                        <Field
                           type="number"
                           name="experience"
                           placeholder="Years of Experience"
@@ -224,7 +228,7 @@ const Doctorregister = () => {
                           id="file"
                           className="hidden"
                           onChange={(event) => {
-                            handleFile(event, setFieldValue);
+                            handleFile(event, setFieldValue, "certificate");
                           }}
                         />
 
@@ -242,7 +246,9 @@ const Doctorregister = () => {
                           <FontAwesomeIcon
                             icon={faXmark}
                             className="w-4 h-4 bg-slate-400 rounded-full p-2 absolute cursor-pointer "
-                            onClick={() => setImage(!certificate)}
+                            onClick={(event) =>
+                              hadleDiscard(event, "certificate")
+                            }
                           />
 
                           <img
@@ -256,7 +262,7 @@ const Doctorregister = () => {
                     <div>
                       <div className="flex justify-center items-center gap-3 m-2">
                         <div className="flex flex-col">
-                          <input
+                          <Field
                             type="text"
                             placeholder="State"
                             name="State"
@@ -269,7 +275,7 @@ const Doctorregister = () => {
                           />
                         </div>
                         <div>
-                          <input
+                          <Field
                             type="text"
                             name="Country"
                             placeholder="Country"
@@ -284,7 +290,7 @@ const Doctorregister = () => {
                       </div>
                       <div className="flex justify-center items-center gap-3">
                         <div>
-                          <input
+                          <Field
                             type="text"
                             name="Location"
                             placeholder="Location"
@@ -297,8 +303,8 @@ const Doctorregister = () => {
                           />
                         </div>
                         <div>
-                          <textarea
-                            type="text"
+                          <Field
+                            as="textarea"
                             name="aboutyou"
                             placeholder="About you"
                             className="justify-center items-center flex p-2  outline-none rounded-lg border border-solid focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg text-sm w-56"
@@ -312,23 +318,6 @@ const Doctorregister = () => {
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-              <div className="w-full flex justify-center items-center mt-1">
-                {about ? (
-                  <button
-                    className="bg-slate-800 text-white p-1 rounded-md"
-                    onClick={() => setAbout(false)}
-                  >
-                    back
-                  </button>
-                ) : (
-                  <button
-                    className="bg-slate-800 text-white p-1 rounded-md"
-                    onClick={() => handleNext()}
-                  >
-                    Next
-                  </button>
                 )}
               </div>
               {about && (
@@ -345,7 +334,24 @@ const Doctorregister = () => {
           )}
         </Formik>
       </div>
-
+      <div className="w-full flex justify-center items-center mt-1">
+        {about ? (
+          <button
+            className="bg-slate-800 text-white p-1 rounded-md "
+            onClick={() => setAbout(false)}
+          >
+            back
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="bg-slate-800 text-white p-1 rounded-md"
+            onClick={() => setAbout(true)}
+          >
+            Next
+          </button>
+        )}
+      </div>
       <p className="mb-3 text-base flex justify-center items-center">
         Already have an Accound ?
         <Link

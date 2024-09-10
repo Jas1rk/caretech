@@ -58,7 +58,7 @@ const Doctorlist = () => {
       <AdminNavbar />
       <div className="flex pt-12">
         <AdminSidebar />
-        <div className="doctor-listing mt-8 w-[70%] bg-white rounded-2xl shadow-2xl p-4 drop-shadow-2xl flex flex-col">
+        <div className="doctor-listing mt-8 w-[70%] bg-white rounded-2xl shadow-2xl p-4 drop-shadow-2xl">
           <div className="doctor-search flex justify-center items-center">
             <input
               type="search"
@@ -67,7 +67,9 @@ const Doctorlist = () => {
             />
           </div>
 
-          <div className="doctors m-1 ">
+          <div className="m-2">
+            {doctorsList.length > 0 ? (
+
             <div
               className="ml-10 flex  gap-5 overflow-x-auto overflow-y-hidden  p-5"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
@@ -127,13 +129,14 @@ const Doctorlist = () => {
                     </>
                   ) : (
                     <>
-                      <div className="circle rounded-full w-28 h-28 flex justify-center items-center bg-[#a65a50] overflow-hidden  mb-[10px] mx-auto">
+                 
                         <img
-                          src={dummyImgae}
+                          src={`../src/assets/images/${dr.profileImageOfDoctor}`}
                           alt="doctor"
-                          className="mt-[10px] h-auto w-[100%]"
+                          className="circle rounded-full w-28 h-28 flex justify-center items-center  mb-[10px] mx-auto overflow-hidden border-4 border-[#a65a50] object-center"
+                          
                         />
-                      </div>
+                    
                       <div className="about-doctor bg-white border rounded-lg  flex flex-col m-3 p-3">
                         <div className="name-doctor flex justify-center items-center gap-1">
                           <span className="font-bold">
@@ -165,7 +168,12 @@ const Doctorlist = () => {
                 </div>
               ))}
             </div>
+            ):(
+              <h2 className="bg-[#a65a50] text-white flex justify-center items-center p-3">No docotors</h2>
+            )}
           </div>
+
+    
         </div>
       </div>
     </>

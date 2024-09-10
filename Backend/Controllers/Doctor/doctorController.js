@@ -35,10 +35,21 @@ const doctorVerificationWithOtp = async (req, res) => {
       drMobile,
       drPassword,
       drCat,
+      drExperience,
+      drState,
+      drCountry,
+      drLocation,
+      drAbout,
     } = req.body;
-    const certificate = req.file;
+    const certificate = req.files["certificate"][0] 
+    console.log("cetificacate is getting here ",certificate)
+    const profile = req.files["profile"] [0]
+    console.log("profile image is getting here ",profile) 
     const specialization = await Category.findOne({ categoryName: drCat });
-    if (doctorOtp === doctorOtpStore[drEmail]) {
+    if (!doctorOtp === doctorOtpStore[drEmail]) {
+      return res.json( "InvalidOTP")
+    }
+    console.log('dddddd')
       const passwordHash = await bcrypt.hash(drPassword, 10);
       const newDoctor = new Doctor({
         nameOfDoctor: drName,
@@ -47,15 +58,21 @@ const doctorVerificationWithOtp = async (req, res) => {
         mobileOfDoctor: drMobile,
         passwordOfDoctor: passwordHash,
         category: specialization,
-        certificate: certificate.originalname,
+        certificate: certificate? certificate.originalname : null,
+        profileImageOfDoctor:profile? profile.originalname : null,
+        yearsOfExperience:drExperience,
+        stateOfDoctor:drState,
+        countryOfDoctor:drCountry,
+        locationOfDoctor:drLocation,
+        aboutOfDoctor:drAbout
       });
+      console.log("new doctor,ddk",newDoctor)
       await newDoctor.save();
       delete doctorOtpStore[drEmail];
       await requestForVerification(drEmail, drName, drDegree);
       res.json("doctorRegister");
-    } else {
-      res.json("Invalid OTP");
-    }
+   
+    
   } catch (err) {
     console.log(err);
   }
@@ -89,6 +106,7 @@ const loginDoctor = async (req, res) => {
       drSpecialization: findDoctor.category,
       drCertificate: findDoctor.certificate,
       isVerified: findDoctor.isVerified,
+      profileimage:findDoctor.profileImageOfDoctor
     };
 
     const doctorToken = createToken(doctorData.id);
