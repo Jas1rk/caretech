@@ -13,6 +13,14 @@ const INITIAL_STATE = {
 const doctorSlice = createSlice({
   name: "doctor",
   initialState: INITIAL_STATE,
+  reducers:{
+    docorLogout:(state) => {
+        state.doctorData = null;
+        state.doctorToken = null;
+        sessionStorage.removeItem("doctorData");
+        sessionStorage.removeItem("doctor-token");  
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(doctorLogin.fulfilled, (state, action) => {
       const { doctorData, doctorToken } = action.payload;
@@ -25,3 +33,4 @@ const doctorSlice = createSlice({
 });
 
 export default doctorSlice.reducer;
+export const {docorLogout} = doctorSlice.actions
