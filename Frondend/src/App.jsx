@@ -29,25 +29,25 @@ function App() {
       <Router>
           <Routes>
                         {/* userRoute */}
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/otp" element={<Otp />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/forgetpassword" element={<Forgetpassword />} />
-            <Route exact path="/profile" element={<IsUser><Userprofile /></IsUser>} />
+            <Route  path="/" element={<Home />} />
+            <Route  path="/register" element={<Register />} />
+            <Route  path="/otp" element={<Otp />} />
+            <Route  path="/login" element={<Login />} />
+            <Route  path="/forgetpassword" element={<Forgetpassword />} />
+            <Route  path="/profile" element={<IsUser><Userprofile /></IsUser>} />
 
                     {/* adminRoute */}
-            <Route exact path="/admin/adminlogin" element={<AdminLogin />} />
-            <Route exact path="/admin/adminhome" element={<IsAdmin><AdminHomePage /></IsAdmin>}/>
-            <Route exact path="/admin/userlist"element={<IsAdmin><AdminUserList /></IsAdmin>}/>
-            <Route exact path="/admin/admincategory" element={<IsAdmin><AdminCategory /></IsAdmin>}/>
-            <Route exact path="/admin/doctorlist" element={<IsAdmin><AdminDoctorList/></IsAdmin>}/>  
+            <Route  path="/admin/adminlogin" element={<AdminLogin />} />
+            <Route  path="/admin/adminhome" element={<IsAdmin><AdminHomePage /></IsAdmin>}/>
+            <Route  path="/admin/userlist"element={<IsAdmin><AdminUserList /></IsAdmin>}/>
+            <Route  path="/admin/admincategory" element={<IsAdmin><AdminCategory /></IsAdmin>}/>
+            <Route  path="/admin/doctorlist" element={<IsAdmin><AdminDoctorList/></IsAdmin>}/>  
           
                  {/* /// doctorRoute */}
-            <Route exact path="/doctor/doctorlogin" element={<DoctorLogin />} />
-            <Route exact path="/doctor/doctorotp" element={<DoctorOtp />} />
-            <Route exact path="/doctor/doctorregister"element={<DoctorRegister />} />
-            <Route exact path="/doctor/doctorprofile" element={<IsDoctor><DoctorProfile/></IsDoctor>}/>
+            <Route  path="/doctor/doctorlogin" element={<DoctorLogin />} />
+            <Route  path="/doctor/doctorotp" element={<DoctorOtp />} />
+            <Route  path="/doctor/doctorregister"element={<DoctorRegister />} />
+            <Route  path="/doctor/doctorprofile" element={<IsDoctor><DoctorProfile/></IsDoctor>}/>
           </Routes>
  
       </Router>

@@ -42,9 +42,7 @@ const doctorVerificationWithOtp = async (req, res) => {
       drAbout,
     } = req.body;
     const certificate = req.files["certificate"][0] 
-    console.log("cetificacate is getting here ",certificate)
     const profile = req.files["profile"] [0]
-    console.log("profile image is getting here ",profile) 
     const specialization = await Category.findOne({ categoryName: drCat });
     if (!doctorOtp === doctorOtpStore[drEmail]) {
       return res.json( "InvalidOTP")
@@ -81,7 +79,7 @@ const doctorVerificationWithOtp = async (req, res) => {
 const loginDoctor = async (req, res) => {
   try {
     const { doctorEmail, doctorPass } = req.body;
-    const findDoctor = await Doctor.findOne({ emailOfDoctor: doctorEmail });
+    const findDoctor = await Doctor.findOne({ emailOfDoctor: doctorEmail }).populate("category")
     if (!findDoctor) {
       return res.json("invalidemail");
     }
