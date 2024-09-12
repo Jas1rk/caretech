@@ -74,7 +74,7 @@ const userLogin = async (req, res) => {
             email: findUser.email,
             mobile: findUser.mobile,
             isBlocked: findUser.isBlocked,
-            profileImage: findUser.profileImage
+            profileImage: findUser.profileImage,
           };
           const usertoken = createToken(userData.id);
           res.json({ userData,usertoken});
