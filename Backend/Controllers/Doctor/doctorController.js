@@ -41,36 +41,34 @@ const doctorVerificationWithOtp = async (req, res) => {
       drLocation,
       drAbout,
     } = req.body;
-    const certificate = req.files["certificate"][0] 
-    const profile = req.files["profile"] [0]
+    const certificate = req.files["certificate"][0];
+    const profile = req.files["profile"][0];
     const specialization = await Category.findOne({ categoryName: drCat });
     if (!doctorOtp === doctorOtpStore[drEmail]) {
-      return res.json( "InvalidOTP")
+      return res.json("InvalidOTP");
     }
-    console.log('dddddd')
-      const passwordHash = await bcrypt.hash(drPassword, 10);
-      const newDoctor = new Doctor({
-        nameOfDoctor: drName,
-        degreeOfDoctor: drDegree,
-        emailOfDoctor: drEmail,
-        mobileOfDoctor: drMobile,
-        passwordOfDoctor: passwordHash,
-        category: specialization,
-        certificate: certificate? certificate.originalname : null,
-        profileImageOfDoctor:profile? profile.originalname : null,
-        yearsOfExperience:drExperience,
-        stateOfDoctor:drState,
-        countryOfDoctor:drCountry,
-        locationOfDoctor:drLocation,
-        aboutOfDoctor:drAbout
-      });
-      console.log("new doctor,ddk",newDoctor)
-      await newDoctor.save();
-      delete doctorOtpStore[drEmail];
-      await requestForVerification(drEmail, drName, drDegree);
-      res.json("doctorRegister");
-   
-    
+    console.log("dddddd");
+    const passwordHash = await bcrypt.hash(drPassword, 10);
+    const newDoctor = new Doctor({
+      nameOfDoctor: drName,
+      degreeOfDoctor: drDegree,
+      emailOfDoctor: drEmail,
+      mobileOfDoctor: drMobile,
+      passwordOfDoctor: passwordHash,
+      category: specialization,
+      certificate: certificate ? certificate.originalname : null,
+      profileImageOfDoctor: profile ? profile.originalname : null,
+      yearsOfExperience: drExperience,
+      stateOfDoctor: drState,
+      countryOfDoctor: drCountry,
+      locationOfDoctor: drLocation,
+      aboutOfDoctor: drAbout,
+    });
+    console.log("new doctor,ddk", newDoctor);
+    await newDoctor.save();
+    delete doctorOtpStore[drEmail];
+    await requestForVerification(drEmail, drName, drDegree);
+    res.json("doctorRegister");
   } catch (err) {
     console.log(err);
   }
@@ -79,7 +77,9 @@ const doctorVerificationWithOtp = async (req, res) => {
 const loginDoctor = async (req, res) => {
   try {
     const { doctorEmail, doctorPass } = req.body;
-    const findDoctor = await Doctor.findOne({ emailOfDoctor: doctorEmail }).populate("category")
+    const findDoctor = await Doctor.findOne({
+      emailOfDoctor: doctorEmail,
+    }).populate("category");
     if (!findDoctor) {
       return res.json("invalidemail");
     }
@@ -104,7 +104,11 @@ const loginDoctor = async (req, res) => {
       drSpecialization: findDoctor.category,
       drCertificate: findDoctor.certificate,
       isVerified: findDoctor.isVerified,
-      profileimage:findDoctor.profileImageOfDoctor
+      profileimage: findDoctor.profileImageOfDoctor,
+      location: findDoctor.locationOfDoctor,
+      about: findDoctor.aboutOfDoctor,
+      state: findDoctor.stateOfDoctor,
+      country: findDoctor.countryOfDoctor,
     };
 
     const doctorToken = createToken(doctorData.id);
