@@ -4,6 +4,7 @@ import "aos/dist/aos.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
+  faCouch,
   faMessage,
   faPowerOff,
   faUserDoctor,
@@ -57,6 +58,12 @@ const Doctorsidebar = ({ open ,setOpen}) => {
           <FontAwesomeIcon icon={faBook} />
           <Link className="ml-2" to="/doctor/appointment">
             Bookings
+          </Link>
+        </li>
+        <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+          <FontAwesomeIcon icon={faCouch} />
+          <Link className="ml-2" to="/doctor/appointment">
+            Sloat Alocation
           </Link>
         </li>
         <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
