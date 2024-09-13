@@ -47,7 +47,6 @@ const doctorVerificationWithOtp = async (req, res) => {
     if (!doctorOtp === doctorOtpStore[drEmail]) {
       return res.json("InvalidOTP");
     }
-    console.log("dddddd");
     const passwordHash = await bcrypt.hash(drPassword, 10);
     const newDoctor = new Doctor({
       nameOfDoctor: drName,
@@ -109,6 +108,7 @@ const loginDoctor = async (req, res) => {
       about: findDoctor.aboutOfDoctor,
       state: findDoctor.stateOfDoctor,
       country: findDoctor.countryOfDoctor,
+      experience:findDoctor.yearsOfExperience
     };
 
     const doctorToken = createToken(doctorData.id);

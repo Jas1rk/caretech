@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Formik, useFormik } from "formik";
-import { DoctorNavbar } from "../..";
+import { DoctorNavbar, DoctorProfileEdit } from "../..";
 import { useSelector } from "react-redux";
 
 const Doctorprofile = () => {
@@ -10,10 +9,12 @@ const Doctorprofile = () => {
   return (
     <>
       <DoctorNavbar />
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="text-2xl text-black mt-28 pb-3 font-bold">
-        Profile
-        </h1>
+      <div
+        className={`flex flex-col justify-center items-center ${
+          isEdit ? "blur-sm" : ""
+        }`}
+      >
+        <h1 className="text-2xl text-black mt-28 pb-3 font-bold">Profile</h1>
         <div className="flex flex-col justify-center items-center bg-white drop-shadow-2xl shadow-2xl w-[350px]  sm:w-[550px] rounded-xl p-4">
           <div className="sm:flex">
             <img
@@ -48,13 +49,15 @@ const Doctorprofile = () => {
             <p className="text-start">{doctorData.about}</p>
           </div>
           <button
-              className="cursor-pointer p-1 bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none  rounded-3xl text-white w-30 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
-              onClick={() => setIsedit(true)}
-            >
-              Edit
-            </button>
+            className="cursor-pointer p-1 bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none  rounded-3xl text-white w-30 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
+            onClick={() => setIsedit(true)}
+          >
+            Edit
+          </button>
         </div>
       </div>
+
+      {isEdit && <DoctorProfileEdit closeModal={() => setIsedit(false)} />}
     </>
   );
 };

@@ -24,6 +24,7 @@ export {default as DoctorLogin} from './Doctor/DoctorLogin/Doctorlogin'
 export {default as DoctorRegister} from './Doctor/DoctorRegister/Doctorregister'
 export {default as DoctorOtp} from './Doctor/DoctorOtp/Doctorotp'
 export {default as DoctorProfile} from './Doctor/DoctorProfile/Doctorprofile'
+export {default as DoctorProfileEdit} from './Doctor/DoctorProfile/Profileedit'
 export {default as DoctorNavbar} from './Doctor/DoctorHeader/Doctorheader'
 export {default as DoctorSidebar} from './Doctor/DoctorSidebar/Doctorsidebar'
 ////////////////commen/////////////////////////////////////////
