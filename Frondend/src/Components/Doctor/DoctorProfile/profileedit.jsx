@@ -4,8 +4,11 @@ import { validationEditProfileSchema } from "./validationeditprofile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
+import { profileEditDoctor } from "../../../Redux/Doctor/DoctorThunk";
+import { useDispatch } from "react-redux";
 
 const Profileedit = ({ closeModal }) => {
+  const dispatch = useDispatch();
   const [profile, setProfile] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -19,8 +22,24 @@ const Profileedit = ({ closeModal }) => {
       doctorprofile: null,
     },
     validationSchema: validationEditProfileSchema,
-    onSubmit: (values) => {
-      console.log("values are here ", values);
+    onSubmit: async(values) => {
+      try {
+        const formData = new FormData();
+        Object.keys(values).forEach((key) => {
+          formData.append(key, values[key]);
+        });
+        await dispatch(profileEditDoctor({formData,toast}))
+        // formData.append('doctorname', values.doctorname)
+        // formData.append('doctormobile',values.doctormobile)
+        // formData.append('doctorstate', values.doctorstate)
+        // formData.append('doctorcountry',values.doctorcountry)
+        // formData.append('doctorlocation',values.doctorlocation)
+        // formData.append('doctorexperience',values.doctorexperience)
+        // formData.append('doctordescription',values.doctordescription)
+        // formData.append('doctorprofile',values.doctorprofile)
+      } catch (err) {
+        console.log(err);
+      }
     },
   });
 
