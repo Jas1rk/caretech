@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../service/backendUrl";
+import doctor_Api from "../../service/Doctorinstance";
 
 export const doctorLogin = createAsyncThunk(
   "doctor/doctorLogin",
@@ -32,3 +33,13 @@ export const doctorLogin = createAsyncThunk(
     }
   }
 );
+
+
+
+export const profileEditDoctor = createAsyncThunk("doctor/profileEditDoctor",async({})=>{
+  // try{
+  //   const response = 
+  // }catch(err){
+  //   console.log(err.message)
+  // }
+})

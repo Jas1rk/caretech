@@ -36,6 +36,7 @@ const Doctorprofile = () => {
                 <h1 className=" text-black font-bold">
                   {doctorData.drSpecialization.categoryName}
                 </h1>
+                <h1 className="text-black font-bold">{`Experience: ${doctorData.experience} Year`}</h1>
               </div>
               <div className="bg-white drop-shadow-md  shadow-2xl m-3 w-[80%] sm:w-[124%] rounded-xl flex flex-col justify-center items-center p-2">
                 <h1 className=" text-black font-bold">{`State: ${doctorData.state}`}</h1>
