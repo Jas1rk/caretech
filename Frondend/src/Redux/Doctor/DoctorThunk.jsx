@@ -34,12 +34,24 @@ export const doctorLogin = createAsyncThunk(
   }
 );
 
-
-
-export const profileEditDoctor = createAsyncThunk("doctor/profileEditDoctor",async({})=>{
-  // try{
-  //   const response = 
-  // }catch(err){
-  //   console.log(err.message)
-  // }
-})
+export const profileEditDoctor = createAsyncThunk(
+  "doctor/profileEditDoctor",
+  async ({ formData,  toast }, { rejectWithValue }) => {
+    try {
+      const { data } = await doctor_Api.put(
+        "/doctor/profile-edit-dr",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("data is updated", data);
+      return data;
+    } catch (err) {
+      toast.error("error in profile update");
+      return rejectWithValue('error in profile update')
+    }
+  }
+);

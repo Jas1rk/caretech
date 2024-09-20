@@ -17,10 +17,10 @@ export const validationEditProfileSchema = Yup.object({
     doctorlocation:Yup.string().required("Location is required"),
     doctorexperience:Yup.string().required("Experience is required"),
     doctordescription:Yup.string().required('doctor description is required'),
-    doctorprofile: Yup.mixed()
-    .required("Profileimge is required")
-    .test("fileType", "Only jpg files are supported", (value) => {
-      if (!value) return false;
-      return value.type === "image/jpeg";
-    }),
+    // doctorprofile: Yup.mixed()
+    // .required("Profileimge is required")
+    // .test("fileType", "Only jpg files are supported", (value) => {
+    //   if (!value) return false;
+    //   return value.type === "image/jpeg";
+    // }),
 })

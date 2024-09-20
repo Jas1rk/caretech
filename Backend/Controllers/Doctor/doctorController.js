@@ -118,8 +118,33 @@ const loginDoctor = async (req, res) => {
   }
 };
 
+const drProfileEdit = async(req,res) => {
+  try {
+      const {doctorId,doctorname,doctormobile,doctorstate,doctorcountry,doctorlocation,doctorexperience,doctordescription} = req.body
+      console.log("hh====",doctorId,doctorname,doctormobile,doctorstate,doctorcountry,doctorlocation,doctorexperience,doctordescription)
+      const profilefile = req.file
+      // const doctorUpdateData = {
+      //   nameOfDoctor: doctorname,
+      //   mobileOfDoctor: doctormobile,
+      //   stateOfDoctor: doctorstate,
+      //   countryOfDoctor: doctorcountry,
+      //   locationOfDoctor: doctorlocation,
+      //   yearsOfExperience: doctorexperience,
+      //   aboutOfDoctor: doctordescription,
+      //   ...(profilefile && {profileImageOfDoctor: profilefile.originalname})
+      // }
+      // const updateData = await Doctor.findOneAndUpdate({_id:doctorID},{$set:doctorUpdateData},{new:true})
+      // console.log("data is updated====",updateData)
+      // res.json(updateData)
+
+  }catch(err){
+    throw err;
+  }
+}
+
 module.exports = {
   registerForDoctor,
   doctorVerificationWithOtp,
   loginDoctor,
+  drProfileEdit
 };

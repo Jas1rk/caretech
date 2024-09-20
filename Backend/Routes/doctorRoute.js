@@ -4,8 +4,12 @@ const doctorController = require("../Controllers/Doctor/doctorController");
 const upload = require("../Utils/multer");
 const { verifyToken } = require("../Utils/jwt");
 
-const { registerForDoctor, doctorVerificationWithOtp, loginDoctor } =
-  doctorController;
+const {
+  registerForDoctor,
+  doctorVerificationWithOtp,
+  loginDoctor,
+  drProfileEdit,
+} = doctorController;
 
 doctorRoute
   .post("/doctorregister", registerForDoctor)
@@ -17,6 +21,7 @@ doctorRoute
     ]),
     doctorVerificationWithOtp
   )
-  .post("/doctorlogin", loginDoctor);
+  .post("/doctorlogin", loginDoctor)
+  .put("/profile-edit-dr", upload.single("doctorprofile"), drProfileEdit);
 
 module.exports = doctorRoute;
