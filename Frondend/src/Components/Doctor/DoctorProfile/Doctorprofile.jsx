@@ -10,12 +10,12 @@ const Doctorprofile = () => {
     <>
       <DoctorNavbar />
       <div
-        className={`flex flex-col justify-center items-center ${
+        className={`flex flex-col justify-center items-center  ${
           isEdit ? "blur-sm" : ""
         }`}
       >
-        <h1 className="text-2xl text-black mt-28 pb-3 font-bold">Profile</h1>
-        <div className="flex flex-col justify-center items-center bg-white drop-shadow-2xl shadow-2xl w-[350px]  sm:w-[550px] rounded-xl p-4">
+        <h1 className="text-2xl text-black mt-28 pb-1 font-bold">Profile</h1>
+        <div className="flex flex-col justify-center items-center bg-white drop-shadow-2xl shadow-2xl w-[350px]  sm:w-[550px] rounded-xl p-4 mb-5">
           <div className="sm:flex">
             <img
               src={`../src/assets/images/${doctorData.profileimage}`}

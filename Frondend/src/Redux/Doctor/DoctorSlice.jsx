@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { doctorLogin } from "./DoctorThunk";
+import { doctorLogin, profileEditDoctor } from "./DoctorThunk";
 
 const INITIAL_STATE = {
   doctorData: sessionStorage.getItem("doctorData")
@@ -22,13 +22,21 @@ const doctorSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(doctorLogin.fulfilled, (state, action) => {
+    builder
+    .addCase(doctorLogin.fulfilled, (state, action) => {
       const { doctorData, doctorToken } = action.payload;
       state.doctorData = doctorData
       state.doctorToken = doctorToken
       sessionStorage.setItem("doctorData",JSON.stringify(doctorData))
       sessionStorage.setItem("doctor-token",JSON.stringify(doctorToken))
-    });
+    })
+     .addCase(profileEditDoctor.fulfilled,(state,action)=>{
+      const updateData = action.payload
+      state.doctorData = {...state.doctorData , ...updateData}
+      console.log("checking the state is updtated or not ",state.doctorData)
+      state.editConfirm = true;
+      sessionStorage.setItem("doctorData",JSON.stringify(state.doctorData))
+     }) 
   },
 });
 

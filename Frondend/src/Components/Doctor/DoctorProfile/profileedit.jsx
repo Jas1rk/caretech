@@ -5,40 +5,41 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
 import { profileEditDoctor } from "../../../Redux/Doctor/DoctorThunk";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const Profileedit = ({ closeModal , doctorId }) => {
+const Profileedit = ({ closeModal, doctorId }) => {
   const dispatch = useDispatch();
+  const { doctorData } = useSelector((state) => state.doctor);
   const [profile, setProfile] = useState(false);
   const formik = useFormik({
     initialValues: {
-      doctorname: "",
-      doctormobile: "",
-      doctorstate: "",
-      doctorcountry: "",
-      doctorlocation: "",
-      doctorexperience: "",
-      doctordescription: "",
-      doctorprofile: null,
+      doctorname: doctorData.drname || "",
+      doctormobile: doctorData.drMobile || "",
+      doctorstate: doctorData.state || "",
+      doctorcountry: doctorData.country || "",
+      doctorlocation: doctorData.location || "",
+      doctorexperience: doctorData.experience || "",
+      doctordescription: doctorData.about || "",
+      doctorprofile: doctorData.profileimage || null,
     },
     validationSchema: validationEditProfileSchema,
     onSubmit: async (values) => {
-      console.log("values",values)
+      console.log("values", values);
       const formData = new FormData();
       // if(profile){
-        Object.keys(values).forEach((key) => {
-          formData.append(key, values[key]);
-        });
+      Object.keys(values).forEach((key) => {
+        formData.append(key, values[key]);
+      });
       // }
-      formData.append('doctorID',doctorId)
-      console.log("here is the formdata",formData)
-     
-      await dispatch(profileEditDoctor({ formData,doctorId, toast })).unwrap()
-      .then(()=>{
-        toast.success("Profile updated successfully")
-        closeModal()
-      })
-      
+      formData.append("doctorId", doctorId);
+      console.log("here is the formdata", doctorId);
+
+      await dispatch(profileEditDoctor({ formData, doctorId, toast }))
+        .unwrap()
+        .then(() => {
+          toast.success("Profile updated successfully");
+          closeModal();
+        });
     },
   });
 
@@ -192,7 +193,6 @@ const Profileedit = ({ closeModal , doctorId }) => {
               className="w-full shadow-2xl border rounded-md text-sm mt-2"
               onChange={handleProfile}
             />
-          
 
             <div className="certicate flex justify-center items-center ">
               {profile && (
