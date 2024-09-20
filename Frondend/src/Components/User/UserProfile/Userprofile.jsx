@@ -67,9 +67,7 @@ const Userprofile = () => {
     formData.append("userID", userData.id);
     formData.append("username", username);
     formData.append("mobile", mobile);
-    if (profileImage) {
-      formData.append("profileImage", profileImage);
-    }
+    profileImage && formData.append("profileImage", profileImage);
     dispatch(
       userProfileEdit({ formData, username, mobile, profileImage, toast })
     );

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { profileEditDoctor } from "../../../Redux/Doctor/DoctorThunk";
 import { useDispatch } from "react-redux";
 
-const Profileedit = ({ closeModal }) => {
+const Profileedit = ({ closeModal , doctorId }) => {
   const dispatch = useDispatch();
   const [profile, setProfile] = useState(false);
   const formik = useFormik({
@@ -22,24 +22,23 @@ const Profileedit = ({ closeModal }) => {
       doctorprofile: null,
     },
     validationSchema: validationEditProfileSchema,
-    onSubmit: async(values) => {
-      try {
-        const formData = new FormData();
+    onSubmit: async (values) => {
+      console.log("values",values)
+      const formData = new FormData();
+      // if(profile){
         Object.keys(values).forEach((key) => {
           formData.append(key, values[key]);
         });
-        await dispatch(profileEditDoctor({formData,toast}))
-        // formData.append('doctorname', values.doctorname)
-        // formData.append('doctormobile',values.doctormobile)
-        // formData.append('doctorstate', values.doctorstate)
-        // formData.append('doctorcountry',values.doctorcountry)
-        // formData.append('doctorlocation',values.doctorlocation)
-        // formData.append('doctorexperience',values.doctorexperience)
-        // formData.append('doctordescription',values.doctordescription)
-        // formData.append('doctorprofile',values.doctorprofile)
-      } catch (err) {
-        console.log(err);
-      }
+      // }
+      formData.append('doctorID',doctorId)
+      console.log("here is the formdata",formData)
+     
+      await dispatch(profileEditDoctor({ formData,doctorId, toast })).unwrap()
+      .then(()=>{
+        toast.success("Profile updated successfully")
+        closeModal()
+      })
+      
     },
   });
 
@@ -193,11 +192,7 @@ const Profileedit = ({ closeModal }) => {
               className="w-full shadow-2xl border rounded-md text-sm mt-2"
               onChange={handleProfile}
             />
-            {formik.touched.doctorprofile && formik.errors.doctorprofile ? (
-              <div className="text-red-500 font-bold text-sm">
-                {formik.errors.doctorprofile}
-              </div>
-            ) : null}
+          
 
             <div className="certicate flex justify-center items-center ">
               {profile && (
