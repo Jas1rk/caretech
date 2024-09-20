@@ -10,7 +10,6 @@ const updateUserProfile = async (req, res) => {
       ...(file && { profileImage: file.originalname }),
     };
     const updateUser = await User.updateOne({ _id: userID }, updateData);
-    console.log("data updated", updateUser);
     res.json(updateUser);
   } catch (error) {
     console.log(error.message);
@@ -19,10 +18,10 @@ const updateUserProfile = async (req, res) => {
 
 const checkIsBlockUserProfile = async (req, res) => {
   try {
-    const userID = req.query.userId
-    const findUser = await User.findOne({_id:userID})
-    if(findUser.isBlocked === true){
-      res.json("userblocked")
+    const userID = req.query.userId;
+    const findUser = await User.findOne({ _id: userID });
+    if (findUser.isBlocked === true) {
+      res.json("userblocked");
     }
   } catch (err) {
     console.log(err.message);

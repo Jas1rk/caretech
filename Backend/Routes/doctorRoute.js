@@ -22,6 +22,11 @@ doctorRoute
     doctorVerificationWithOtp
   )
   .post("/doctorlogin", loginDoctor)
-  .put("/profile-edit-dr", upload.single("doctorprofile"), drProfileEdit);
+  .put(
+    "/profile-edit-dr",
+    upload.single("doctorprofile"),
+    // verifyToken,
+    drProfileEdit
+  );
 
 module.exports = doctorRoute;

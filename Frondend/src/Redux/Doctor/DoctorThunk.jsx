@@ -36,7 +36,7 @@ export const doctorLogin = createAsyncThunk(
 
 export const profileEditDoctor = createAsyncThunk(
   "doctor/profileEditDoctor",
-  async ({ formData,  toast }, { rejectWithValue }) => {
+  async ({ formData, toast }, { rejectWithValue }) => {
     try {
       const { data } = await doctor_Api.put(
         "/doctor/profile-edit-dr",

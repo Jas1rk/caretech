@@ -34,16 +34,15 @@ const fetchDoctors = async (req, res) => {
           certificate: 1,
           isVerified: 1,
           profileImageOfDoctor: 1,
-          yearsOfExperience:1,
-          stateOfDoctor:1,
-          countryOfDoctor:1,
-          locationOfDoctor:1,
-          aboutOfDoctor:1,
+          yearsOfExperience: 1,
+          stateOfDoctor: 1,
+          countryOfDoctor: 1,
+          locationOfDoctor: 1,
+          aboutOfDoctor: 1,
           "categoryData.categoryName": 1,
         },
       },
-    ]);
-    console.log("her is ", fetch);
+    ])
     res.json(fetch);
   } catch (err) {
     console.log(err);

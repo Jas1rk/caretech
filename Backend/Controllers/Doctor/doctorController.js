@@ -6,6 +6,7 @@ const {
 const bcrypt = require("bcrypt");
 const Category = require("../../Model/categoryModel");
 const { createToken } = require("../../Utils/jwt");
+const { findById } = require("../../Model/userModel");
 
 const doctorOtpStore = {};
 const registerForDoctor = async (req, res) => {
@@ -108,7 +109,7 @@ const loginDoctor = async (req, res) => {
       about: findDoctor.aboutOfDoctor,
       state: findDoctor.stateOfDoctor,
       country: findDoctor.countryOfDoctor,
-      experience:findDoctor.yearsOfExperience
+      experience: findDoctor.yearsOfExperience,
     };
 
     const doctorToken = createToken(doctorData.id);
@@ -118,33 +119,43 @@ const loginDoctor = async (req, res) => {
   }
 };
 
-const drProfileEdit = async(req,res) => {
+const drProfileEdit = async (req, res) => {
   try {
-      const {doctorId,doctorname,doctormobile,doctorstate,doctorcountry,doctorlocation,doctorexperience,doctordescription} = req.body
-      console.log("hh====",doctorId,doctorname,doctormobile,doctorstate,doctorcountry,doctorlocation,doctorexperience,doctordescription)
-      const profilefile = req.file
-      // const doctorUpdateData = {
-      //   nameOfDoctor: doctorname,
-      //   mobileOfDoctor: doctormobile,
-      //   stateOfDoctor: doctorstate,
-      //   countryOfDoctor: doctorcountry,
-      //   locationOfDoctor: doctorlocation,
-      //   yearsOfExperience: doctorexperience,
-      //   aboutOfDoctor: doctordescription,
-      //   ...(profilefile && {profileImageOfDoctor: profilefile.originalname})
-      // }
-      // const updateData = await Doctor.findOneAndUpdate({_id:doctorID},{$set:doctorUpdateData},{new:true})
-      // console.log("data is updated====",updateData)
-      // res.json(updateData)
-
-  }catch(err){
+    const {
+      doctorId,
+      doctorname,
+      doctormobile,
+      doctorstate,
+      doctorcountry,
+      doctorlocation,
+      doctorexperience,
+      doctordescription,
+    } = req.body;
+    const profilefile = req.file;
+    const doctorUpdateData = {
+      nameOfDoctor: doctorname,
+      mobileOfDoctor: doctormobile,
+      stateOfDoctor: doctorstate,
+      countryOfDoctor: doctorcountry,
+      locationOfDoctor: doctorlocation,
+      yearsOfExperience: doctorexperience,
+      aboutOfDoctor: doctordescription,
+      ...(profilefile && { profileImageOfDoctor: profilefile.originalname }),
+    };
+    const updateData = await Doctor.updateOne(
+      { _id: doctorId },
+      doctorUpdateData
+    );
+    console.log("data is updated====", updateData);
+    res.json(updateData);
+  } catch (err) {
     throw err;
   }
-}
+};
 
 module.exports = {
   registerForDoctor,
   doctorVerificationWithOtp,
   loginDoctor,
-  drProfileEdit
+  drProfileEdit,
 };
