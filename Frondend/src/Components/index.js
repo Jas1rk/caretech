@@ -34,4 +34,5 @@ export {default as Warning} from "./Commen/Warning/Warning"
 export {default as BlockAlert} from "./Commen/BlockAlert/Blockalert"
 export {default as ShimmerEffect} from './Commen/Shimmer/Shimmer'
 export {default as CommenInput} from './Commen/InputFields/InputField'
+export {default as ImageCropper} from './Commen/Cropper/Cropper'
 /////////////////////////////////////////////////////////////////

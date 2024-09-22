@@ -6,11 +6,16 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
 import { profileEditDoctor } from "../../../Redux/Doctor/DoctorThunk";
 import { useDispatch, useSelector } from "react-redux";
+import { ImageCropper } from "../..";
+
 
 const Profileedit = ({ closeModal, doctorId }) => {
   const dispatch = useDispatch();
   const { doctorData } = useSelector((state) => state.doctor);
   const [profile, setProfile] = useState(false);
+
+
+
   const formik = useFormik({
     initialValues: {
       doctorname: doctorData.drname || "",
@@ -20,21 +25,16 @@ const Profileedit = ({ closeModal, doctorId }) => {
       doctorlocation: doctorData.location || "",
       doctorexperience: doctorData.experience || "",
       doctordescription: doctorData.about || "",
-      doctorprofile: doctorData.profileimage || null,
+      doctorprofile: null,
     },
     validationSchema: validationEditProfileSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
       const formData = new FormData();
-      // if(profile){
       Object.keys(values).forEach((key) => {
         formData.append(key, values[key]);
       });
-      // }
       formData.append("doctorId", doctorId);
-      console.log("here is the formdata", doctorId);
-
-      await dispatch(profileEditDoctor({ formData, doctorId, toast }))
+      await dispatch(profileEditDoctor({ formData, values, toast }))
         .unwrap()
         .then(() => {
           toast.success("Profile updated successfully");
@@ -46,16 +46,28 @@ const Profileedit = ({ closeModal, doctorId }) => {
   const handleProfile = (event) => {
     const file = event.target.files[0];
     if (file.type === "image/jpeg") {
+      setProfile(file)
       const reader = new FileReader();
       reader.onload = () => {
         setProfile(reader.result);
-        formik.setFieldValue("doctorprofile", file);
       };
       reader.readAsDataURL(file);
     } else {
       toast.error("JPG image only support");
     }
   };
+
+  const handleCropcomplete = (croppedimage,originalFile) => {
+    const byteString = atob(croppedimage.split(',')[1])
+    const mimeString = croppedimage.split(',')[0].split(':')[1].split(';')[0]
+    const ab = new ArrayBuffer(byteString.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const file = new File([ab], originalFile, { type: mimeString });
+    formik.setFieldValue("doctorprofile", file);
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -197,17 +209,13 @@ const Profileedit = ({ closeModal, doctorId }) => {
             <div className="certicate flex justify-center items-center ">
               {profile && (
                 <>
+                  <ImageCropper image={profile} onCropComplete={handleCropcomplete}  originalFileName={profile.name}/>
                   <FontAwesomeIcon
                     icon={faXmark}
                     className="w-2 h-2 bg-slate-400 rounded-full p-2 absolute cursor-pointer "
                     onClick={() => setProfile(false)}
                   />
 
-                  <img
-                    src={profile}
-                    alt="profile"
-                    className="m-5 w-[24%] h-[6rem] object-cover rounded-sm shadow-lg "
-                  />
                 </>
               )}
             </div>

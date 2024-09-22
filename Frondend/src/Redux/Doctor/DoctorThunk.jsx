@@ -36,7 +36,7 @@ export const doctorLogin = createAsyncThunk(
 
 export const profileEditDoctor = createAsyncThunk(
   "doctor/profileEditDoctor",
-  async ({ formData, toast }, { rejectWithValue }) => {
+  async ({ formData,values, toast }, { rejectWithValue }) => {
     try {
       const { data } = await doctor_Api.put(
         "/doctor/profile-edit-dr",
@@ -47,8 +47,7 @@ export const profileEditDoctor = createAsyncThunk(
           },
         }
       );
-      console.log("data is updated", data);
-      return data;
+      return  values  
     } catch (err) {
       toast.error("error in profile update");
       return rejectWithValue('error in profile update')
