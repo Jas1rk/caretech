@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 const Doctorprofile = () => {
   const { doctorData } = useSelector((state) => state.doctor);
   const [isEdit, setIsedit] = useState(false);
-  console.log("getiigggg==={}",doctorData)
+
+  console.log("getting the ",doctorData)
   return (
     <>
       <DoctorNavbar />
@@ -20,13 +21,13 @@ const Doctorprofile = () => {
             <img
               src={`../src/assets/images/${doctorData.profileimage}`}
               alt="doctorprofileimage"
-              className="border-2 border-[#0f766e] rounded-sm   sm:w-[40%]  sm:rounded-md object-contain"
+              className="border-2 border-[#0f766e] rounded-sm   sm:w-[40%]  sm:rounded-md "
             />
 
             <div className="flex flex-col">
-              <div className="bg-white  shadow-md m-3 w-[80%] sm:w-[124%] rounded-xl flex flex-col justify-center items-center p-3 sm:p-2">
+              <div className="bg-white  shadow-md m-3 w-[80%] sm:w-[124%] rounded-xl flex flex-col justify-center items-center p-3">
                 <div className="flex gap-1">
-                  <h1 className=" text-black font-bold">{doctorData.drname}</h1>
+                  <h1 className=" text-black font-bold">{doctorData?.drname}</h1>
                   <h1 className=" text-black font-bold">
                     {doctorData.drdegree}
                   </h1>

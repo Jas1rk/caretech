@@ -13,32 +13,52 @@ const INITIAL_STATE = {
 const doctorSlice = createSlice({
   name: "doctor",
   initialState: INITIAL_STATE,
-  reducers:{
-    docorLogout:(state) => {
-        state.doctorData = null;
-        state.doctorToken = null;
-        sessionStorage.removeItem("doctorData");
-        sessionStorage.removeItem("doctor-token");  
-    }
+  reducers: {
+    docorLogout: (state) => {
+      state.doctorData = null;
+      state.doctorToken = null;
+      sessionStorage.removeItem("doctorData");
+      sessionStorage.removeItem("doctor-token");
+    },
   },
   extraReducers: (builder) => {
     builder
-    .addCase(doctorLogin.fulfilled, (state, action) => {
-      const { doctorData, doctorToken } = action.payload;
-      state.doctorData = doctorData
-      state.doctorToken = doctorToken
-      sessionStorage.setItem("doctorData",JSON.stringify(doctorData))
-      sessionStorage.setItem("doctor-token",JSON.stringify(doctorToken))
-    })
-     .addCase(profileEditDoctor.fulfilled,(state,action)=>{
-      const updateData = action.payload
-      state.doctorData = {...state.doctorData , ...updateData}
-      console.log("checking the state is updtated or not ",state.doctorData)
-      state.editConfirm = true;
-      sessionStorage.setItem("doctorData",JSON.stringify(state.doctorData))
-     }) 
+      .addCase(doctorLogin.fulfilled, (state, action) => {
+        const { doctorData, doctorToken } = action.payload;
+        state.doctorData = doctorData;
+        state.doctorToken = doctorToken;
+        sessionStorage.setItem("doctorData", JSON.stringify(doctorData));
+        sessionStorage.setItem("doctor-token", JSON.stringify(doctorToken));
+      })
+      .addCase(profileEditDoctor.fulfilled, (state, action) => {
+        const { 
+          doctorprofile, 
+          doctorname, 
+          doctormobile, 
+          doctorstate, 
+          doctorcountry, 
+          doctorlocation, 
+          doctorexperience, 
+          doctordescription 
+        } = action.payload;
+    
+        if (doctorprofile) {
+          state.doctorData.profileimage = doctorprofile.name
+        }
+        Object.assign(state.doctorData,{
+          drname: doctorname,
+          drMobile: doctormobile,
+          state: doctorstate,
+          country: doctorcountry,
+          location: doctorlocation,
+          experience: doctorexperience,
+          about: doctordescription
+        })
+        state.editConfirm = true;
+        sessionStorage.setItem("doctorData", JSON.stringify(state.doctorData));
+      });
   },
 });
 
 export default doctorSlice.reducer;
-export const {docorLogout} = doctorSlice.actions
+export const { docorLogout } = doctorSlice.actions;

@@ -140,11 +140,11 @@ const drProfileEdit = async (req, res) => {
       locationOfDoctor: doctorlocation,
       yearsOfExperience: doctorexperience,
       aboutOfDoctor: doctordescription,
-      ...(profilefile && { profileImageOfDoctor: profilefile.originalname }),
+      ...(profilefile && { profileImageOfDoctor: profilefile.filename }),
     };
-    const updateData = await Doctor.updateOne(
+    const updateData = await Doctor.findOneAndUpdate(
       { _id: doctorId },
-      doctorUpdateData
+      { $set: doctorUpdateData }
     );
     console.log("data is updated====", updateData);
     res.json(updateData);
