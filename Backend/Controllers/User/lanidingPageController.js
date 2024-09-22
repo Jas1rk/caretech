@@ -42,7 +42,8 @@ const fetchDoctors = async (req, res) => {
           "categoryData.categoryName": 1,
         },
       },
-    ])
+      { $sort: { _id: -1 } },
+    ]);
     res.json(fetch);
   } catch (err) {
     console.log(err);
