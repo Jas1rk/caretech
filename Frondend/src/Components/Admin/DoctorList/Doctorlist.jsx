@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { AdminNavbar, AdminSidebar, ConfirmAlert } from "../..";
-import dummyImgae from "../../../assets/Public/doctorimage.png";
 import { fetchNewDoctors } from "../../../Redux/Admin/AdminThunk";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -149,12 +148,12 @@ const Doctorlist = () => {
                           className="circle rounded-full w-28 h-28 flex justify-center items-center m-auto border-4 border-[#a65a50] object-center object-cover"
                         />
 
-                        <div className="about-doctor bg-white border rounded-lg  flex flex-col m-3 p-3">
+                        <div className="about-doctor bg-white border rounded-lg  flex flex-col m-1 p-2">
                           <div className="name-doctor flex justify-center items-center gap-1">
-                            <span className="font-bold">
+                            <span className="font-bold text-sm ">
                               Dr.{dr.nameOfDoctor}
                             </span>
-                            <span className="font-bold">
+                            <span className="font-bold text-sm ">
                               {dr.degreeOfDoctor}
                             </span>
                           </div>

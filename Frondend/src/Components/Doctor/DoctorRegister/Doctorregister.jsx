@@ -11,8 +11,18 @@ import axios from "axios";
 import { backendUrl } from "../../../service/backendUrl";
 import { toast } from "sonner";
 import { doctValidationSchema, doctorInitialValues } from "./Doctorvalidation";
+import { ImageCropper } from "../..";
 
 const Doctorregister = () => {
+
+  const navigate = useNavigate();
+  const categoryData = useSelector((state) => state.user.homeCategories);
+  const dispatch = useDispatch();
+  const [certificate, setCertificate] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [about, setAbout] = useState(false);
+
+  
   const inputFieldsLeft = [
     { type: "text", name: "doctorName", placeholder: "Enter Your Name" },
     { type: "text", name: "lastName", placeholder: "Enter your dgree" },
@@ -33,7 +43,7 @@ const Doctorregister = () => {
   const handleFile = (event, setFieldValue, type) => {
     const file = event.target.files[0];
     if (!file) {
-      type === "certificate" ? setImage(null) : setProfile(null);
+      type === "certificate" ? setCertificate(null) : setProfile(null);
       return;
     }
     if (type === "profile" && file.type !== "image/jpeg") {
@@ -41,13 +51,15 @@ const Doctorregister = () => {
       event.target.value = "";
       return;
     }
-
     setFieldValue(type, file);
     const reader = new FileReader();
     reader.onload = () => {
-      type === "certificate"
-        ? setImage(reader.result)
-        : setProfile(reader.result);
+      if(type === "certificate"){
+        setCertificate(reader.result)
+      }else{
+        setProfile(reader.result);
+      }
+    
     };
     reader.readAsDataURL(file);
   };
@@ -90,12 +102,7 @@ const Doctorregister = () => {
     }
   };
 
-  const navigate = useNavigate();
-  const categoryData = useSelector((state) => state.user.homeCategories);
-  const dispatch = useDispatch();
-  const [certificate, setImage] = useState(null);
-  const [profile, setProfile] = useState(null);
-  const [about, setAbout] = useState(false);
+
 
   useEffect(() => {
     dispatch(findAllCatgory());
@@ -104,10 +111,22 @@ const Doctorregister = () => {
   const hadleDiscard = (event, type) => {
     const resetData = {
       profile: setProfile,
-      certificate: setImage,
+      certificate: setCertificate,
     };
     resetData[type](null);
     event.target.value = "";
+  };
+
+  const handleCrop = (croppedimage, originalFile) => {
+    const byteString = atob(croppedimage.split(",")[1]);
+    const mimeString = croppedimage.split(",")[0].split(":")[1].split(";")[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const file = new File([ab], originalFile.name, { type: mimeString });
+    setProfile(URL.createObjectURL(file));
   };
 
   return (
@@ -162,21 +181,20 @@ const Doctorregister = () => {
                           {errors.profile}
                         </div>
                       )}
-                      <div className="certicate flex justify-center items-center ">
+                      <div className="profile flex justify-center items-center ">
                         {profile && (
                           <>
+                            <ImageCropper
+                              image={profile}
+                              onCropComplete={handleCrop}
+                              originalFileName={profile.name}
+                            />
                             <FontAwesomeIcon
                               icon={faXmark}
                               className="w-2 h-2 bg-slate-400 rounded-full p-2 absolute cursor-pointer "
                               onClick={(event) =>
                                 hadleDiscard(event, "profile")
                               }
-                            />
-
-                            <img
-                              src={profile}
-                              alt="profile"
-                              className="m-5 w-[24%] h-[4rem] object-cover rounded-full shadow-lg "
                             />
                           </>
                         )}

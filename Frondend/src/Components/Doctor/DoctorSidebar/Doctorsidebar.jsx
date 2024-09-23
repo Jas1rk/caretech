@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
   faCouch,
+  faHome,
   faMessage,
   faPowerOff,
   faUserDoctor,
@@ -41,6 +42,12 @@ const Doctorsidebar = ({ open ,setOpen}) => {
       data-aos={open ? "fade-left" : ""}
     >
       <ul className="m-1">
+      <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+          <FontAwesomeIcon icon={faHome} />
+          <Link to="/" className="ml-2">
+            Home
+          </Link>
+        </li>
         <li
           className={`items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white ${
             isActive === "/doctor/doctorprofile"
@@ -72,6 +79,7 @@ const Doctorsidebar = ({ open ,setOpen}) => {
             Chat
           </Link>
         </li>
+      
         <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faPowerOff} />
           <p className="ml-2" onClick={handleLogout}>

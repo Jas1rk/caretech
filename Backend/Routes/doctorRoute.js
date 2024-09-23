@@ -25,7 +25,7 @@ doctorRoute
   .put(
     "/profile-edit-dr",
     upload.single("doctorprofile"),
-    // verifyToken,
+    verifyToken,
     drProfileEdit
   );
 
