@@ -12,6 +12,7 @@ import {
   DoctorRegister,
   AdminDoctorList,
   DoctorProfile,
+  DoctorDetails,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -36,6 +37,7 @@ function App() {
             <Route  path="/login" element={<Login />} />
             <Route  path="/forgetpassword" element={<Forgetpassword />} />
             <Route  path="/profile" element={<IsUser><Userprofile /></IsUser>} />
+            <Route  path="/doctordetails" element={<DoctorDetails/>}/>
 
                     {/* adminRoute */}
             <Route  path="/admin/adminlogin" element={<AdminLogin />} />

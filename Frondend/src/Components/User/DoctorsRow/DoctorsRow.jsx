@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHomeDoctors } from "../../../Redux/User/UserThunk";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 import "./DoctorsRow.css";
 
 const DoctorsRow = () => {
   const dispatch = useDispatch();
   const { homeDoctors } = useSelector((state) => state.user);
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(fetchHomeDoctors());
@@ -34,7 +36,7 @@ const DoctorsRow = () => {
                   <p>{dr.categoryData.categoryName}</p>
                   <p>We love that guy</p>
                 </div>
-                <button className="deatailes-button">Explore</button>
+                <button className="deatailes-button" onClick={()=> navigate(`/doctordetails?doctorid=${dr._id}`)}>Explore</button>
               </div>
             </div>
           </div>
