@@ -13,7 +13,6 @@ import {
   faAddressCard,
   faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "sonner";
 import "./Header.css";
 
 const Header = () => {

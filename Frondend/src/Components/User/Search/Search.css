@@ -38,7 +38,7 @@
 }
 
 .search-results {
-  width: calc(50% - 10px);
+  width: calc(100% - 5px);
   padding: 10px;
   border-radius: 10px;
   border: 1px solid rgb(231, 223, 233);
@@ -49,6 +49,26 @@
   z-index: 10;
   cursor: pointer;
 }
+
+.image-and-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.serch-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+}
+
+.doctor-details {
+  display: flex;
+  flex-direction: column;
+}
+
+
 
 @media (max-width: 430px) {
   .search-wrapper {
