@@ -19,7 +19,7 @@ const {
 
 const { updateUserProfile, checkIsBlockUserProfile } = userProfileController;
 
-const {getCategories,fetchDoctors} = landingPageController
+const {getCategories,fetchDoctors,doctorDetails} = landingPageController
 
 userRouter
   .post("/register", userRegister)
@@ -39,5 +39,6 @@ userRouter
   .get("/profile", checkIsBlockUserProfile)
   .get('/categories',getCategories)
   .get('/doctors',fetchDoctors)
+  .get('/doctor-details/:doctorid',doctorDetails)
 
 module.exports = userRouter;

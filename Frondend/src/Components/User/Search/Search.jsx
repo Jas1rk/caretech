@@ -4,11 +4,14 @@ import Cancel from "../../../assets/Svg/Cancel";
 import { useSelector } from "react-redux";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Search = () => {
   const [search, setSearch] = useState("");
   const { homeDoctors } = useSelector((state) => state.user);
-  
+  const navigate = useNavigate()
+
   const handleChange = (event) => {
     setSearch(event.target.value.trim());
   };
@@ -45,7 +48,8 @@ const Search = () => {
         <div className="search-results">
           {filterDoctors.length > 0 ? (
             filterDoctors.map((dr, index) => (
-              <div
+              <div 
+                onClick={()=> navigate(`/doctordetails?doctorid=${dr._id}`)}
                 key={index}
                 className="m-1 hover:bg-[#f1f9fa] p-1 hover:rounded-lg"
               >

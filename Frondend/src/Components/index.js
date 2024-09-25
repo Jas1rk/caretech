@@ -11,6 +11,7 @@ export {default as CategoriesRow} from './User/CategoriesRow/CategoriesRow'
 export {default as Footer} from './User/Footer/Footer'
 export {default as Usersidebar} from './User/UserSidebar/Usersidebar'
 export {default as Userprofile} from './User/UserProfile/Userprofile'
+export {default as DoctorDetails} from './User/DoctorDetails/Doctordetails'
 //////////////admin side/////////////////////////////////////
 export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
 export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
