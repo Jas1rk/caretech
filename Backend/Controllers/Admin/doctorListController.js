@@ -27,7 +27,6 @@ const fetchNewdoctors = async (req, res) => {
       },
       { $sort: { _id: -1 } },
     ]);
-    console.log("found",findAllDr)
     res.json(findAllDr);
   } catch (err) {
     console.log(err);
