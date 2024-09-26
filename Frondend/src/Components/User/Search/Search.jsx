@@ -27,6 +27,8 @@ const Search = () => {
       .includes(search.toLowerCase());
   });
 
+   
+
 
   return (
     <div className="search-container">
@@ -65,7 +67,7 @@ const Search = () => {
                   />
                   <div className="name-and-details">
                     <div className="text-sm font-bold">
-                      {dr?.nameOfDoctor || <Skeleton />}
+                      {`Dr.${dr?.nameOfDoctor}` || <Skeleton />}
                     </div>
                     <div className="text-sm text-gray-400">
                       {dr?.categoryData.categoryName || <Skeleton />}
