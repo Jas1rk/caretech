@@ -56,6 +56,16 @@ const doctorSchema = new mongoose.Schema(
     aboutOfDoctor:{
       type:String
     },
+    doctorFollowers:[{
+      userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      followStatus:{
+        type:Boolean,
+        default:false
+      }
+    }]
   },
   { versionKey: false }
 );

@@ -24,6 +24,16 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    followingDoctors:[{
+      doctorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Doctor"
+      },
+      followingStatus:{
+        type:Boolean,
+        default:false
+      }
+    }]
   },
   { versionKey: false }
 );

@@ -64,7 +64,6 @@ const doctorVerificationWithOtp = async (req, res) => {
       locationOfDoctor: drLocation,
       aboutOfDoctor: drAbout,
     });
-    console.log("new doctor,ddk", newDoctor);
     await newDoctor.save();
     delete doctorOtpStore[drEmail];
     await requestForVerification(drEmail, drName, drDegree);

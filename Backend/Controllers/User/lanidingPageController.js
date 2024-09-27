@@ -85,7 +85,8 @@ const doctorDetails = async (req, res) => {
         },
       },
     ]);
-    res.json(drData)
+    const doctor = drData.at(0)
+    res.json(doctor)
   } catch (err) {
     console.log(err);
   }
