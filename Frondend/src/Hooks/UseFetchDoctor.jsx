@@ -3,17 +3,17 @@ import axios from "axios";
 import { backendUrl } from "../service/backendUrl";
 
 const useFetchDoctor = (doctorid) => {
-  const [doctor, setDoctors] = useState([]);
-
+  const [doctor, setDoctors] = useState();
   useEffect(() => {
     const fetchDoctorDetails = async () => {
       try {
         const { data } = await axios.get(
           `${backendUrl}/doctor-details/${doctorid}`
         );
+        console.log("API Response,", data);
         setDoctors(data);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching doctor details:", err);
       }
     };
 
@@ -22,7 +22,7 @@ const useFetchDoctor = (doctorid) => {
     }
   }, [doctorid]);
 
-  return {doctor};
+  return { doctor };
 };
 
 export default useFetchDoctor;

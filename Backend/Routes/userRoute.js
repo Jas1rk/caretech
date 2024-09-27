@@ -4,7 +4,8 @@ const userController = require("../Controllers/User/userController");
 const userProfileController = require("../Controllers/User/userProfileController");
 const upload = require("../Utils/multer");
 const { verifyToken } = require("../Utils/jwt");
-const landingPageController = require('../Controllers/User/lanidingPageController')
+const landingPageController = require("../Controllers/User/lanidingPageController");
+const followController = require("../Controllers/User/FollowRequest");
 
 const {
   userRegister,
@@ -19,7 +20,8 @@ const {
 
 const { updateUserProfile, checkIsBlockUserProfile } = userProfileController;
 
-const {getCategories,fetchDoctors,doctorDetails} = landingPageController
+const { getCategories, fetchDoctors, doctorDetails } = landingPageController;
+const { userFollowDoctor } = followController;
 
 userRouter
   .post("/register", userRegister)
@@ -37,8 +39,9 @@ userRouter
     updateUserProfile
   )
   .get("/profile", checkIsBlockUserProfile)
-  .get('/categories',getCategories)
-  .get('/doctors',fetchDoctors)
-  .get('/doctor-details/:doctorid',doctorDetails)
+  .get("/categories", getCategories)
+  .get("/doctors", fetchDoctors)
+  .get("/doctor-details/:doctorid", doctorDetails)
+  .post("/follow-doctor", verifyToken, userFollowDoctor);
 
 module.exports = userRouter;
