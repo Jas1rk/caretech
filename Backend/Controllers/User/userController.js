@@ -1,5 +1,5 @@
 const User = require("../../Model/userModel");
-const {emailVerification} = require("../../Utils/modemailer");
+const { emailVerification } = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
 const { createToken } = require("../../Utils/jwt");
 
@@ -58,33 +58,29 @@ const verifyResendOtp = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const findUser = await User.findOne({ email });
-    if (findUser) {
-      if (findUser.isBlocked) {
-        res.json("userBlocked");
-      } else {
-        const comparePassword = await bcrypt.compare(
-          password,
-          findUser.password
-        );
-        if (comparePassword) {
-          const userData = {
-            id: findUser._id,
-            username: findUser.username,
-            email: findUser.email,
-            mobile: findUser.mobile,
-            isBlocked: findUser.isBlocked,
-            profileImage: findUser.profileImage,
-          };
-          const usertoken = createToken(userData.id);
-          res.json({ userData,usertoken});
-        } else {
-          res.json("invalidPassword")
-        }
-      }
-    } else {
-      res.json("userNotFound");
+    const findUser = await User.findOne({ email })
+    console.log("findThe user", findUser);
+    if (!findUser) {
+      return res.json("userNotFound");
     }
+    if (findUser.isBlocked) {
+      return res.json("userBlocked");
+    }
+
+    const comparePassword = await bcrypt.compare(password, findUser.password);
+    if (!comparePassword) {
+      return res.json("invalidPassword");
+    }
+    const userData = {
+      id: findUser._id,
+      username: findUser.username,
+      email: findUser.email,
+      mobile: findUser.mobile,
+      isBlocked: findUser.isBlocked,
+      profileImage: findUser.profileImage,
+    };
+    const usertoken = createToken(userData.id);
+    res.json({ userData, usertoken });
   } catch (err) {
     console.log(err.message);
   }

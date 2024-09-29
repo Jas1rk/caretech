@@ -10,7 +10,6 @@ const useFetchDoctor = (doctorid) => {
         const { data } = await axios.get(
           `${backendUrl}/doctor-details/${doctorid}`
         );
-        console.log("API Response,", data);
         setDoctors(data);
       } catch (err) {
         console.error("Error fetching doctor details:", err);
