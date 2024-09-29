@@ -7,11 +7,13 @@ import {
   faWallet,
   faUserNurse,
   faRightToBracket,
+  faPeopleGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { userLogout } from "../../../Redux/User/UserSlice";
 import { useDispatch } from "react-redux";
 import "./Usersidebar.css";
 import { ConfirmAlert } from "../..";
+
 
 const Usersidebar = () => {
   const location = useLocation();
@@ -53,6 +55,15 @@ const Usersidebar = () => {
           />
           <Link to="/profile" className="profile-link">
             My Bookings
+          </Link>
+        </li>
+        <li className="userSidebar-list">
+          <FontAwesomeIcon
+            icon={faPeopleGroup}
+            className="user-profile-icon"
+          />
+          <Link to="/profile" className="profile-link">
+            Following Doctors
           </Link>
         </li>
         <li className="userSidebar-list">

@@ -21,6 +21,8 @@ const Doctordetails = () => {
   const { doctor } = useFetchDoctor(doctorid);
   const { userData, usertoken } = useSelector((state) => state.user);
 
+  console.log("the userdata is here ", userData);
+
   const handleFollowDr = async (drid) => {
     try {
       if (usertoken) {
@@ -28,6 +30,15 @@ const Doctordetails = () => {
           drid,
           userid: userData.id,
         });
+
+        const updatedUserData = {
+          ...userData,
+          followingDoctors: data.findUser.followingDoctors,
+        };
+        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+        const getData = JSON.parse(sessionStorage.getItem("userData"));
+        console.log("checking session", getData);
+        toast.success("Doctor added to your list");
       } else {
         toast.error("Please login to follow doctor");
       }
@@ -35,6 +46,8 @@ const Doctordetails = () => {
       toast.error(err.message);
     }
   };
+
+  console.log("data of doctor",doctor)
 
   return (
     <>
@@ -89,18 +102,31 @@ const Doctordetails = () => {
             >
               Book a slot
             </button>
-            <button className="flex justify-center items-center mt-5 border-2 border-[#7c7c7c] cursor-pointer bg-[#e7e7e7]  p-1 rounded-md text-black w-full transform transition duration-500 ease-in-out hover:scale-110">
+            <button className="flex justify-center items-center mt-5 border-2 border-[#cfaaaa] cursor-pointer bg-[#e7e7e7]  p-1 rounded-md text-black w-full transform transition duration-500 ease-in-out hover:scale-110">
               <FontAwesomeIcon icon={faMessage} className="m-1" />
               Message
             </button>
             <div className="flex gap-2">
-              <button
-                className="flex justify-center items-center mt-5  cursor-pointer bg-black  outline-none border-none p-1 rounded-md text-white w-full hover:bg-[#5d5d5d]"
-                onClick={() => handleFollowDr(doctor._id)}
-              >
-                <FontAwesomeIcon icon={faUserPlus} className="m-1" />
-                Follow
-              </button>
+              {userData?.followingDoctors?.find(
+                (doc) =>  doc.followingStatus === true
+              ) ? (
+                <button
+                  className="flex justify-center items-center mt-5 cursor-pointer bg-transparent  border-2 border-black p-1 rounded-md text-black w-full hover:bg-[#5d5d5d] hover:text-white"
+                  onClick={() => toast.info(doctor._id)}
+                >
+                  <FontAwesomeIcon icon={faUserPlus} className="m-1" />
+                  Following
+                </button>
+              ) : (
+                <button
+                  className="flex justify-center items-center mt-5 cursor-pointer bg-black outline-none border-none p-1 rounded-md text-white w-full hover:bg-[#5d5d5d]"
+                  onClick={() => handleFollowDr(doctor._id)}
+                >
+                  <FontAwesomeIcon icon={faUserPlus} className="m-1" />
+                  Follow
+                </button>
+              )}
+
               <button className="flex justify-center items-center mt-5  cursor-pointer bg-black outline-none border-none p-1 rounded-md text-white w-full hover:bg-[#5d5d5d]">
                 <FontAwesomeIcon icon={faPlus} className="m-1" />
                 Review
