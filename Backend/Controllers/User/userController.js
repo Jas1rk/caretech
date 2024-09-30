@@ -58,8 +58,7 @@ const verifyResendOtp = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const findUser = await User.findOne({ email })
-    console.log("findThe user", findUser);
+    const findUser = await User.findOne({ email }).populate("followingDoctors");
     if (!findUser) {
       return res.json("userNotFound");
     }
@@ -78,6 +77,7 @@ const userLogin = async (req, res) => {
       mobile: findUser.mobile,
       isBlocked: findUser.isBlocked,
       profileImage: findUser.profileImage,
+      followingDoctors: findUser.followingDoctors || [],
     };
     const usertoken = createToken(userData.id);
     res.json({ userData, usertoken });

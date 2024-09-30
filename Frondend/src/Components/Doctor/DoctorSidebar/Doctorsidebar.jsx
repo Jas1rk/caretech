@@ -7,6 +7,7 @@ import {
   faCouch,
   faHome,
   faMessage,
+  faPeopleGroup,
   faPowerOff,
   faUserDoctor,
 } from "@fortawesome/free-solid-svg-icons";
@@ -42,14 +43,14 @@ const Doctorsidebar = ({ open ,setOpen}) => {
       data-aos={open ? "fade-left" : ""}
     >
       <ul className="m-1">
-      <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+      <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faHome} />
           <Link to="/" className="ml-2">
             Home
           </Link>
         </li>
         <li
-          className={`items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white ${
+          className={`items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white ${
             isActive === "/doctor/doctorprofile"
               ? "bg-gradient-to-r from-teal-700 to-blue-900 text-white"
               : ""
@@ -61,26 +62,32 @@ const Doctorsidebar = ({ open ,setOpen}) => {
             Profile
           </Link>
         </li>
-        <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+        <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faBook} />
           <Link className="ml-2" to="/doctor/appointment">
             Bookings
           </Link>
         </li>
-        <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+        <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+          <FontAwesomeIcon icon={faPeopleGroup} />
+          <Link className="ml-2" to="/doctor/appointment">
+            Followers
+          </Link>
+        </li>
+        <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faCouch} />
           <Link className="ml-2" to="/doctor/appointment">
             Sloat Alocation
           </Link>
         </li>
-        <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+        <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faMessage} />
           <Link to="/doctor/chat" className="ml-2">
             Chat
           </Link>
         </li>
       
-        <li className="flex items-center m-2  cursor-pointer shadow-2xl rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
+        <li className="flex items-center m-2  cursor-pointer shadow-md rounded-2xl border p-2 hover:bg-gradient-to-r from-teal-700 to-blue-900 hover:text-white">
           <FontAwesomeIcon icon={faPowerOff} />
           <p className="ml-2" onClick={handleLogout}>
             Logout

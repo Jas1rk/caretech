@@ -21,8 +21,8 @@ const userFollowDoctor = async (req, res) => {
               followingDoctors: { doctorId: drid, followingStatus: true },
             },
           },
-          { upsert: true, new: true } 
-        ),
+          { upsert: true} 
+        ).populate('followingDoctors')
       ]);
       res.json({followDr,findUser})
   } catch (err) {
