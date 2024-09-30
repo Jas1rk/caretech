@@ -7,12 +7,8 @@ import {
 } from "./UserThunk";
 
 const INITIAL_STATE = {
-  userData: sessionStorage.getItem("userData")
-    ? JSON.parse(sessionStorage.getItem("userData"))
-    : null,
-
-  usertoken: sessionStorage.getItem("usertoken")
-    ? JSON.parse(sessionStorage.getItem("usertoken"))
+  userData: localStorage.getItem("userData")
+    ? JSON.parse(localStorage.getItem("userData"))
     : null,
   homeCategories: [],
   homeDoctors: [],
@@ -24,19 +20,15 @@ const userSlice = createSlice({
   reducers: {
     userLogout: (state) => {
       state.userData = null;
-      state.usertoken = null;
-      sessionStorage.removeItem("userData");
-      sessionStorage.removeItem("usertoken");
+      localStorage.removeItem("userData");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(userLogin.fulfilled, (state, action) => {
-        const { userData, usertoken } = action.payload;
+        const { userData } = action.payload;
         state.userData = userData;
-        state.usertoken = usertoken;
-        sessionStorage.setItem("userData", JSON.stringify(userData));
-        sessionStorage.setItem("usertoken", JSON.stringify(usertoken));
+        localStorage.setItem("userData", JSON.stringify(userData));
       })
       .addCase(userProfileEdit.fulfilled, (state, action) => {
         const { username, mobile, profileImage } = action.payload;
@@ -46,7 +38,7 @@ const userSlice = createSlice({
           state.userData.profileImage = profileImage;
         }
         state.editConfirm = true;
-        sessionStorage.setItem("userData", JSON.stringify(state.userData));
+        localStorage.setItem("userData", JSON.stringify(state.userData));
       })
       .addCase(findAllCatgory.fulfilled, (state, action) => {
         const allCat = action.payload;

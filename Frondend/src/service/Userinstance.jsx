@@ -3,14 +3,12 @@ import { backendUrl } from "./backendUrl";
 
 const user_Api = axios.create({
   baseURL: backendUrl,
+  withCredentials:true
 });
 
 user_Api.interceptors.request.use(
   (config) => {
-    const userToken = JSON.parse(sessionStorage.getItem("usertoken"));
-    if (userToken) {
-      config.headers["Authorization"] = `Bearer ${userToken}`;
-    }
+    console.log("gettting confid",config)
     return config;
   },
   (error) => {
