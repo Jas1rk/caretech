@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import useFetchDoctor from "../../../Hooks/UseFetchDoctor";
 import { useLocation } from "react-router-dom";
 import dummy from "../../../assets/Public/dummy.jpg";
@@ -20,8 +20,20 @@ const Doctordetails = () => {
   const doctorid = queryparams.get("doctorid");
   const { doctor } = useFetchDoctor(doctorid);
   const { userData, usertoken } = useSelector((state) => state.user);
+  const [localUserData, setLocalUserData] = useState(JSON.parse(sessionStorage.getItem('userData')));
+  
+  console.log("outsid the function ",localUserData)
 
-  console.log("the userdata is here ", userData);
+useEffect(() => {
+  const getUserData = JSON.parse(sessionStorage.getItem('userData'));
+  console.log("inside useEffect",getUserData)
+  if (getUserData) {
+    setLocalUserData(getUserData);
+  }
+}, [sessionStorage.getItem('userData')]);
+
+console.log("checking in redux store",userData)
+
 
   const handleFollowDr = async (drid) => {
     try {
@@ -35,10 +47,12 @@ const Doctordetails = () => {
           ...userData,
           followingDoctors: data.findUser.followingDoctors,
         };
-        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-        const getData = JSON.parse(sessionStorage.getItem("userData"));
-        console.log("checking session", getData);
-        toast.success("Doctor added to your list");
+        console.log("after api response",updatedUserData)
+        sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
+        console.log("inside the follow  function",localUserData)
+        setLocalUserData(updatedUserData);
+        toast.success("Added doctor to your list");
+        console.log("getting inside follow function",JSON.parse(sessionStorage.getItem('userData')))
       } else {
         toast.error("Please login to follow doctor");
       }
@@ -47,7 +61,7 @@ const Doctordetails = () => {
     }
   };
 
-  console.log("data of doctor",doctor)
+
 
   return (
     <>
@@ -107,8 +121,8 @@ const Doctordetails = () => {
               Message
             </button>
             <div className="flex gap-2">
-              {userData?.followingDoctors?.find(
-                (doc) =>  doc.followingStatus === true
+              {doctor?._id && localUserData?.followingDoctors?.find(
+                (doc) => doc.doctorId === doctor._id &&  doc.followingStatus === true
               ) ? (
                 <button
                   className="flex justify-center items-center mt-5 cursor-pointer bg-transparent  border-2 border-black p-1 rounded-md text-black w-full hover:bg-[#5d5d5d] hover:text-white"
