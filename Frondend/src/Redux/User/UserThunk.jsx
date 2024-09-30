@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { backendUrl } from "../../service/backendUrl";
+import user_Api from "../../service/Userinstance";
 
 export const userRegistration = async ({
   username,
@@ -100,6 +101,7 @@ export const userLogin = createAsyncThunk(
         email,
         password,
       });
+      console.log("ogin data",response.data)
       if (response.data === "userNotFound") {
         toast.error("User does not exist ! Please sign up");
         return rejectWithValue("User does not exist ! Please sign up");
@@ -172,17 +174,11 @@ export const userProfileEdit = createAsyncThunk(
           message: "Invalid mobile number",
         });
       } else {
-        const usertoken = JSON.parse(sessionStorage.getItem("usertoken"));
-        const response = await axios.post(
-          `${backendUrl}/editProfile`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${usertoken}`,
-            },
-          }
-        );
+        const response = await user_Api.post("/editProfile", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         if (
           response.data.acknowledged === true ||
@@ -207,7 +203,7 @@ export const userProfileEdit = createAsyncThunk(
 export const findAllCatgory = createAsyncThunk(
   "user/findAllCategoy",
   async () => {
-    const {data} = await axios.get(`${backendUrl}/categories`);
+    const { data } = await axios.get(`${backendUrl}/categories`);
     return data;
   }
 );
@@ -215,7 +211,7 @@ export const findAllCatgory = createAsyncThunk(
 export const fetchHomeDoctors = createAsyncThunk(
   "user/fetchHomeDoctors",
   async () => {
-    const {data} = await axios.get(`${backendUrl}/doctors`);
+    const { data } = await axios.get(`${backendUrl}/doctors`);
     return data;
   }
 );

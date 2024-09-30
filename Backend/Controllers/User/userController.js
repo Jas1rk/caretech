@@ -9,13 +9,12 @@ const userRegister = async (req, res) => {
     const { email } = req.body;
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      res.json("userExist");
-    } else {
-      const genaratedOTP = await emailVerification(email);
-      OTPstore[email] = genaratedOTP;
-      console.log("this is otp getting", OTPstore[email]);
-      res.json(genaratedOTP);
+      return res.json("userExist");
     }
+    const genaratedOTP = await emailVerification(email);
+    OTPstore[email] = genaratedOTP;
+    console.log("this is otp getting", OTPstore[email]);
+    res.json(genaratedOTP);
   } catch (err) {
     console.log(err.message);
   }
@@ -24,20 +23,19 @@ const userRegister = async (req, res) => {
 const verifyOtp = async (req, res) => {
   try {
     const { otp, username, email, mobile, password } = req.body;
-    if (otp === OTPstore[email]) {
-      const passwordHash = await bcrypt.hash(password, 10);
-      const newUser = new User({
-        username: username,
-        email: email,
-        mobile: mobile,
-        password: passwordHash,
-      });
-      await newUser.save();
-      delete OTPstore[email];
-      res.json("userRegistered");
-    } else {
-      res.json("invalidOtp");
+    if (!otp === OTPstore[email]) {
+      return res.json("invalidOtp");
     }
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      username: username,
+      email: email,
+      mobile: mobile,
+      password: passwordHash,
+    });
+    await newUser.save();
+    delete OTPstore[email];
+    res.json("userRegistered");
   } catch (err) {
     console.log(err.message);
   }
@@ -80,7 +78,13 @@ const userLogin = async (req, res) => {
       followingDoctors: findUser.followingDoctors || [],
     };
     const usertoken = createToken(userData.id);
-    res.json({ userData, usertoken });
+    res.cookie("user-token", usertoken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json(userData);
   } catch (err) {
     console.log(err.message);
   }
@@ -90,14 +94,13 @@ const forgetPassword = async (req, res) => {
   try {
     const { email } = req.body;
     const findEmail = await User.findOne({ email });
-    if (findEmail) {
-      const genaratedOTP = await emailVerification(email);
-      OTPstore[email] = genaratedOTP;
-      console.log("otp getting for forgetpassword", OTPstore[email]);
-      res.json(genaratedOTP);
-    } else {
-      res.json("emailNotFound");
+    if (!findEmail) {
+      return res.json("emailNotFound");
     }
+    const genaratedOTP = await emailVerification(email);
+    OTPstore[email] = genaratedOTP;
+    console.log("otp getting for forgetpassword", OTPstore[email]);
+    res.json(genaratedOTP);
   } catch (err) {
     console.log(err.message);
   }
@@ -106,12 +109,11 @@ const forgetPassword = async (req, res) => {
 const forgetPassOtpVerify = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    if (otp === OTPstore[email]) {
-      delete OTPstore[email];
-      res.json("otpCorrect");
-    } else {
-      res.json("incorrectOtp");
+    if (!otp === OTPstore[email]) {
+      return res.json("incorrectOtp");
     }
+    delete OTPstore[email];
+    res.json("otpCorrect");
   } catch (err) {
     console.log(err.message);
   }
