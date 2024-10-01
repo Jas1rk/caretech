@@ -3,14 +3,11 @@ import { backendUrl } from "./backendUrl";
 
 const doctor_Api = axios.create({
   baseURL: backendUrl,
+  withCredentials: true,
 });
 
 doctor_Api.interceptors.request.use(
   (config) => {
-    const doctorToken = JSON.parse(sessionStorage.getItem("doctor-token"));
-    if (doctorToken) {
-      config.headers["Authorization"] = `Bearer ${doctorToken}`;
-    }
     return config;
   },
   (error) => {
