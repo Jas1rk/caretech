@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   userData: localStorage.getItem("userData")
     ? JSON.parse(localStorage.getItem("userData"))
     : null,
+  isAuthUser: localStorage.getItem("userData") ? true : false,
   homeCategories: [],
   homeDoctors: [],
 };
@@ -20,14 +21,16 @@ const userSlice = createSlice({
   reducers: {
     userLogout: (state) => {
       state.userData = null;
+      state.isAuthUser = false;
       localStorage.removeItem("userData");
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(userLogin.fulfilled, (state, action) => {
-        const { userData } = action.payload;
+        const userData = action.payload;
         state.userData = userData;
+        state.isAuthUser = true;
         localStorage.setItem("userData", JSON.stringify(userData));
       })
       .addCase(userProfileEdit.fulfilled, (state, action) => {

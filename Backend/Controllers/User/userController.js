@@ -80,7 +80,7 @@ const userLogin = async (req, res) => {
     const usertoken = createToken(userData.id);
     res.cookie("user-token", usertoken, {
       httpOnly: true,
-      secure: true,
+      secure: true,  
       sameSite: "Strict",
       maxAge: 24 * 60 * 60 * 1000,
     });

@@ -101,7 +101,6 @@ export const userLogin = createAsyncThunk(
         email,
         password,
       });
-      console.log("ogin data",response.data)
       if (response.data === "userNotFound") {
         toast.error("User does not exist ! Please sign up");
         return rejectWithValue("User does not exist ! Please sign up");
