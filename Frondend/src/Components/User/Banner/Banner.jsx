@@ -2,12 +2,26 @@ import React, { useEffect } from "react";
 import bannerimg from "../../../assets/Public/bannerimage.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useSelector } from "react-redux";
 import "./Banner.css";
 
 const Banner = (props) => {
+  const { userData } = useSelector((state) => state.user);
+
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
+
+  const handleBanner = () => {
+    if (!userData) {
+      localStorage.setItem("userData", JSON.stringify({ isAuth: false }));
+      console.log(userData)
+    } else {
+      console.log(userData.isAuth);
+      console.log(userData)
+    }
+  };
+
   return (
     <div
       className={props.isSmall ? "small-Banner-container" : "banner-container"}
@@ -28,6 +42,7 @@ const Banner = (props) => {
           className="mt-20 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
           data-aos="fade-up"
           data-aos-delay="400"
+          onClick={handleBanner}
         >
           Explore more
         </button>

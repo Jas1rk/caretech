@@ -16,13 +16,13 @@ import {
 import "./Header.css";
 
 const Header = () => {
-  const { usertoken, userData } = useSelector((state) => state.user);
+  const { isAuthUser, userData } = useSelector((state) => state.user);
   const { doctorToken, doctorData } = useSelector((state) => state.doctor);
   const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
   const handleProfile = () => {
-    if (!usertoken) {
+    if (!isAuthUser) {
       Warning().then((result) => {
         if (result.isConfirmed) {
           navigate("/login");
@@ -40,8 +40,8 @@ const Header = () => {
           navigate("/doctor/doctorlogin");
         }
       });
-    }else{
-      navigate("/doctor/doctorprofile")
+    } else {
+      navigate("/doctor/doctorprofile");
     }
   };
 
@@ -63,7 +63,7 @@ const Header = () => {
             <p>Contact</p>
           </Link>
           <div
-            className={`${usertoken ? "hidden" : "block cursor-pointer"}`}
+            className={`${isAuthUser ? "hidden" : "block cursor-pointer"}`}
             onClick={handleDoctor}
           >
             {doctorData && doctorData.profileimage ? (
@@ -73,9 +73,7 @@ const Header = () => {
                 className="rounded-full w-9 h-9 border-2 border-[#136a8a] object-cover"
               />
             ) : (
-              // <Link to="">
-                <p  className="navlink-a">Join as Doctor</p>
-              // {/* </Link> */}
+              <p className="navlink-a">Join as Doctor</p>
             )}
           </div>
           <div

@@ -24,13 +24,13 @@ const Doctordetails = () => {
   
   console.log("outsid the function ",localUserData)
 
-useEffect(() => {
-  const getUserData = JSON.parse(sessionStorage.getItem('userData'));
-  console.log("inside useEffect",getUserData)
-  if (getUserData) {
-    setLocalUserData(getUserData);
-  }
-}, [sessionStorage.getItem('userData')]);
+// useEffect(() => {
+//   const getUserData = JSON.parse(sessionStorage.getItem('userData'));
+//   console.log("inside useEffect",getUserData)
+//   if (getUserData) {
+//     setLocalUserData(getUserData);
+//   }
+// }, [sessionStorage.getItem('userData')]);
 
 console.log("checking in redux store",userData)
 
@@ -105,6 +105,7 @@ console.log("checking in redux store",userData)
                             className="text-yellow-400"
                           />
                         </p>
+                       
                       ))}
                   </div>
                 </h1>
