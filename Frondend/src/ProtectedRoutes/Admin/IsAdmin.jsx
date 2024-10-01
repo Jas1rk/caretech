@@ -4,15 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 const IsAdmin = ({ children }) => {
   const navigate = useNavigate();
-  const adminToken = useSelector((state) => state.admin.adminToken)
-
+  const { isAuthAdmin } = useSelector((state) => state.admin);
+  
   useEffect(() => {
-    if (!adminToken) {
+    if (!isAuthAdmin) {
       navigate("/admin/adminlogin");
     }
-  },[]);
+  }, [isAuthAdmin, navigate]);
 
-  if (adminToken) {
+  if (isAuthAdmin) {
     return children;
   }
 };

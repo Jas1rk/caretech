@@ -9,13 +9,12 @@ import {
 } from "./AdminThunk";
 
 const INITIAL_STATE = {
-  adminToken: sessionStorage.getItem("admin-token")
-    ? JSON.parse(sessionStorage.getItem("admin-token"))
-    : null,
+  isAuthAdmin: false,
   usersList: [],
   filteredUsers: [],
   categories: [],
   doctorsList: [],
+
 };
 
 const adminSlice = createSlice({
@@ -23,8 +22,7 @@ const adminSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     adminLogout: (state) => {
-      state.adminToken = null;
-      sessionStorage.removeItem("admin-token");
+      state.isAuthAdmin = false;
     },
     searchUsers: (state, action) => {
       const name = action.payload.toLowerCase();
@@ -36,9 +34,8 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(adminLogin.fulfilled, (state, action) => {
-        const newToken = action.payload;
-        state.adminToken = newToken;
-        sessionStorage.setItem("admin-token", JSON.stringify(newToken));
+        const status = action.payload
+        state.isAuthAdmin = status ? true : false
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         const allUsers = action.payload;
