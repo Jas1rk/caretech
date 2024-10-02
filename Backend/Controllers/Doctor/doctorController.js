@@ -112,7 +112,13 @@ const loginDoctor = async (req, res) => {
     };
 
     const doctorToken = createToken(doctorData.id);
-    res.json({ doctorData, doctorToken });
+    res.cookie("doctorToken",doctorToken,{
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000
+    })
+    res.json(doctorData);
   } catch (err) {
     throw err;
   }

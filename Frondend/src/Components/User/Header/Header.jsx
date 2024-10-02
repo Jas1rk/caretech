@@ -17,7 +17,7 @@ import "./Header.css";
 
 const Header = () => {
   const { isAuthUser, userData } = useSelector((state) => state.user);
-  const { doctorToken, doctorData } = useSelector((state) => state.doctor);
+  const { isAuthDoctor, doctorData } = useSelector((state) => state.doctor);
   const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
@@ -34,7 +34,7 @@ const Header = () => {
   };
 
   const handleDoctor = () => {
-    if (!doctorToken) {
+    if (!isAuthDoctor) {
       Warning().then((result) => {
         if (result.isConfirmed) {
           navigate("/doctor/doctorlogin");
@@ -78,7 +78,7 @@ const Header = () => {
           </div>
           <div
             onClick={handleProfile}
-            className={`${doctorToken ? "hidden" : "block cursor-pointer"} `}
+            className={`${isAuthDoctor ? "hidden" : "block cursor-pointer"} `}
           >
             {userData && userData.profileImage ? (
               <img
