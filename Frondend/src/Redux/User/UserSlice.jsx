@@ -7,10 +7,10 @@ import {
 } from "./UserThunk";
 
 const INITIAL_STATE = {
-  userData: localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
+  userData: sessionStorage.getItem("userData")
+    ? JSON.parse(sessionStorage.getItem("userData"))
     : null,
-  isAuthUser: localStorage.getItem("userData") ? true : false,
+  isAuthUser: sessionStorage.getItem("userData") ? true : false,
   homeCategories: [],
   homeDoctors: [],
 };
@@ -22,7 +22,7 @@ const userSlice = createSlice({
     userLogout: (state) => {
       state.userData = null;
       state.isAuthUser = false;
-      localStorage.removeItem("userData");
+      sessionStorage.removeItem("userData");
     },
   },
   extraReducers: (builder) => {
@@ -31,7 +31,7 @@ const userSlice = createSlice({
         const userData = action.payload;
         state.userData = userData;
         state.isAuthUser = true;
-        localStorage.setItem("userData", JSON.stringify(userData));
+        sessionStorage.setItem("userData", JSON.stringify(userData));
       })
       .addCase(userProfileEdit.fulfilled, (state, action) => {
         const { username, mobile, profileImage } = action.payload;
@@ -41,7 +41,7 @@ const userSlice = createSlice({
           state.userData.profileImage = profileImage;
         }
         state.editConfirm = true;
-        localStorage.setItem("userData", JSON.stringify(state.userData));
+        sessionStorage.setItem("userData", JSON.stringify(state.userData));
       })
       .addCase(findAllCatgory.fulfilled, (state, action) => {
         const allCat = action.payload;

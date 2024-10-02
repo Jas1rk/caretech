@@ -5,15 +5,15 @@ import { useNavigate } from "react-router-dom";
 const IsDoctor = ({ children }) => {
     
   const navigate = useNavigate();
-  const { doctorToken } = useSelector((state) => state.doctor);
+  const { isAuthDoctor } = useSelector((state) => state.doctor);
 
   useEffect(() => {
-    if (!doctorToken) {
+    if (!isAuthDoctor) {
       navigate("/doctor/doctorlogin");
     }
-  }, []);
+  }, [isAuthDoctor,navigate]);
 
-  if (doctorToken) return children;
+  if (isAuthDoctor) return children;
 };
 
 export default IsDoctor;
