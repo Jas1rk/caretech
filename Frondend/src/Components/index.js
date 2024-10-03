@@ -12,6 +12,7 @@ export {default as Footer} from './User/Footer/Footer'
 export {default as Usersidebar} from './User/UserSidebar/Usersidebar'
 export {default as Userprofile} from './User/UserProfile/Userprofile'
 export {default as DoctorDetails} from './User/DoctorDetails/Doctordetails'
+export {default as DoctorSloatBooking} from './User/DoctorDetails/Sloatbooking'
 //////////////admin side/////////////////////////////////////
 export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
 export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
@@ -28,6 +29,7 @@ export {default as DoctorProfile} from './Doctor/DoctorProfile/Doctorprofile'
 export {default as DoctorProfileEdit} from './Doctor/DoctorProfile/Profileedit'
 export {default as DoctorNavbar} from './Doctor/DoctorHeader/Doctorheader'
 export {default as DoctorSidebar} from './Doctor/DoctorSidebar/Doctorsidebar'
+
 ////////////////commen/////////////////////////////////////////
 export {default as Pagination} from "./Commen/Pagination/Pagination"
 export {default as ConfirmAlert} from "./Commen/SweatAlert/Sweatalert"

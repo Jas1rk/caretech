@@ -2,7 +2,7 @@ import React, { useEffect,useState } from "react";
 import useFetchDoctor from "../../../Hooks/UseFetchDoctor";
 import { useLocation } from "react-router-dom";
 import dummy from "../../../assets/Public/dummy.jpg";
-import { Footer, Header } from "../..";
+import { DoctorSloatBooking, Footer, Header } from "../..";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,6 +21,7 @@ const Doctordetails = () => {
   const { doctor } = useFetchDoctor(doctorid);
   const { userData, usertoken } = useSelector((state) => state.user);
   const [localUserData, setLocalUserData] = useState(JSON.parse(sessionStorage.getItem('userData')));
+  const [openBookPage,setOpenBookPage] = useState(false)
   
   console.log("outsid the function ",localUserData)
 
@@ -113,9 +114,9 @@ console.log("checking in redux store",userData)
             </div>
             <button
               className="flex justify-center items-center mt-5  cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-1 rounded-md text-white w-full transform transition duration-500 ease-in-out hover:scale-110 "
-              onClick={() => toast.success(doctor._id)}
+              onClick={() => setOpenBookPage(true)}
             >
-              Book a slot
+              Book now
             </button>
             <button className="flex justify-center items-center mt-5 border-2 border-[#cfaaaa] cursor-pointer bg-[#e7e7e7]  p-1 rounded-md text-black w-full transform transition duration-500 ease-in-out hover:scale-110">
               <FontAwesomeIcon icon={faMessage} className="m-1" />
@@ -195,6 +196,7 @@ console.log("checking in redux store",userData)
         </div>
       </div>
       <Footer />
+      {openBookPage && <DoctorSloatBooking closeModal={()=> setOpenBookPage(false)} />}
     </>
   );
 };
