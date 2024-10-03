@@ -72,13 +72,13 @@ const Profileedit = ({ closeModal, doctorId }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-xl w-[80%] sm:w-[500px] relative">
-        <button
-          onClick={closeModal}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-        >
-          X
-        </button>
-        <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
+          <button
+            onClick={closeModal}
+            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+          >
+            X
+          </button>
+          <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
         <form className="flex flex-col" onSubmit={formik.handleSubmit}>
           <div className="sm:flex gap-10 m-1">
             <div className="flex flex-col">
