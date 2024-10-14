@@ -5,6 +5,7 @@ import "react-calendar/dist/Calendar.css";
 const Sloatbooking = ({ closeModal }) => {
   const [date, setDate] = useState(new Date());
   const handleDate = (newDate) => {
+    console.log("changing date",date)
     setDate(newDate);
   };
   return (
@@ -36,9 +37,11 @@ const Sloatbooking = ({ closeModal }) => {
             className="border-none rounded-lg bg-white shadow-lg p-2"
             onChange={handleDate}
             value={date}
+            tileClassName={date}
           />
         </div>
         <p className="text-sm">selected Date: {date.toDateString()}</p>
+
         <div className="flex items-end justify-end">
           <button className="p-2 rounded-lg text-white text-sm bg-gradient-to-r from-teal-700 to-blue-900">Make payment</button>
         </div>

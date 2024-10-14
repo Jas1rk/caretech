@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetchDoctor from "../../../Hooks/UseFetchDoctor";
 import { useLocation } from "react-router-dom";
 import dummy from "../../../assets/Public/dummy.jpg";
@@ -20,21 +20,22 @@ const Doctordetails = () => {
   const doctorid = queryparams.get("doctorid");
   const { doctor } = useFetchDoctor(doctorid);
   const { userData, usertoken } = useSelector((state) => state.user);
-  const [localUserData, setLocalUserData] = useState(JSON.parse(sessionStorage.getItem('userData')));
-  const [openBookPage,setOpenBookPage] = useState(false)
-  
-  console.log("outsid the function ",localUserData)
+  const [localUserData, setLocalUserData] = useState(
+    JSON.parse(sessionStorage.getItem("userData"))
+  );
+  const [openBookPage, setOpenBookPage] = useState(false);
 
-// useEffect(() => {
-//   const getUserData = JSON.parse(sessionStorage.getItem('userData'));
-//   console.log("inside useEffect",getUserData)
-//   if (getUserData) {
-//     setLocalUserData(getUserData);
-//   }
-// }, [sessionStorage.getItem('userData')]);
+  console.log("outsid the function ", localUserData);
 
-console.log("checking in redux store",userData)
+  // useEffect(() => {
+  //   const getUserData = JSON.parse(sessionStorage.getItem('userData'));
+  //   console.log("inside useEffect",getUserData)
+  //   if (getUserData) {
+  //     setLocalUserData(getUserData);
+  //   }
+  // }, [sessionStorage.getItem('userData')]);
 
+  console.log("checking in redux store", userData);
 
   const handleFollowDr = async (drid) => {
     try {
@@ -48,12 +49,15 @@ console.log("checking in redux store",userData)
           ...userData,
           followingDoctors: data.findUser.followingDoctors,
         };
-        console.log("after api response",updatedUserData)
-        sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
-        console.log("inside the follow  function",localUserData)
+        console.log("after api response", updatedUserData);
+        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+        console.log("inside the follow  function", localUserData);
         setLocalUserData(updatedUserData);
         toast.success("Added doctor to your list");
-        console.log("getting inside follow function",JSON.parse(sessionStorage.getItem('userData')))
+        console.log(
+          "getting inside follow function",
+          JSON.parse(sessionStorage.getItem("userData"))
+        );
       } else {
         toast.error("Please login to follow doctor");
       }
@@ -62,13 +66,12 @@ console.log("checking in redux store",userData)
     }
   };
 
-
-
   return (
     <>
-      <Header />
-      <div className="p-10 flex gap-5">
-        <div className=" flex justify-center  items-center drop-shadow-2xl shadow-2xl p-3 gap-5 rounded-lg w-[55%] mt-[85px] ">
+      {!openBookPage ? <Header /> : ""}
+
+      <div className={`p-10 flex gap-5 ${openBookPage ? "blur-md" : ""}`}>
+        <div className=" flex justify-center  items-center drop-shadow-2xl shadow-2xl p-3 gap-5 rounded-lg w-[55%] mt-[85px]">
           <img
             src={`../src/assets/images/${doctor?.profileImageOfDoctor}`}
             alt="doctorprofileimage"
@@ -106,7 +109,6 @@ console.log("checking in redux store",userData)
                             className="text-yellow-400"
                           />
                         </p>
-                       
                       ))}
                   </div>
                 </h1>
@@ -123,8 +125,10 @@ console.log("checking in redux store",userData)
               Message
             </button>
             <div className="flex gap-2">
-              {doctor?._id && localUserData?.followingDoctors?.find(
-                (doc) => doc.doctorId === doctor._id &&  doc.followingStatus === true
+              {doctor?._id &&
+              localUserData?.followingDoctors?.find(
+                (doc) =>
+                  doc.doctorId === doctor._id && doc.followingStatus === true
               ) ? (
                 <button
                   className="flex justify-center items-center mt-5 cursor-pointer bg-transparent  border-2 border-black p-1 rounded-md text-black w-full hover:bg-[#5d5d5d] hover:text-white"
@@ -195,8 +199,11 @@ console.log("checking in redux store",userData)
           </div>
         </div>
       </div>
-      <Footer />
-      {openBookPage && <DoctorSloatBooking closeModal={()=> setOpenBookPage(false)} />}
+      {!openBookPage ? (
+        <Footer />
+      ) : (
+        <DoctorSloatBooking closeModal={() => setOpenBookPage(false)} />
+      )}
     </>
   );
 };
