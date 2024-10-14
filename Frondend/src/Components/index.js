@@ -29,6 +29,7 @@ export {default as DoctorProfile} from './Doctor/DoctorProfile/Doctorprofile'
 export {default as DoctorProfileEdit} from './Doctor/DoctorProfile/Profileedit'
 export {default as DoctorNavbar} from './Doctor/DoctorHeader/Doctorheader'
 export {default as DoctorSidebar} from './Doctor/DoctorSidebar/Doctorsidebar'
+export {default as DoctorSloatAllocation} from './Doctor/SloatAllocate/Sloatallocation'
 
 ////////////////commen/////////////////////////////////////////
 export {default as Pagination} from "./Commen/Pagination/Pagination"

@@ -13,6 +13,7 @@ import {
   AdminDoctorList,
   DoctorProfile,
   DoctorDetails,
+  DoctorSloatAllocation,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -51,6 +52,7 @@ function App() {
             <Route  path="/doctor/doctorotp" element={<DoctorOtp />} />
             <Route  path="/doctor/doctorregister"element={<DoctorRegister />} />
             <Route  path="/doctor/doctorprofile" element={<IsDoctor><DoctorProfile/></IsDoctor>}/>
+            <Route  path="/doctor/sloat-allocation" element={<IsDoctor><DoctorSloatAllocation/></IsDoctor>}/>
           </Routes>
  
       </Router>

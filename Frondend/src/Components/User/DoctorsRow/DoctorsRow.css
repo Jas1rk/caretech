@@ -11,59 +11,47 @@
   display: none;
 }
 
-.flip-card {
-  background-color: transparent;
+/* .card {
+  position: relative;
+  background-color: white;
   width: 300px;
   height: 300px;
-  perspective: 1000px;
   margin: 15px;
   border-radius: 10px;
-  flex-shrink: 0;
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-}
-
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.flip-card-front {
   border: 1px solid rgb(231, 223, 233);
-  background-color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  color: black;
-  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease;
+} */
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
 }
 
-.flip-card-back {
-  background: #136a8a;
-  background: -webkit-linear-gradient(to right, #267871, #136a8a);
-  background: linear-gradient(to right, #267871, #136a8a);
+.card-content {
+  position: relative;
+  text-align: center;
+}
+
+.details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Transparent background */
   color: white;
-  transform: rotateY(180deg);
-  border-radius: 10px;
-}
-
-.circleimage {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover .details {
+  opacity: 1; 
 }
 
 .doctor-name {
@@ -71,13 +59,7 @@
   font-size: 20px;
 }
 
-
-
-.flib-back-content {
-  margin: 40px;
-}
-
-.deatailes-button {
+.details-button {
   padding: 10px 20px;
   margin-top: 20px;
   cursor: pointer;
@@ -92,10 +74,11 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.deatailes-button:hover {
+.details-button:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
 }
+
 
 @media (max-width: 430px) {
   .main-row {
