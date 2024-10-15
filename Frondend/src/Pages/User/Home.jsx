@@ -11,14 +11,15 @@ import {
 const Home = () => {
  
   return (
-    <div className="homeParent">
+    <>
       <Header />
       <BannerImage />
       <DoctorsRow />
       <CategoriesRow />
       <BannerImage isSmall />
       <Footer />
-    </div>
+    </>
+    
   );
 };
 

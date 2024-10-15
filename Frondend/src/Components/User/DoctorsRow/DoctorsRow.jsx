@@ -45,32 +45,31 @@ const DoctorsRow = () => {
         <>
           {homeDoctors.map((dr, index) => (
             <>
-             
-                <div className="" key={index}>
-                  <img
-                    src={`../src/assets/images/${dr.profileImageOfDoctor}`}
-                    alt="Avatar"
-                    className=""
-                  />
-                  <h2 className="doctor-name font-bold">
-                    Dr.{dr.nameOfDoctor}
-                  </h2>
+              <div
+                className="relative w-72 h-72 m-4 rounded-lg overflow-hidden shrink-0 group"
+                key={index}
+              >
+                <img
+                  src={`../src/assets/images/${dr.profileImageOfDoctor}`}
+                  alt="Avatar"
+                  className="w-full h-full rounded-lg object-cover"
+                />
+                <h2 className="doctor-name font-bold">Dr.{dr.nameOfDoctor}</h2>
 
-                  <div className="details">
-                    <h1>{`Dr.${dr.nameOfDoctor} ${dr.degreeOfDoctor}`}</h1>
-                    <p>{dr.categoryData.categoryName}</p>
-                    <p>We love that guy</p>
-                    <button
-                      className="details-button"
-                      onClick={() =>
-                        navigate(`/doctordetails?doctorid=${dr._id}`)
-                      }
-                    >
-                      Explore
-                    </button>
-                  </div>
+  
+                <div  className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 bg-gradient-to-t from-black to-transparent p-4 text-white transition-opacity  duration-300">
+                  <h1 className="text-lg font-semibold">{`Dr.${dr.nameOfDoctor} ${dr.degreeOfDoctor}`}</h1>
+                  <p className="text-sm">{dr.categoryData.categoryName}</p>
+                  <button
+                    className="mt-2  flex justify-center items-center cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
+                    onClick={() =>
+                      navigate(`/doctordetails?doctorid=${dr._id}`)
+                    }
+                  >
+                    Explore
+                  </button>
                 </div>
-          
+              </div>
             </>
           ))}
         </>
