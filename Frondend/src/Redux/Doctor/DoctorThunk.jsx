@@ -10,7 +10,7 @@ export const doctorLogin = createAsyncThunk(
       const { data } = await axios.post(`${backendUrl}/doctor/doctorlogin`, {
         doctorEmail,
         doctorPass,
-      });
+      },{withCredentials:true});
       switch (data) {
         case "invalidemail":
           toast.error("sorry your email is not found");

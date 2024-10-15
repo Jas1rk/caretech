@@ -97,10 +97,14 @@ export const userLogin = createAsyncThunk(
       toast.error("Please enter valid email");
       return rejectWithValue("Please enter Invalid email");
     } else {
-      const response = await axios.post(`${backendUrl}/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${backendUrl}/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       if (response.data === "userNotFound") {
         toast.error("User does not exist ! Please sign up");
         return rejectWithValue("User does not exist ! Please sign up");

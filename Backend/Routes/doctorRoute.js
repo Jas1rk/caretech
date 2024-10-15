@@ -2,7 +2,7 @@ const express = require("express");
 const doctorRoute = express.Router();
 const doctorController = require("../Controllers/Doctor/doctorController");
 const upload = require("../Utils/multer");
-const { verifyToken } = require("../Utils/jwt");
+const { verifyAccessToken } = require("../Utils/jwt");
 
 const {
   registerForDoctor,
@@ -25,7 +25,7 @@ doctorRoute
   .put(
     "/profile-edit-dr",
     upload.single("doctorprofile"),
-    verifyToken,
+    verifyAccessToken,
     drProfileEdit
   );
 

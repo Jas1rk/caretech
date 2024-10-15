@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import TimePicker from "react-time-picker";
+import { toast } from "sonner";
 
 const getCurrentTime = () => {
   const now = new Date();
@@ -12,31 +12,43 @@ const getCurrentTime = () => {
 };
 
 const Sloatallocation = () => {
-
   const [startTime, setStartTime] = useState(getCurrentTime());
   // const [endTime, setEndTime] = useState('12:00');
   const [date, setDate] = useState();
-  
 
   const handleDate = (newDate) => {
-    const selectedDate = new Date(newDate.setHours(0, 0, 0, 0))
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-   
-    const yesterday = new Date(today)
-    yesterday.setDate(today.getDate() - 1)
-
-    const previousMonth = new Date(today)
-    previousMonth.setMonth(today.getMonth() - 1)
-
-    const previousYear = new Date(today)
-    previousYear.setFullYear(today.getFullYear() - 1)
-
-    if(selectedDate.getDate() === yesterday.getDate()){
-      alert("You have selected the yesterday date")
+    const selectedDate = new Date(newDate.setHours(0, 0, 0, 0));
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    console.log("last date is here",yesterday)
+    const previousMonth = new Date(today);
+    previousMonth.setMonth(today.getMonth() - 1);
+  
+    const previousYear = new Date(today);
+    previousYear.setFullYear(today.getFullYear() - 1);
+  
+    if (
+      selectedDate.getFullYear() === yesterday.getFullYear() &&
+      selectedDate.getMonth() === yesterday.getMonth() &&
+      selectedDate.getDate() === yesterday.getDate()
+    ) {
+      toast.error("You selected yesterday's date!");
+    } else if (
+      selectedDate.getFullYear() === previousMonth.getFullYear() &&
+      selectedDate.getMonth() === previousMonth.getMonth()
+    ) {
+      toast.error("You selected a date from last month!");
+    } else if (selectedDate.getFullYear() === previousYear.getFullYear()) {
+      toast.error("You selected a date from last year!");
+    } else {
+      setDate(selectedDate);
+      console.log("Selected date:", selectedDate.toDateString());
     }
-    
-  }
+  };
+  
 
   return (
     <>

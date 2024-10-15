@@ -2,33 +2,35 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const createToken = (userId) => {
+const createAccessToken = (userId) => {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET_KEY, {
-    expiresIn: "1h", 
+    expiresIn: "1h",
   });
   return token;
 };
 
-const verifyToken = (req, res, next) => {
+const createRefreshToken = (userId) => {
+  const refreshToken = jwt.sign(
+    { userId },
+    process.env.JWT_REFRESH_SECRET_KEY,
+    { expiresIn: "7d" }
+  );
+  return refreshToken;
+};
+
+const verifyAccessToken = (req, res, next) => {
   try {
-    const authHeader = req.headers["authorization"];
-    if (!authHeader) {
-      return res.status(401).json({ message: "No token provided" });
+    const accessToken = req.cookies["accessToken"];
+    if (!accessToken) {
+      return res.status(401).json({ message: "No access token provided" });
     }
 
-    const token = authHeader.split(" ")[1];
-    if (!token) {
-      return res.status(401).json({ message: "Invalid token format" });
-    }
-
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+    jwt.verify(accessToken, process.env.JWT_SECRET_KEY, (err, decoded) => {
       if (err) {
-        if (err.name === "TokenExpiredError") {
-          return res.status(403).json({ message: "Token has expired" });
-        }
-        return res.status(403).json({ message: "Invalid token" });
+        return res
+          .status(403)
+          .json({ message: "Invalid or expired access token" });
       }
-
       req.userId = decoded.userId;
       next();
     });
@@ -37,4 +39,42 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-module.exports = { createToken, verifyToken };
+const refreshToken = async (req, res) => {
+  try {
+    const refresh_token = req.cookies["refreshToken"];
+    if (!refresh_token) {
+      return res.status(401).json({ message: "No refresh token provided" });
+    }
+
+    jwt.verify(
+      refresh_token,
+      process.env.JWT_REFRESH_SECRET_KEY,
+      (err, decoded) => {
+        if (err) {
+          return res
+            .status(403)
+            .json({ message: "Invalid or expired refresh token" });
+        }
+
+        const newAccessToken = createAccessToken(decoded.userId);
+        res.cookie("accessToken", newAccessToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "Strict",
+          maxAge: 1 * 60 * 60 * 1000,
+        });
+
+        res.json({ accessToken: newAccessToken });
+      }
+    );
+  } catch (err) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = {
+  createAccessToken,
+  createRefreshToken,
+  verifyAccessToken,
+  refreshToken,
+};

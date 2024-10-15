@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const { createToken } = require("../../Utils/jwt");
+const { createAccessToken,createRefreshToken } = require("../../Utils/jwt");
 const User = require("../../Model/userModel");
 
 const adminLoginVerify = async (req, res) => {
@@ -12,13 +12,20 @@ const adminLoginVerify = async (req, res) => {
     if (password !== process.env.admin_password) {
       return res.json("incorrectpassaword");
     }
-    const token = createToken(email);
-    res.cookie("admin-token",token,{
+    const accessToken = createAccessToken(email);
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
-      maxAge: 24 * 60 * 60 * 1000
-    })
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    const refreshToken = createRefreshToken(email);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
+    });
     res.json({status:true})
   } catch (err) {
     console.log(err);

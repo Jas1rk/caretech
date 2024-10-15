@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const userController = require("../Controllers/User/userController");
 const userProfileController = require("../Controllers/User/userProfileController");
 const upload = require("../Utils/multer");
-const { verifyToken } = require("../Utils/jwt");
+const { verifyAccessToken } = require("../Utils/jwt");
 const landingPageController = require("../Controllers/User/lanidingPageController");
 const followController = require("../Controllers/User/FollowRequest");
 
@@ -34,7 +34,7 @@ userRouter
   .post("/newPassword", userNewPassword)
   .post(
     "/editProfile",
-    verifyToken,
+    verifyAccessToken,
     upload.single("profileImage"),
     updateUserProfile
   )
@@ -42,6 +42,6 @@ userRouter
   .get("/categories", getCategories)
   .get("/doctors", fetchDoctors)
   .get("/doctor-details/:doctorid", doctorDetails)
-  .post("/follow-doctor", verifyToken, userFollowDoctor);
+  .post("/follow-doctor", verifyAccessToken, userFollowDoctor);
 
 module.exports = userRouter;

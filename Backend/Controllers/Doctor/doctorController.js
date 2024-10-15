@@ -5,8 +5,8 @@ const {
 } = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
 const Category = require("../../Model/categoryModel");
-const { createToken } = require("../../Utils/jwt");
-const { findById } = require("../../Model/userModel");
+const { createAccessToken,createRefreshToken } = require("../../Utils/jwt");
+
 
 const doctorOtpStore = {};
 const registerForDoctor = async (req, res) => {
@@ -111,13 +111,20 @@ const loginDoctor = async (req, res) => {
       experience: findDoctor.yearsOfExperience,
     };
 
-    const doctorToken = createToken(doctorData.id);
-    res.cookie("doctorToken",doctorToken,{
+    const accessToken = createAccessToken(doctorData.id);
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
-      maxAge: 24 * 60 * 60 * 1000
-    })
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    const refreshToken = createRefreshToken(doctorData.id);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
+    });
     res.json(doctorData);
   } catch (err) {
     throw err;
