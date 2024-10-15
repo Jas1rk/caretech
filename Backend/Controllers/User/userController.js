@@ -1,7 +1,7 @@
 const User = require("../../Model/userModel");
 const { emailVerification } = require("../../Utils/modemailer");
 const bcrypt = require("bcrypt");
-const { createToken } = require("../../Utils/jwt");
+const { createAccessToken ,createRefreshToken} = require("../../Utils/jwt");
 
 const OTPstore = {};
 const userRegister = async (req, res) => {
@@ -77,12 +77,19 @@ const userLogin = async (req, res) => {
       profileImage: findUser.profileImage,
       followingDoctors: findUser.followingDoctors || [],
     };
-    const usertoken = createToken(userData.id);
-    res.cookie("user-token", usertoken, {
+    const accessToken = createAccessToken(userData.id);
+    res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,  
+      secure: true,
       sameSite: "Strict",
       maxAge: 24 * 60 * 60 * 1000,
+    });
+    const refreshToken = createRefreshToken(userData.id);
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, 
     });
     res.json(userData);
   } catch (err) {

@@ -14,7 +14,7 @@ export const adminLogin = createAsyncThunk(
         const { data } = await axios.post(`${backendUrl}/admin/adminlogin`, {
           email,
           password,
-        });
+        },{withCredentials:true});
         switch (data) {
           case "incorrectemail":
             toast.error("Incorrect Email");

@@ -1,6 +1,6 @@
 const express = require("express");
 const adminRoute = express.Router();
-const { verifyToken } = require("../Utils/jwt");
+const { verifyAccessToken } = require("../Utils/jwt");
 const admimController = require("../Controllers/Admin/adminController");
 const categoryController = require("../Controllers/Admin/categoryController");
 const doctorListController = require("../Controllers/Admin/doctorListController")
@@ -24,17 +24,17 @@ const {
 
 adminRoute
   .post("/adminlogin", adminLoginVerify)
-  .get("/fetchusers", verifyToken, adminFetchUsers)
-  .post("/blockuser", verifyToken, adminBlockUser)
-  .post("/unblockuser", verifyToken, adminUnblockUser)
-  .post("/addcategory", verifyToken, addCategory)
-  .get("/fetchcategories", verifyToken, adminFetchCategories)
-  .post("/categoryblock", verifyToken, blockCategory)
-  .post("/unblockcategory", verifyToken, unblockCategory)
-  .post("/editcategory", verifyToken, editCategory)
-  .get('/doctors',verifyToken,fetchNewdoctors)
-  .post('/verifydr',verifyToken,adminVerifyDr)
-  .post('/unverifydr',verifyToken,adminUnverifyDr)
+  .get("/fetchusers", verifyAccessToken, adminFetchUsers)
+  .post("/blockuser", verifyAccessToken, adminBlockUser)
+  .post("/unblockuser", verifyAccessToken, adminUnblockUser)
+  .post("/addcategory", verifyAccessToken, addCategory)
+  .get("/fetchcategories", verifyAccessToken, adminFetchCategories)
+  .post("/categoryblock", verifyAccessToken, blockCategory)
+  .post("/unblockcategory", verifyAccessToken, unblockCategory)
+  .post("/editcategory", verifyAccessToken, editCategory)
+  .get('/doctors',verifyAccessToken,fetchNewdoctors)
+  .post('/verifydr',verifyAccessToken,adminVerifyDr)
+  .post('/unverifydr',verifyAccessToken,adminUnverifyDr)
   
 
 module.exports = adminRoute;

@@ -8,7 +8,6 @@ const user_Api = axios.create({
 
 user_Api.interceptors.request.use(
   (config) => {
-    console.log("gettting confid",config)
     return config;
   },
   (error) => {
