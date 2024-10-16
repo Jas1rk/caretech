@@ -1,18 +1,15 @@
 const express = require("express");
 const adminRoute = express.Router();
 const { verifyAccessToken } = require("../Utils/jwt");
-const admimController = require("../Controllers/Admin/adminController");
+const adminController = require("../Controllers/Admin/adminController");
 const categoryController = require("../Controllers/Admin/categoryController");
-const doctorListController = require("../Controllers/Admin/doctorListController")
+const doctorListController = require("../Controllers/Admin/doctorListController");
 
-const {fetchNewdoctors,adminVerifyDr,adminUnverifyDr} = doctorListController
+const { fetchNewdoctors, adminVerifyDr, adminUnverifyDr } =
+  doctorListController;
 
-const {
-  adminLoginVerify,
-  adminFetchUsers,
-  adminBlockUser,
-  adminUnblockUser,
-} = admimController;
+const { adminLoginVerify, adminFetchUsers, adminBlockUser, adminUnblockUser } =
+adminController;
 
 const {
   addCategory,
@@ -32,9 +29,8 @@ adminRoute
   .post("/categoryblock", verifyAccessToken, blockCategory)
   .post("/unblockcategory", verifyAccessToken, unblockCategory)
   .post("/editcategory", verifyAccessToken, editCategory)
-  .get('/doctors',verifyAccessToken,fetchNewdoctors)
-  .post('/verifydr',verifyAccessToken,adminVerifyDr)
-  .post('/unverifydr',verifyAccessToken,adminUnverifyDr)
-  
+  .get("/doctors", verifyAccessToken, fetchNewdoctors)
+  .post("/verifydr", verifyAccessToken, adminVerifyDr)
+  .post("/unverifydr", verifyAccessToken, adminUnverifyDr);
 
 module.exports = adminRoute;

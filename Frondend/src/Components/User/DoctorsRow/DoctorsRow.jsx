@@ -28,18 +28,26 @@ const DoctorsRow = () => {
           .fill()
           .map((index) => (
             <div className="flip-card" key={index}>
-              <div className="flip-card-inner fixed">
-                <div className="flip-card-front">
+            <div className="flip-card-inner fixed">
+              <div className="flip-card-front">
+                <div className="flex justify-center items-center mt-[50px] mb-[10px]">
                   <Skeleton
                     circle={true}
                     height={200}
                     width={200}
-                    className="doctor-image mt-[50px] mx-auto mb-[10px]"
+                    className="rounded-full"
                   />
-                  <Skeleton width={150} height={30} className="mx-auto" />
+                </div>
+                <div className="flex justify-center items-center">
+                  <Skeleton
+                    width={150}
+                    height={30}
+                    className="rounded-md"
+                  />
                 </div>
               </div>
             </div>
+          </div>
           ))
       ) : (
         <>
@@ -54,20 +62,19 @@ const DoctorsRow = () => {
                   alt="Avatar"
                   className="w-full h-full rounded-lg object-cover"
                 />
-                <h2 className="doctor-name font-bold">Dr.{dr.nameOfDoctor}</h2>
-
-  
-                <div  className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 bg-gradient-to-t from-black to-transparent p-4 text-white transition-opacity  duration-300">
-                  <h1 className="text-lg font-semibold">{`Dr.${dr.nameOfDoctor} ${dr.degreeOfDoctor}`}</h1>
-                  <p className="text-sm">{dr.categoryData.categoryName}</p>
-                  <button
-                    className="mt-2  flex justify-center items-center cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
-                    onClick={() =>
-                      navigate(`/doctordetails?doctorid=${dr._id}`)
-                    }
-                  >
-                    Explore
-                  </button>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t  from-black to-transparent p-4 text-white">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h1 className="text-lg font-semibold">{`Dr.${dr.nameOfDoctor} ${dr.degreeOfDoctor}`}</h1>
+                    <p className="text-sm">{dr.categoryData.categoryName}</p>
+                    <button
+                      className="mt-2 flex justify-center items-center cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white w-32 transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2xl"
+                      onClick={() =>
+                        navigate(`/doctordetails?doctorid=${dr._id}`)
+                      }
+                    >
+                      Explore
+                    </button>
+                  </div>
                 </div>
               </div>
             </>

@@ -27,9 +27,7 @@ const verifyAccessToken = (req, res, next) => {
 
     jwt.verify(accessToken, process.env.JWT_SECRET_KEY, (err, decoded) => {
       if (err) {
-        return res
-          .status(403)
-          .json({ message: "Invalid or expired access token" });
+        refreshToken(req,res,next)
       }
       req.userId = decoded.userId;
       next();
@@ -39,7 +37,7 @@ const verifyAccessToken = (req, res, next) => {
   }
 };
 
-const refreshToken = async (req, res) => {
+const refreshToken = async (req, res,next) => {
   try {
     const refresh_token = req.cookies["refreshToken"];
     if (!refresh_token) {
@@ -63,8 +61,8 @@ const refreshToken = async (req, res) => {
           sameSite: "Strict",
           maxAge: 1 * 60 * 60 * 1000,
         });
-
-        res.json({ accessToken: newAccessToken });
+        req.userId = decoded.userId
+        next()
       }
     );
   } catch (err) {

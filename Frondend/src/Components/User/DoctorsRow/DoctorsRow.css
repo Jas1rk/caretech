@@ -11,66 +11,6 @@
   display: none;
 }
 
-/* .card 
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: box-shadow 0.3s ease;
-} */
-
-/* .card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
-} */
-
-/* .card-content {
-  position: relative;
-  text-align: center;
-} */
-
-/* .details {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-} */
-/* 
-.card:hover .details {
-  opacity: 1; 
-}
-
-.doctor-name {
-  color: black;
-  font-size: 20px;
-}
-
-.details-button {
-  padding: 10px 20px;
-  margin-top: 20px;
-  cursor: pointer;
-  background: #fdfdfd;
-  border: none;
-  outline: none;
-  color: black;
-  width: 150px;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgb(231, 223, 233);
-  transition: transform 0.3s ease-in-out;
-}
-
-.details-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.63);
-} */
-
 
 @media (max-width: 430px) {
   .main-row {
