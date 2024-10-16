@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { findAllCatgory } from "../../../Redux/User/UserThunk";
-import { ShimmerEffect } from "../..";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Skeleton from "react-loading-skeleton";
@@ -23,8 +22,9 @@ const CategoriesRow = () => {
   }, [dispatch]);
 
   return (
-    <div className="ml-3 ">
+    <>
       <h2 className="ml-3">Categories</h2>
+    <div className="h-[350px] flex  w-[100%] overflow-x-auto">
       {loading || categoryData.length === 0 ? (
         <div className="flex gap-3">
           {Array(7)
@@ -45,7 +45,7 @@ const CategoriesRow = () => {
                 key={index}
               >
                 <div
-                  className="categoryText-container w-36 h-40"
+                  className="categoryText-container w-36 h-48"
                   data-aos="fade-up"
                 >
                   <h2 className="cat-title" data-aos="fade-down">
@@ -61,6 +61,7 @@ const CategoriesRow = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 
