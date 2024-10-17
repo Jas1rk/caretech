@@ -17,36 +17,7 @@ const Sloatallocation = () => {
   const [date, setDate] = useState();
 
   const handleDate = (newDate) => {
-    const selectedDate = new Date(newDate.setHours(0, 0, 0, 0));
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-  
-    const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
-    console.log("last date is here",yesterday)
-    const previousMonth = new Date(today);
-    previousMonth.setMonth(today.getMonth() - 1);
-  
-    const previousYear = new Date(today);
-    previousYear.setFullYear(today.getFullYear() - 1);
-  
-    if (
-      selectedDate.getFullYear() === yesterday.getFullYear() &&
-      selectedDate.getMonth() === yesterday.getMonth() &&
-      selectedDate.getDate() === yesterday.getDate()
-    ) {
-      toast.error("You selected yesterday's date!");
-    } else if (
-      selectedDate.getFullYear() === previousMonth.getFullYear() &&
-      selectedDate.getMonth() === previousMonth.getMonth()
-    ) {
-      toast.error("You selected a date from last month!");
-    } else if (selectedDate.getFullYear() === previousYear.getFullYear()) {
-      toast.error("You selected a date from last year!");
-    } else {
-      setDate(selectedDate);
-      console.log("Selected date:", selectedDate.toDateString());
-    }
+     
   };
   
 
@@ -60,6 +31,7 @@ const Sloatallocation = () => {
             className="border-none rounded-lg bg-white shadow-lg p-2"
             onChange={handleDate}
             value={date}
+            minDate={new Date()}
           />
         </div>
         <div>
