@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { toast } from "sonner";
 
 const getCurrentTime = () => {
   const now = new Date();
@@ -13,20 +12,46 @@ const getCurrentTime = () => {
 
 const Sloatallocation = () => {
   const [startTime, setStartTime] = useState(getCurrentTime());
-  // const [endTime, setEndTime] = useState('12:00');
+  const [showTime, setShowtime] = useState(false);
   const [date, setDate] = useState();
 
-  const handleDate = (newDate) => {
-     
+  const handleDate = (selectedDate) => {
+    setDate(selectedDate.toLocaleDateString());
+    setShowtime(true);
   };
-  
+
+  const renderSpan = () => {
+    return [
+      { color: "bg-green-600 border-green-400", label: "selected" },
+      { color: "bg-[#eaff45] border-yellow-300", label: "available" },
+      {
+        color: "bg-[#989898] border-l-neutral-400",
+        label: "not available",
+      },
+    ];
+  };
+
+  console.log("checked", date);
 
   return (
     <>
       <DoctorNavbar />
       <h1 className="pt-24 text-center font-bold text-lg">Allocate a Slot</h1>
+
       <div className=" p-10 m-10 rounded-lg shadow-xl flex gap-10">
-        <div className="">
+        <div className="flex flex-col">
+          <div className="flex gap-5">
+            {renderSpan().map((item, index) => (
+              <div
+                key={index}
+                className="flex gap-1 justify-center items-center"
+              >
+                <div className={`w-3 h-3 border ${item.color}`}></div>
+                <span className="text-sm">{item.label}</span>
+              </div>
+            ))}
+          </div>
+
           <Calender
             className="border-none rounded-lg bg-white shadow-lg p-2"
             onChange={handleDate}
@@ -34,18 +59,16 @@ const Sloatallocation = () => {
             minDate={new Date()}
           />
         </div>
-        <div>
-          <label htmlFor="startTime">Start Time:</label>
-          <input
-            type="time"
-            id="startTime"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-
-          {/* <label htmlFor="endTime">End Time:</label>
-      <input type="time" id="endTime" value={endTime} onChange={(e) => setEndTime(e.target.value)} /> */}
-        </div>
+        {showTime && (
+          <div>
+            <label htmlFor="startTime">Start Time:</label>
+            <input
+              type="time"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+            />
+          </div>
+        )}
       </div>
     </>
   );
