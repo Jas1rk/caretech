@@ -4,14 +4,24 @@ import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 const getCurrentTime = () => {
-  const now = new Date();
-  const hours = now.getHours().toString().padStart(2, "0");
-  const minutes = now.getMinutes().toString().padStart(2, "0");
-  return `${hours}:${minutes}`;
+  // const now = new Date();
+  // const hours = now.getHours().toString().padStart(2, "0");
+  // const minutes = now.getMinutes().toString().padStart(2, "0");
+  // return `${hours}:${minutes}`;
+  let date = new Date();
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let newFormat = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  return `${hours}:${minutes}.${newFormat}`
 };
+
 
 const Sloatallocation = () => {
   const [startTime, setStartTime] = useState(getCurrentTime());
+  console.log("start time",startTime)
   const [showTime, setShowtime] = useState(false);
   const [date, setDate] = useState();
 
@@ -30,8 +40,6 @@ const Sloatallocation = () => {
       },
     ];
   };
-
-  console.log("checked", date);
 
   return (
     <>
@@ -60,14 +68,23 @@ const Sloatallocation = () => {
           />
         </div>
         {showTime && (
-          <div>
-            <label htmlFor="startTime">Start Time:</label>
-            <input
-              type="time"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-            />
-          </div>
+          <>
+            <div className="flex flex-col">
+              <h2 className="font-bold">Allocate times of you</h2>
+              <div className="flex gap-1">
+                <div className="flex gap-2">
+                  <p className="items-center justify-center flex">Time:</p>
+                  <input
+                    type="time"
+                    className="border p-1 rounded-md focus:ring-2 focus:ring-[#136a8a]  focus:shadow-lg outline-none "
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                  />
+                </div>
+                <button className="bg-black text-white p-1 rounded-md">add</button>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </>
