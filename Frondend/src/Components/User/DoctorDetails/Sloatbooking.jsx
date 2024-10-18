@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -9,16 +9,18 @@ const Sloatbooking = ({ closeModal }) => {
     setDate(newDate);
   };
 
-  const renderSpan = () => {
-    return [
+  const slotStatuses = useMemo(
+    () => [
       { color: "bg-green-600 border-green-400", label: "selected" },
       { color: "bg-[#eaff45] border-yellow-300", label: "available" },
       {
         color: "bg-[#989898] border-l-neutral-400",
         label: "not available",
       },
-    ];
-  };
+    ],
+    []
+  );
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-xl w-[80%] sm:w-[500px] relative">
@@ -30,7 +32,7 @@ const Sloatbooking = ({ closeModal }) => {
         </button>
         <h2 className="text-md font-bold">Select a sloat</h2>
         <div className="flex gap-5">
-          {renderSpan().map((data, index) => (
+          {slotStatuses.map((data, index) => (
             <div className="flex gap-1 justify-center items-center" key={index}>
               <div className={`w-3 h-3 border ${data.color}`}></div>
               <span className="text-sm">{data.label}</span>
