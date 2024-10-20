@@ -29,12 +29,17 @@ const Sloatallocation = () => {
 
   const handleTime = (event) => {
     const selectTime = event.target.value;
-    if (selectTime >= "10:00" && selectTime <= "23.00") {
+    console.log("event value",selectTime)
+    if (selectTime >= "10:00" && selectTime <= "23:00") {
       setStartTime(selectTime);
-      setTimeError(false)
+      console.log("changing start time",startTime)
+      setTimeError(false);
     } else {
       setTimeError(true);
     }
+  };
+
+  const handleAddTime = (currentTime) => {
   };
 
   const slotStatuses = useMemo(
@@ -79,7 +84,9 @@ const Sloatallocation = () => {
               <h2 className="font-bold">Allocate times of you</h2>
               <p
                 className={`text-sm  ${
-                  timeError ? "bg-red-500 border-red-500 text-white" : "bg-[#85a6ff] text-white"
+                  timeError
+                    ? "bg-red-500 border-red-500 text-white"
+                    : "bg-[#85a6ff] text-white"
                 } rounded-md border-blue-400 p-1`}
               >
                 {timeError
@@ -99,7 +106,10 @@ const Sloatallocation = () => {
                     onChange={handleTime}
                   />
                 </div>
-                <button className="bg-black text-white p-1 rounded-md">
+                <button
+                  className="bg-black text-white p-1 rounded-md"
+                  onClick={() => handleAddTime(formatTime12Hour(startTime))}
+                >
                   add
                 </button>
               </div>
