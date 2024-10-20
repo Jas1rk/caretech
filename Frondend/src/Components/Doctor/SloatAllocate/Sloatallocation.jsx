@@ -18,28 +18,55 @@ const getCurrentTime24Hour = () => {
   return `${hours}:${minutes}`;
 };
 
+const timeToMinutes = (time) => {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
 const Sloatallocation = () => {
   const [startTime, setStartTime] = useState(getCurrentTime24Hour());
   const [date, setDate] = useState();
   const [timeError, setTimeError] = useState(false);
+  const [selectedTimes, setSelectedTimes] = useState([]);
 
-  const handleDate = (selectedDate) => {
+  const handleDate = (selectedDate) =>
     setDate(selectedDate.toLocaleDateString());
-  };
+
+  const minTime = timeToMinutes("10:00");
+  const maxTime = timeToMinutes("23:00");
 
   const handleTime = (event) => {
     const selectTime = event.target.value;
-    console.log("event value",selectTime)
-    if (selectTime >= "10:00" && selectTime <= "23:00") {
+    const selectedTime = timeToMinutes(selectTime);
+
+    if (selectedTime >= minTime && selectedTime <= maxTime) {
       setStartTime(selectTime);
-      console.log("changing start time",startTime)
       setTimeError(false);
     } else {
       setTimeError(true);
     }
   };
-
   const handleAddTime = (currentTime) => {
+    const timeMinute = timeToMinutes(currentTime);
+    if (selectedTimes.length > 0) {
+      const lastTime = selectedTimes[selectedTimes.length - 1];
+      const lastTimeMinute = timeToMinutes(lastTime);
+
+      if (timeMinute - lastTimeMinute < 60) {
+        toast.error("Time gap should be at least 1 hour");
+        return;
+      }
+
+      if (selectedTimes.length === 3) {
+        toast.error("Only 3 time slots can add");
+        return;
+      }
+    }
+    const timesList = [...selectedTimes];
+    timesList.push(currentTime);
+    setSelectedTimes(timesList);
+    const changeTime12 = formatTime12Hour(currentTime);
+    toast.success(`Time added to list${changeTime12}`);
   };
 
   const slotStatuses = useMemo(
@@ -103,12 +130,12 @@ const Sloatallocation = () => {
                     type="time"
                     className="border p-1 rounded-md focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg outline-none"
                     value={startTime}
-                    onChange={handleTime}
+                    onChange={(event) => handleTime(event)}
                   />
                 </div>
                 <button
                   className="bg-black text-white p-1 rounded-md"
-                  onClick={() => handleAddTime(formatTime12Hour(startTime))}
+                  onClick={() => handleAddTime(startTime)}
                 >
                   add
                 </button>
