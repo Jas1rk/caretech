@@ -3,6 +3,7 @@ import { DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "sonner";
+import doctor_Api from "../../../service/Doctorinstance";
 
 const formatTime12Hour = (time24) => {
   let [hours, minutes] = time24.split(":");
@@ -48,6 +49,12 @@ const Sloatallocation = () => {
   };
   const handleAddTime = (currentTime) => {
     const timeMinute = timeToMinutes(currentTime);
+
+    if (timeMinute < minTime || timeMinute > maxTime) {
+      toast.error("Time must be between 10:00 AM and 11:00 PM");
+      return;
+    }
+
     if (selectedTimes.length > 0) {
       const lastTime = selectedTimes[selectedTimes.length - 1];
       const lastTimeMinute = timeToMinutes(lastTime);
@@ -66,7 +73,7 @@ const Sloatallocation = () => {
     timesList.push(currentTime);
     setSelectedTimes(timesList);
     const changeTime12 = formatTime12Hour(currentTime);
-    toast.success(`Time added to list${changeTime12}`);
+    toast.success(`Time added to list ${changeTime12}`);
   };
 
   const slotStatuses = useMemo(
@@ -109,13 +116,29 @@ const Sloatallocation = () => {
     toast.success("Time deleted form list");
   };
 
+  const handleAllocate = async () => {
+    if (selectedTimes.length < 3) {
+      toast.error("At-least 3 time slots should add");
+      return;
+    }
+
+    try {
+      const { data } = await doctor_Api.post("/doctor/doctor-slot-allocate", {
+        selectedDate: date,
+        pickedTimes: selectedTimes.map((time) => formatTime12Hour(time)),
+      });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       <DoctorNavbar />
       <h1 className="pt-24 text-center font-bold text-lg">Allocate a Slot</h1>
 
       <div className="p-10 m-10 rounded-lg shadow-xl flex gap-10">
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <div className="flex gap-5">
             {slotStatuses.map((item, index) => (
               <div
@@ -134,6 +157,7 @@ const Sloatallocation = () => {
             value={date}
             minDate={new Date()}
           />
+          {date && <p className="mt-2">Selected date: {date}</p>}
         </div>
 
         {date && (
@@ -199,6 +223,14 @@ const Sloatallocation = () => {
                 </div>
               ) : (
                 <p>No time slots selected</p>
+              )}
+              {selectedTimes.length !== 0 && (
+                <button
+                  className="mt-2 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white  transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x"
+                  onClick={handleAllocate}
+                >
+                  Allocate
+                </button>
               )}
             </div>
           </>
