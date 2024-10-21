@@ -170,6 +170,18 @@ const Sloatallocation = () => {
                   add
                 </button>
               </div>
+              <h2 className="flex justify-center items-center mt-1 font-bold text-sm">
+                Selected times
+              </h2>
+              <div className="grid grid-cols-4 gap-4 m-2">
+                <div className="relative bg-orange-100 text-center rounded-md p-1 border border-orange-300">
+                  <button className="absolute left-0 top-1 transform -translate-y-1/2 -translate-x-1/2 bg-red-500 text-white text-sm rounded-full text-center w-4 h-4 flex items-center justify-center z-10">
+                    x
+                  </button>
+                  4:00 PM
+                </div>
+               
+              </div>
             </div>
           </>
         )}
