@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -57,7 +57,7 @@ const Sloatallocation = () => {
         return;
       }
 
-      if (selectedTimes.length === 3) {
+      if (selectedTimes.length === 8) {
         toast.error("Only 3 time slots can add");
         return;
       }
@@ -74,6 +74,30 @@ const Sloatallocation = () => {
       { color: "bg-green-600 border-green-400", label: "Selected" },
       { color: "bg-[#eaff45] border-yellow-300", label: "Today" },
       { color: "bg-[#989898] border-l-neutral-400", label: "Not Available" },
+    ],
+    []
+  );
+
+  const credentials = useMemo(
+    () => [
+      {
+        pValue: "*",
+        pStyle: "text-red-600 font-bold",
+        spanValue: "Time gap should be at least 1 hour",
+        spanStyle: "font-normal text-black text-sm",
+      },
+      {
+        pValue: "*",
+        pStyle: "text-red-600 font-bold",
+        spanValue: "At-least 3 time slots should add",
+        spanStyle: "font-normal text-black text-sm",
+      },
+      {
+        pValue: "*",
+        pStyle: "text-red-600 font-bold",
+        spanValue: "Only can add 8 time slots per head",
+        spanStyle: "font-normal text-black text-sm",
+      },
     ],
     []
   );
@@ -120,6 +144,12 @@ const Sloatallocation = () => {
                   ? "Time must be between 10:00 AM and 12:00 PM."
                   : "Patient booking starts 10:00 AM onwards up to 10:00 PM"}
               </p>
+              {credentials.map((data, index) => (
+                <p className={data.pStyle} key={index}>
+                  {data.pValue}
+                  <span className={data.spanStyle}> {data.spanValue}</span>
+                </p>
+              ))}
               <div className="flex gap-1 mt-2">
                 <div className="flex gap-2">
                   <p className="items-center justify-center flex">Time:</p>
