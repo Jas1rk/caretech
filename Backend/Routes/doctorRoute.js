@@ -1,6 +1,7 @@
 const express = require("express");
 const doctorRoute = express.Router();
 const doctorController = require("../Controllers/Doctor/doctorController");
+const doctorSlotAllocationController = require("../Controllers/Doctor/slotAllocateController")
 const upload = require("../Utils/multer");
 const { verifyAccessToken } = require("../Utils/jwt");
 
@@ -10,6 +11,10 @@ const {
   loginDoctor,
   drProfileEdit,
 } = doctorController;
+
+
+const {doctorSlotAllocate} = doctorSlotAllocationController
+
 
 doctorRoute
   .post("/doctorregister", registerForDoctor)
@@ -27,6 +32,7 @@ doctorRoute
     upload.single("doctorprofile"),
     verifyAccessToken,
     drProfileEdit
-  );
+  )
+  .post("/doctor-slot-allocate",verifyAccessToken,doctorSlotAllocate)
 
 module.exports = doctorRoute;
