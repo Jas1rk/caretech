@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
-import { DoctorNavbar } from "../..";
+import { DoctorNavbar, LoadingSpinner } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "sonner";
 import doctor_Api from "../../../service/Doctorinstance";
+import { useSelector } from "react-redux";
 
 const formatTime12Hour = (time24) => {
   let [hours, minutes] = time24.split(":");
@@ -29,6 +30,8 @@ const Sloatallocation = () => {
   const [date, setDate] = useState();
   const [timeError, setTimeError] = useState(false);
   const [selectedTimes, setSelectedTimes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { doctorData } = useSelector((state) => state.doctor);
 
   const handleDate = (selectedDate) =>
     setDate(selectedDate.toLocaleDateString());
@@ -69,7 +72,7 @@ const Sloatallocation = () => {
         return;
       }
     }
-    setSelectedTimes((prevTimes) => [...prevTimes,currentTime])
+    setSelectedTimes((prevTimes) => [...prevTimes, currentTime]);
     const changeTime12 = formatTime12Hour(currentTime);
     toast.success(`Time added to list ${changeTime12}`);
   };
@@ -114,19 +117,28 @@ const Sloatallocation = () => {
     toast.success("Time deleted form list");
   };
 
-  const handleAllocate = async () => {
+  const handleAllocate = async (doctorId) => {
     if (selectedTimes.length < 3) {
       toast.error("At-least 3 time slots should add");
       return;
     }
+    setLoading(true);
 
     try {
+      // await new Promise((resolve) => setTimeout(resolve, 500)); only for test purpose for checking network do not use after cheque
       const { data } = await doctor_Api.post("/doctor/doctor-slot-allocate", {
+        doctorId,
         selectedDate: date,
         pickedTimes: selectedTimes.map((time) => formatTime12Hour(time)),
       });
+      if (data) {
+        toast.success("Slot allocated");
+        setSelectedTimes([]);
+      }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -225,9 +237,18 @@ const Sloatallocation = () => {
               {selectedTimes.length !== 0 && (
                 <button
                   className="mt-2 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white  transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x"
-                  onClick={handleAllocate}
+                  onClick={() => handleAllocate(doctorData.id)}
                 >
-                  Allocate
+                  {loading ? (
+                    <>
+                      <div className="flex items-center justify-center">
+                        <LoadingSpinner />
+                        <span className="ml-2">Allocating...</span>
+                      </div>
+                    </>
+                  ) : (
+                    "Allocate slot"
+                  )}
                 </button>
               )}
             </div>
