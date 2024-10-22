@@ -69,9 +69,7 @@ const Sloatallocation = () => {
         return;
       }
     }
-    const timesList = [...selectedTimes];
-    timesList.push(currentTime);
-    setSelectedTimes(timesList);
+    setSelectedTimes((prevTimes) => [...prevTimes,currentTime])
     const changeTime12 = formatTime12Hour(currentTime);
     toast.success(`Time added to list ${changeTime12}`);
   };
