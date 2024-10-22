@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
-import { DoctorNavbar, LoadingSpinner } from "../..";
+import { DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "sonner";
 import doctor_Api from "../../../service/Doctorinstance";
 import { useSelector } from "react-redux";
+import { Circles } from "react-loader-spinner";
 
 const formatTime12Hour = (time24) => {
   let [hours, minutes] = time24.split(":");
@@ -242,7 +243,15 @@ const Sloatallocation = () => {
                   {loading ? (
                     <>
                       <div className="flex items-center justify-center">
-                        <LoadingSpinner />
+                        <Circles
+                          height="20"
+                          width="20"
+                          color="white"
+                          ariaLabel="circles-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                          visible={true}
+                        />
                         <span className="ml-2">Allocating...</span>
                       </div>
                     </>
