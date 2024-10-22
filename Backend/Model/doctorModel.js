@@ -67,7 +67,7 @@ const doctorSchema = new mongoose.Schema(
       }
     }],
     timeAllocation:[{
-      date:{
+      selectedDate:{
         type:String
       },
       selectedTimes:[{
