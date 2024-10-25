@@ -67,12 +67,12 @@ const doctorSchema = new mongoose.Schema(
       }
     }],
     timeAllocation:[{
-      selectedDate:{
+      storedDate:{
         type:String
       },
-      selectedTimes:[{
-        type:Array
-      }]
+      selectedTimes:{
+        type:[String]
+      }
     }]
   },
   { versionKey: false }

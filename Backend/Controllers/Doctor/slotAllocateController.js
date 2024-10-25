@@ -4,28 +4,33 @@ const doctorSlotAllocate = async (req, res) => {
   try {
     const { doctorId, selectedDate, pickedTimes } = req.body; 
     const findDoctor = await Doctor.findOne({ _id: doctorId });
-    console.log("here is the doctor",findDoctor)
-    const findt = findDoctor.timeAllocation.selectedTimes
-    console.log("times==========>>>>",findt)
-    const isDateExist = findDoctor.timeAllocation.find((existDate) => existDate.selectedDate === selectedDate)
-    console.log("date is already in database",isDateExist)
+    // console.log("here is the doctor",findDoctor)
+ 
+    const isDateExist = findDoctor.timeAllocation.find((existDate) => existDate.storedDate === selectedDate)
     if(isDateExist){
-      const isTimeAlreadyList = isDateExist.selectedTimes.includes(pickedTimes)
-      console.log("The selected time is already allocated for this date.",isTimeAlreadyList)
-      if(isTimeAlreadyList){
-        console.log("the time is already in list")
+        console.log("Existing date time",isDateExist.selectedTimes)
+        console.log("here is the picked times",pickedTimes)
+        // const existingTime = isDateExist.selectedTimes.flat()
+        // console.log("here we check the array flat",existingTime)
+      const isTimeExist = pickedTimes.some((time) => isDateExist.selectedTimes.includes(time))
+      console.log("is date exist",)
+      // console.log('here is the rest times',restTimes.length)
+      if(isTimeExist){
+        console.log("The selected time is already allocated for this date.",isTimeExist)
       }else{
-         await Doctor.findOneAndUpdate({_id:doctorId,'timeAllocation.selectedDate':selectedDate},{
+         
+         console.log("the else condtion is working")
+         await Doctor.findOneAndUpdate({_id:doctorId,'timeAllocation.storedDate':selectedDate},{
           $push:{
-            'timeAllocation.$.selectedTimes':pickedTimes
+            'timeAllocation.$.selectedTimes':{$each:restTimes}
           }
-         })
+         }) 
       }  
     }else{
       await Doctor.findOneAndUpdate({_id:doctorId},{
         $push:{
           timeAllocation:{
-            selectedDate:selectedDate,
+            storedDate:selectedDate,
             selectedTimes:pickedTimes
           }
         }
