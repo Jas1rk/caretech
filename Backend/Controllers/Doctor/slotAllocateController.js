@@ -6,7 +6,7 @@ const doctorSlotAllocate = async (req, res) => {
     const findDoctor = await Doctor.findOne({ _id: doctorId });
     console.log("here is the doctor",findDoctor)
     const findt = findDoctor.timeAllocation.selectedTimes
-    console.log("times====------======>>>>",findt)
+    console.log("times==========>>>>",findt)
     const isDateExist = findDoctor.timeAllocation.find((existDate) => existDate.selectedDate === selectedDate)
     console.log("date is already in database",isDateExist)
     if(isDateExist){
