@@ -64,7 +64,7 @@ const doctorSchema = new mongoose.Schema(
       followStatus:{
         type:Boolean,
         default:false
-      }
+      } 
     }],
     timeAllocation:[{
       storedDate:{

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { DoctorNavbar } from "../..";
+import { DoctorDisplaySlot, DoctorNavbar } from "../..";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "sonner";
@@ -127,17 +127,34 @@ const Sloatallocation = () => {
 
     try {
       // await new Promise((resolve) => setTimeout(resolve, 500)); only for test purpose for checking network do not use after cheque
-      const { data } = await doctor_Api.post("/doctor/doctor-slot-allocate", {
-        doctorId,
-        selectedDate: date,
-        pickedTimes: selectedTimes.map((time) => formatTime12Hour(time)),
-      });
-      if (data) {
-        toast.success("Slot allocated");
+      const { data, status } = await doctor_Api.post(
+        "/doctor/doctor-slot-allocate",
+        {
+          doctorId,
+          selectedDate: date,
+          pickedTimes: selectedTimes.map((time) => formatTime12Hour(time)),
+        }
+      );
+      if ([201, 200].includes(status)) {
+        toast.success(data.message);
         setSelectedTimes([]);
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      const { data, status } = error.response;
+      switch (status) {
+        case 409:
+          toast.error(data.message);
+          break;
+        case 401:
+        case 403:
+          toast.error(data.message);
+          break;
+        case 500:
+          toast.error("Server error. Please try again later.");
+          break;
+        default:
+          toast.error(data.message || "An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -147,122 +164,125 @@ const Sloatallocation = () => {
     <>
       <DoctorNavbar />
       <h1 className="pt-24 text-center font-bold text-lg">Allocate a Slot</h1>
+      <div className="p-10 m-10 rounded-lg shadow-xl flex flex-col">
+        <div className="flex gap-10">
+          <div className="flex flex-col ">
+            <div className="flex gap-5">
+              {slotStatuses.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-1 justify-center items-center"
+                >
+                  <div className={`w-3 h-3 border ${item.color}`}></div>
+                  <span className="text-sm">{item.label}</span>
+                </div>
+              ))}
+            </div>
 
-      <div className="p-10 m-10 rounded-lg shadow-xl flex gap-10">
-        <div className="flex flex-col ">
-          <div className="flex gap-5">
-            {slotStatuses.map((item, index) => (
-              <div
-                key={index}
-                className="flex gap-1 justify-center items-center"
-              >
-                <div className={`w-3 h-3 border ${item.color}`}></div>
-                <span className="text-sm">{item.label}</span>
-              </div>
-            ))}
+            <Calender
+              className="border-none rounded-lg bg-white shadow-lg p-2"
+              onChange={handleDate}
+              value={date}
+              minDate={new Date()}
+            />
+            {date && <p className="mt-2">Selected date: {date}</p>}
           </div>
 
-          <Calender
-            className="border-none rounded-lg bg-white shadow-lg p-2"
-            onChange={handleDate}
-            value={date}
-            minDate={new Date()}
-          />
-          {date && <p className="mt-2">Selected date: {date}</p>}
+          {date && (
+            <>
+              <div className="flex flex-col ">
+                <h2 className="font-bold">Allocate times of you</h2>
+                <p
+                  className={`text-sm  ${
+                    timeError
+                      ? "bg-red-500 border-red-500 text-white"
+                      : "bg-[#85a6ff] text-white"
+                  } rounded-md border-blue-400 p-1`}
+                >
+                  {timeError
+                    ? "Time must be between 10:00 AM and 11:00 PM."
+                    : "Patient booking starts 10:00 AM onwards up to 11:00 PM"}
+                </p>
+                {credentials.map((data, index) => (
+                  <p className={data.pStyle} key={index}>
+                    {data.pValue}
+                    <span className={data.spanStyle}> {data.spanValue}</span>
+                  </p>
+                ))}
+                <div className="flex gap-1 mt-2">
+                  <div className="flex gap-2">
+                    <p className="items-center justify-center flex">Time:</p>
+                    <span className="flex items-center justify-center font-bold">
+                      {formatTime12Hour(startTime)}
+                    </span>
+                    <input
+                      type="time"
+                      className="border p-1 rounded-md focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg outline-none"
+                      value={startTime}
+                      onChange={(event) => handleTime(event)}
+                    />
+                  </div>
+                  <button
+                    className="bg-black text-white p-1 rounded-md"
+                    onClick={() => handleAddTime(startTime)}
+                  >
+                    add
+                  </button>
+                </div>
+                <h2 className="flex justify-center items-center mt-1 font-bold text-sm">
+                  Selected times
+                </h2>
+                {selectedTimes.length !== 0 ? (
+                  <div className="grid grid-cols-4 gap-4 m-2">
+                    {selectedTimes.map((value, index) => (
+                      <div
+                        className="relative bg-orange-100 text-center rounded-md p-1 border border-orange-300"
+                        key={index}
+                      >
+                        <button
+                          className="absolute left-0 top-1 transform -translate-y-1/2 -translate-x-1/2 bg-red-500 text-white  rounded-full w-4 h-4 flex items-center justify-center z-10"
+                          onClick={() => handleDeleteTime(value)}
+                        >
+                          x
+                        </button>
+                        {formatTime12Hour(value)}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>No time slots selected</p>
+                )}
+                {selectedTimes.length !== 0 && (
+                  <button
+                    className="mt-2 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white  transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x"
+                    onClick={() => handleAllocate(doctorData.id)}
+                  >
+                    {loading ? (
+                      <>
+                        <div className="flex items-center justify-center">
+                          <Circles
+                            height="20"
+                            width="20"
+                            color="white"
+                            ariaLabel="circles-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                            visible={true}
+                          />
+                          <span className="ml-2">Allocating...</span>
+                        </div>
+                      </>
+                    ) : (
+                      "Allocate slot"
+                    )}
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
 
-        {date && (
-          <>
-            <div className="flex flex-col ">
-              <h2 className="font-bold">Allocate times of you</h2>
-              <p
-                className={`text-sm  ${
-                  timeError
-                    ? "bg-red-500 border-red-500 text-white"
-                    : "bg-[#85a6ff] text-white"
-                } rounded-md border-blue-400 p-1`}
-              >
-                {timeError
-                  ? "Time must be between 10:00 AM and 11:00 PM."
-                  : "Patient booking starts 10:00 AM onwards up to 11:00 PM"}
-              </p>
-              {credentials.map((data, index) => (
-                <p className={data.pStyle} key={index}>
-                  {data.pValue}
-                  <span className={data.spanStyle}> {data.spanValue}</span>
-                </p>
-              ))}
-              <div className="flex gap-1 mt-2">
-                <div className="flex gap-2">
-                  <p className="items-center justify-center flex">Time:</p>
-                  <span className="flex items-center justify-center font-bold">
-                    {formatTime12Hour(startTime)}
-                  </span>
-                  <input
-                    type="time"
-                    className="border p-1 rounded-md focus:ring-2 focus:ring-[#136a8a] focus:shadow-lg outline-none"
-                    value={startTime}
-                    onChange={(event) => handleTime(event)}
-                  />
-                </div>
-                <button
-                  className="bg-black text-white p-1 rounded-md"
-                  onClick={() => handleAddTime(startTime)}
-                >
-                  add
-                </button>
-              </div>
-              <h2 className="flex justify-center items-center mt-1 font-bold text-sm">
-                Selected times
-              </h2>
-              {selectedTimes.length !== 0 ? (
-                <div className="grid grid-cols-4 gap-4 m-2">
-                  {selectedTimes.map((value, index) => (
-                    <div
-                      className="relative bg-orange-100 text-center rounded-md p-1 border border-orange-300"
-                      key={index}
-                    >
-                      <button
-                        className="absolute left-0 top-1 transform -translate-y-1/2 -translate-x-1/2 bg-red-500 text-white  rounded-full w-4 h-4 flex items-center justify-center z-10"
-                        onClick={() => handleDeleteTime(value)}
-                      >
-                        x
-                      </button>
-                      {formatTime12Hour(value)}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p>No time slots selected</p>
-              )}
-              {selectedTimes.length !== 0 && (
-                <button
-                  className="mt-2 cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-2 rounded-3xl text-white  transform transition duration-500 ease-in-out hover:scale-110 hover:shadow-2x"
-                  onClick={() => handleAllocate(doctorData.id)}
-                >
-                  {loading ? (
-                    <>
-                      <div className="flex items-center justify-center">
-                        <Circles
-                          height="20"
-                          width="20"
-                          color="white"
-                          ariaLabel="circles-loading"
-                          wrapperStyle={{}}
-                          wrapperClass=""
-                          visible={true}
-                        />
-                        <span className="ml-2">Allocating...</span>
-                      </div>
-                    </>
-                  ) : (
-                    "Allocate slot"
-                  )}
-                </button>
-              )}
-            </div>
-          </>
-        )}
+        <DoctorDisplaySlot />
       </div>
     </>
   );
