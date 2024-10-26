@@ -30,6 +30,7 @@ export {default as DoctorProfileEdit} from './Doctor/DoctorProfile/Profileedit'
 export {default as DoctorNavbar} from './Doctor/DoctorHeader/Doctorheader'
 export {default as DoctorSidebar} from './Doctor/DoctorSidebar/Doctorsidebar'
 export {default as DoctorSloatAllocation} from './Doctor/SloatAllocate/Sloatallocation'
+export {default as DoctorDisplaySlot} from './Doctor/SloatAllocate/Displayslot'
 
 ////////////////commen/////////////////////////////////////////
 export {default as Pagination} from "./Commen/Pagination/Pagination"
@@ -40,4 +41,5 @@ export {default as ShimmerEffect} from './Commen/Shimmer/Shimmer'
 export {default as CommenInput} from './Commen/InputFields/InputField'
 export {default as ImageCropper} from './Commen/Cropper/Cropper'
 export {default as LoadingSpinner} from './Commen/Spinner/Spinner'
+export {default as Error404} from './Commen/404/Page404'
 /////////////////////////////////////////////////////////////////
