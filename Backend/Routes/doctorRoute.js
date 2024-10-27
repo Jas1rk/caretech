@@ -13,7 +13,7 @@ const {
 } = doctorController;
 
 
-const {doctorSlotAllocate} = doctorSlotAllocationController
+const {doctorSlotAllocate,doctorFetchSlots} = doctorSlotAllocationController
 
 
 doctorRoute
@@ -34,5 +34,6 @@ doctorRoute
     drProfileEdit
   )
   .post("/doctor-slot-allocate",verifyAccessToken,doctorSlotAllocate)
+  .get('/doctor-get-slot',verifyAccessToken,doctorFetchSlots)
 
 module.exports = doctorRoute;
