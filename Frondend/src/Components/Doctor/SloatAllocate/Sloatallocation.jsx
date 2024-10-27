@@ -160,6 +160,8 @@ const Sloatallocation = () => {
     }
   };
 
+
+
   return (
     <>
       <DoctorNavbar />
@@ -282,7 +284,7 @@ const Sloatallocation = () => {
           )}
         </div>
 
-        <DoctorDisplaySlot />
+        <DoctorDisplaySlot doctorid={doctorData.id}  />
       </div>
     </>
   );

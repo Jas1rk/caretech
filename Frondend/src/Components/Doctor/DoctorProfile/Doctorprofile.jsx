@@ -6,7 +6,6 @@ const Doctorprofile = () => {
   const { doctorData } = useSelector((state) => state.doctor);
   const [isEdit, setIsedit] = useState(false);
 
-  console.log("getting the ",doctorData)
   return (
     <>
       <DoctorNavbar />
