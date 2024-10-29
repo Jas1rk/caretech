@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import doctor_Api from "../../../service/Doctorinstance";
 import { toast } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 
 const DisplaySlot = ({ doctorid }) => {
   const [result, setResult] = useState();
@@ -25,6 +27,12 @@ const DisplaySlot = ({ doctorid }) => {
   const renderP = useMemo(() => [{ pValue: "Date" }, { pValue: "Times" }], []);
   return (
     <div className="shadow-md mt-5 rounded-lg p-3">
+      {!result ? (
+        <div className="p-5 flex flex-col justify-center items-center">
+          <FontAwesomeIcon icon={faFaceSadTear} bounce className="text-5xl"/>
+          <h2 className="font-bold">No Dates and Times are allocated</h2>
+        </div>
+      ):(
       <table className="min-w-full bg-white">
         <thead>
           <tr className="w-full bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -69,6 +77,8 @@ const DisplaySlot = ({ doctorid }) => {
             )}
         </tbody>
       </table>
+
+      )}
     </div>
   );
 };
