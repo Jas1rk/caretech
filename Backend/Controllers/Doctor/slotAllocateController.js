@@ -50,23 +50,18 @@ const doctorSlotAllocate = async (req, res) => {
       );
 
       if (timeWith1hourGap) {
-        res
-          .status(409)
-          .json({
-            message:
-              "Times must have a 1-hour gap from the last allocated time in the same date",
-          });
+        res.status(409).json({
+          message:
+            "Times must have a 1-hour gap from the last allocated time in the same date",
+        });
         return;
       }
 
       if (isDateExist.selectedTimes.length + pickedTimes.length > 8) {
-        console.log("here is ");
-        res
-          .status(409)
-          .json({
-            message:
-              "Allocation limit exceeded. You may only select up to 8 time slots per day.",
-          });
+        res.status(409).json({
+          message:
+            "Allocation limit exceeded. You may only select up to 8 time slots per day.",
+        });
         return;
       }
 
@@ -115,7 +110,23 @@ const doctorFetchSlots = async (req, res) => {
   }
 };
 
+const cancelIndividualTime = async (req, res) => {
+  try {
+    const { doctorid, time, date } = req.body;
+    const cancelTime = await Doctor.findOneAndUpdate(
+      { _id: doctorid, "timeAllocation.storedDate": date },
+      { $pull: { "timeAllocation.$.selectedTimes": time } }
+    );
+    res
+      .status(200)
+      .json({ message: "The time on date has been successfully canceled." });
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
 module.exports = {
   doctorSlotAllocate,
   doctorFetchSlots,
+  cancelIndividualTime,
 };
