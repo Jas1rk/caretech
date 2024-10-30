@@ -32,6 +32,7 @@
     "react-shimmer-effects": "^1.0.3",
     "react-sweetalert2": "^0.6.0",
     "react-time-picker": "^7.0.0",
+    "socket.io-client": "^4.8.1",
     "sonner": "^1.5.0",
     "yup": "^1.4.0"
   },

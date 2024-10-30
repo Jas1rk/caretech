@@ -1,5 +1,6 @@
 const Doctor = require("../../Model/doctorModel");
 const { ObjectId } = require("mongodb");
+const { getIO } = require("../../Config/Socket/socket.io");
 
 const timeToMinutes = (time) => {
   const isPM = time.includes("PM");
@@ -73,6 +74,7 @@ const doctorSlotAllocate = async (req, res) => {
           },
         }
       );
+      getIO().emit("slotAllocated", { doctorId, selectedDate, pickedTimes });
       res.status(200).json({ message: "Slot successfully allocated" });
     } else {
       await Doctor.findOneAndUpdate(
@@ -88,6 +90,7 @@ const doctorSlotAllocate = async (req, res) => {
         { upsert: true }
       );
     }
+    getIO().emit("slotAllocated", { doctorId, selectedDate, pickedTimes });
     res
       .status(201)
       .json({ message: "New date and times successfully allocated" });
@@ -113,13 +116,21 @@ const doctorFetchSlots = async (req, res) => {
 const cancelIndividualTime = async (req, res) => {
   try {
     const { doctorid, time, date } = req.body;
-    const cancelTime = await Doctor.findOneAndUpdate(
-      { _id: doctorid, "timeAllocation.storedDate": date },
-      { $pull: { "timeAllocation.$.selectedTimes": time } }
-    );
-    res
-      .status(200)
-      .json({ message: "The time on date has been successfully canceled." });
+    const check = await Doctor.findOne({ _id: doctorid ,"timeAllocation.storedDate":date},{"timeAllocation.$":1,_id:0});
+    // const datentry = check.timeAllocation.find((hello) => hello.storedDate === date)
+    if(check && check.timeAllocation[0].selectedTimes.length === 2){
+      console.log("here is the lenght",check.timeAllocation[0].selectedTimes.length)
+    }else{
+      console.log("here is working")
+    }
+    // const cancelTime = await Doctor.findOneAndUpdate(
+    //   { _id: doctorid, "timeAllocation.storedDate": date },
+    //   { $pull: { "timeAllocation.$.selectedTimes": time } }
+    // );
+    // getIO().emit("canceltime", { doctorid, time, date });
+    // res
+    //   .status(200)
+    //   .json({ message: "The time on date has been successfully canceled." });
   } catch (err) {
     console.log(err.message);
   }

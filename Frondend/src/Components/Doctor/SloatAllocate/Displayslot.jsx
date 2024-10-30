@@ -4,11 +4,14 @@ import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 import { ConfirmAlert } from "../..";
+import { useSelector } from "react-redux";
 
 const DisplaySlot = ({ doctorid }) => {
-  const [result, setResult] = useState();
+  const [result, setResult] = useState([]);
+  const { socket } = useSelector((state) => state.socket);
+
   useEffect(() => {
-    const fetchAndTime = async () => {
+    const fetchDateAndTime = async () => {
       try {
         const { data } = await doctor_Api.get(
           `/doctor/doctor-get-slot?doctorID=${doctorid}`
@@ -18,8 +21,25 @@ const DisplaySlot = ({ doctorid }) => {
         console.log(err.message);
       }
     };
-    fetchAndTime();
-  }, []);
+    fetchDateAndTime();
+
+    if (socket) {
+      socket.on("slotAllocated", (data) => {
+        console.log("here is data", data);
+        fetchDateAndTime();
+      });
+      socket.on("canceltime", () => {
+        fetchDateAndTime();
+      });
+    }
+
+    return () => {
+      if (socket) {
+        socket.off("slotAllocated");
+        socket.off("canceltime");
+      }
+    };
+  }, [socket]);
 
   const handleDeleteTime = (time, date) => {
     ConfirmAlert(
@@ -44,7 +64,7 @@ const DisplaySlot = ({ doctorid }) => {
   const renderP = useMemo(() => [{ pValue: "Date" }, { pValue: "Times" }], []);
   return (
     <div className="shadow-md mt-5 rounded-lg p-3">
-      {!result ? (
+      {result.length === 0 ? (
         <div className="p-5 flex flex-col justify-center items-center">
           <FontAwesomeIcon icon={faFaceSadTear} bounce className="text-5xl" />
           <h2 className="font-bold">No Dates and Times are allocated</h2>
