@@ -1,6 +1,7 @@
 const { Server } = require("socket.io");
 
 let io;
+
 const configSocket = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
@@ -18,4 +19,12 @@ const configSocket = (httpServer) => {
   });
 };
 
-module.exports = { configSocket, io };
+const getIO = () => {
+  if (!io) {
+    console.error("Socket.io not initialized!");
+    throw new Error("Socket.io not initialized!");
+  }
+  return io;
+};
+
+module.exports = { configSocket, getIO };

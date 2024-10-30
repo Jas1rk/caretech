@@ -26,8 +26,6 @@ const timeToMinutes = (time) => {
   return hours * 60 + minutes;
 };
 
-console.log("here is checking time to minute",timeToMinutes)
-
 const Sloatallocation = () => {
   const [startTime, setStartTime] = useState(getCurrentTime24Hour());
   const [date, setDate] = useState();
@@ -135,8 +133,6 @@ const Sloatallocation = () => {
           doctorId,
           selectedDate: date,
           pickedTimes: selectedTimes.map((time) => formatTime12Hour(time)),
-          pickedTimesMinutes : selectedTimes.map((time) => timeToMinutes(time))
-        
         }
       );
       if ([201, 200].includes(status)) {
@@ -163,8 +159,6 @@ const Sloatallocation = () => {
       setLoading(false);
     }
   };
-
-
 
   return (
     <>
@@ -288,7 +282,7 @@ const Sloatallocation = () => {
           )}
         </div>
 
-        <DoctorDisplaySlot doctorid={doctorData.id}  />
+        <DoctorDisplaySlot doctorid={doctorData.id} />
       </div>
     </>
   );
