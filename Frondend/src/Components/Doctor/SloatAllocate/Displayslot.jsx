@@ -25,7 +25,6 @@ const DisplaySlot = ({ doctorid }) => {
 
     if (socket) {
       socket.on("slotAllocated", (data) => {
-        console.log("here is data", data);
         fetchDateAndTime();
       });
       socket.on("canceltime", () => {

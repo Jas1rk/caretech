@@ -116,21 +116,29 @@ const doctorFetchSlots = async (req, res) => {
 const cancelIndividualTime = async (req, res) => {
   try {
     const { doctorid, time, date } = req.body;
-    const check = await Doctor.findOne({ _id: doctorid ,"timeAllocation.storedDate":date},{"timeAllocation.$":1,_id:0});
-    // const datentry = check.timeAllocation.find((hello) => hello.storedDate === date)
-    if(check && check.timeAllocation[0].selectedTimes.length === 2){
-      console.log("here is the lenght",check.timeAllocation[0].selectedTimes.length)
-    }else{
-      console.log("here is working")
-    }
-    // const cancelTime = await Doctor.findOneAndUpdate(
-    //   { _id: doctorid, "timeAllocation.storedDate": date },
-    //   { $pull: { "timeAllocation.$.selectedTimes": time } }
-    // );
-    // getIO().emit("canceltime", { doctorid, time, date });
-    // res
-    //   .status(200)
-    //   .json({ message: "The time on date has been successfully canceled." });
+    const doctorTime = await Doctor.findOne(
+      { _id: doctorid, "timeAllocation.storedDate": date },
+      { "timeAllocation.$": 1, _id: 0 }
+    );
+    const { selectedTimes } = doctorTime.timeAllocation[0];
+
+    const updateSlot =
+      selectedTimes.length === 1
+        ? { $pull: { timeAllocation: { storedDate: date } } }
+        : { $pull: { "timeAllocation.$.selectedTimes": time } };
+
+    await Doctor.updateOne(
+      { _id: doctorid, "timeAllocation.storedDate": date },
+      updateSlot
+    );
+    getIO().emit("canceltime", { doctorid, time, date });
+
+    res.status(200).json({
+      message:
+        selectedTimes.length === 1
+          ? "The time and date has been successfully canceled."
+          : "The time on date has been successfully canceled.",
+    });
   } catch (err) {
     console.log(err.message);
   }

@@ -6,6 +6,7 @@ const upload = require("../Utils/multer");
 const { verifyAccessToken } = require("../Utils/jwt");
 const landingPageController = require("../Controllers/User/lanidingPageController");
 const followController = require("../Controllers/User/FollowRequest");
+const slotBookingController = require("../Controllers/User/slotBooking");
 
 const {
   userRegister,
@@ -22,6 +23,8 @@ const { updateUserProfile, checkIsBlockUserProfile } = userProfileController;
 
 const { getCategories, fetchDoctors, doctorDetails } = landingPageController;
 const { userFollowDoctor } = followController;
+
+const { handleDisplayTimes } = slotBookingController;
 
 userRouter
   .post("/register", userRegister)
@@ -42,6 +45,7 @@ userRouter
   .get("/categories", getCategories)
   .get("/doctors", fetchDoctors)
   .get("/doctor-details/:doctorid", doctorDetails)
-  .post("/follow-doctor", verifyAccessToken, userFollowDoctor);
+  .post("/follow-doctor", verifyAccessToken, userFollowDoctor)
+  .get("/display-slots", handleDisplayTimes);
 
 module.exports = userRouter;
