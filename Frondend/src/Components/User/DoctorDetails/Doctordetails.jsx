@@ -19,13 +19,12 @@ const Doctordetails = () => {
   const queryparams = new URLSearchParams(location.search);
   const doctorid = queryparams.get("doctorid");
   const { doctor } = useFetchDoctor(doctorid);
-  const { userData, usertoken } = useSelector((state) => state.user);
-  const [localUserData, setLocalUserData] = useState(
-    JSON.parse(sessionStorage.getItem("userData"))
-  );
+  const { userData } = useSelector((state) => state.user);
+  // const [localUserData, setLocalUserData] = useState(
+  //   JSON.parse(sessionStorage.getItem("userData"))
+  // );
   const [openBookPage, setOpenBookPage] = useState(false);
 
-  console.log("outsid the function ", localUserData);
 
   // useEffect(() => {
   //   const getUserData = JSON.parse(sessionStorage.getItem('userData'));
@@ -35,36 +34,35 @@ const Doctordetails = () => {
   //   }
   // }, [sessionStorage.getItem('userData')]);
 
-  console.log("checking in redux store", userData);
 
-  const handleFollowDr = async (drid) => {
-    try {
-      if (usertoken) {
-        const { data } = await user_Api.post("/follow-doctor", {
-          drid,
-          userid: userData.id,
-        });
+  // const handleFollowDr = async (drid) => {
+  //   try {
+  //     if (usertoken) {
+  //       const { data } = await user_Api.post("/follow-doctor", {
+  //         drid,
+  //         userid: userData.id,
+  //       });
 
-        const updatedUserData = {
-          ...userData,
-          followingDoctors: data.findUser.followingDoctors,
-        };
-        console.log("after api response", updatedUserData);
-        sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
-        console.log("inside the follow  function", localUserData);
-        setLocalUserData(updatedUserData);
-        toast.success("Added doctor to your list");
-        console.log(
-          "getting inside follow function",
-          JSON.parse(sessionStorage.getItem("userData"))
-        );
-      } else {
-        toast.error("Please login to follow doctor");
-      }
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
+  //       const updatedUserData = {
+  //         ...userData,
+  //         followingDoctors: data.findUser.followingDoctors,
+  //       };
+  //       console.log("after api response", updatedUserData);
+  //       sessionStorage.setItem("userData", JSON.stringify(updatedUserData));
+  //       console.log("inside the follow  function", localUserData);
+  //       setLocalUserData(updatedUserData);
+  //       toast.success("Added doctor to your list");
+  //       console.log(
+  //         "getting inside follow function",
+  //         JSON.parse(sessionStorage.getItem("userData"))
+  //       );
+  //     } else {
+  //       toast.error("Please login to follow doctor");
+  //     }
+  //   } catch (err) {
+  //     toast.error(err.message);
+  //   }
+  // };
 
   return (
     <>
@@ -125,7 +123,7 @@ const Doctordetails = () => {
               Message
             </button>
             <div className="flex gap-2">
-              {doctor?._id &&
+              {/* {doctor?._id &&
               localUserData?.followingDoctors?.find(
                 (doc) =>
                   doc.doctorId === doctor._id && doc.followingStatus === true
@@ -140,12 +138,12 @@ const Doctordetails = () => {
               ) : (
                 <button
                   className="flex justify-center items-center mt-5 cursor-pointer bg-black outline-none border-none p-1 rounded-md text-white w-full hover:bg-[#5d5d5d]"
-                  onClick={() => handleFollowDr(doctor._id)}
+                  // onClick={() => handleFollowDr(doctor._id)}
                 >
                   <FontAwesomeIcon icon={faUserPlus} className="m-1" />
                   Follow
                 </button>
-              )}
+              )} */}
 
               <button className="flex justify-center items-center mt-5  cursor-pointer bg-black outline-none border-none p-1 rounded-md text-white w-full hover:bg-[#5d5d5d]">
                 <FontAwesomeIcon icon={faPlus} className="m-1" />
@@ -202,7 +200,7 @@ const Doctordetails = () => {
       {!openBookPage ? (
         <Footer />
       ) : (
-        <DoctorSloatBooking closeModal={() => setOpenBookPage(false)} />
+        <DoctorSloatBooking closeModal={() => setOpenBookPage(false)} doctorid={doctorid} />
       )}
     </>
   );
