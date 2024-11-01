@@ -4,25 +4,21 @@ const { ObjectId } = require("mongodb");
 const handleDisplayTimes = async (req, res) => {
   try {
     const { doctorId, selectedDate } = req.query;
-    console.log("here is selected date", selectedDate);
-    const findDoctorWithDate = await Doctor.findOne({
-      _id: doctorId,
-      timeAllocation: {
-        $elemMatch: { storedDate: selectedDate },
+    const findDoctorWithDate = await Doctor.aggregate([
+      {
+        $match: {
+          _id: new ObjectId(doctorId),
+          "timeAllocation.storedDate": selectedDate,
+        },
       },
-    });
-    if (findDoctorWithDate) {
-      const result = await Doctor.aggregate([
-        { $match: { _id: new ObjectId(doctorId) } },
-        { $unwind: "$timeAllocation" },
-        { $match: { "timeAllocation.storedDate": selectedDate } },
-        { $project: { _id: 0, times: "$timeAllocation.selectedTimes" } },
-      ]);
-      const da = result.flat()
-      console.log("here is result", da);
-    } else {
-      console.log(`sorry times not fond on ${selectedDate}`);
-    }
+      { $unwind: "$timeAllocation" },
+      { $project: { _id: 0, times: "$timeAllocation.selectedTimes" } },
+    ]);
+    findDoctorWithDate.length > 0
+      ? res.status(200).json(findDoctorWithDate)
+      : res
+          .status(409)
+          .json({ message: "No times found for the selected date" });
   } catch (err) {
     console.log(err.message);
   }
