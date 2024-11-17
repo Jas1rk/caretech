@@ -102,16 +102,44 @@ const doctorSlotAllocate = async (req, res) => {
 const doctorFetchSlots = async (req, res) => {
   try {
     const { doctorID } = req.query;
+    const today = new Date();
+    // today.setHours(0, 0, 0, 0); 
+
+   
+    await Doctor.updateOne(
+      { _id: doctorID },
+      {
+        $pull: {
+          timeAllocation: {
+            storedDate: { $lt: today.toISOString().split("T")[0] }, 
+          },
+        },
+      }
+    );
+
+ 
     const display = await Doctor.aggregate([
       { $match: { _id: new ObjectId(doctorID) } },
       { $unwind: "$timeAllocation" },
+      {
+        $match: {
+          "timeAllocation.storedDate": { $gte: today.toISOString().split("T")[0] },
+        },
+      },
       { $group: { _id: doctorID, TimeAllocate: { $push: "$timeAllocation" } } },
     ]);
+
+    
+    
+
+    console.log("Filtered Slots:", display);
     res.json(display);
   } catch (err) {
-    console.log(err.message);
+    console.error("Error fetching slots:", err.message);
+    res.status(500).json({ message: "Failed to fetch slots" });
   }
 };
+
 
 const cancelIndividualTime = async (req, res) => {
   try {

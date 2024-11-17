@@ -16,6 +16,7 @@ const DisplaySlot = ({ doctorid }) => {
         const { data } = await doctor_Api.get(
           `/doctor/doctor-get-slot?doctorID=${doctorid}`
         );
+        console.log("her is ",data)
         setResult(data);
       } catch (err) {
         console.log(err.message);
