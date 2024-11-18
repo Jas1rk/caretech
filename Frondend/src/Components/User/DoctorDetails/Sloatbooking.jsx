@@ -76,7 +76,7 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-xl w-[80%] sm:w-[500px] relative">
+      <div className="bg-white p-6 rounded-xl w-[80%] sm:w-[550px] relative">
         <button
           onClick={closeModal}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -101,7 +101,13 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
           />
         </div>
         <p className="text-sm">selected Date: {date}</p>
-        {date && <AllocatedTimes timeResult={result} errorMessage={error} />}
+        {date && (
+          <AllocatedTimes
+            timeResult={result}
+            errorMessage={error}
+            selectedDate={date}
+          />
+        )}
       </div>
     </div>
   );
