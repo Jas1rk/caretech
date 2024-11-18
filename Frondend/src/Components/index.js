@@ -14,6 +14,7 @@ export {default as Userprofile} from './User/UserProfile/Userprofile'
 export {default as DoctorDetails} from './User/DoctorDetails/Doctordetails'
 export {default as DoctorSloatBooking} from './User/DoctorDetails/Sloatbooking'
 export {default as AllocatedTimes} from './User/DoctorDetails/AllocatedTimes'
+export {default as MakingPayment} from './User/DoctorDetails/MakePayment'
 //////////////admin side/////////////////////////////////////
 export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
 export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'
