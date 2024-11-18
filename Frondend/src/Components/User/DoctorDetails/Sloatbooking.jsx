@@ -1,30 +1,66 @@
 import axios from "axios";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { backendUrl } from "../../../service/backendUrl";
 import AllocatedTimes from "./AllocatedTimes";
-import { toast } from "sonner";
+import { useSelector } from "react-redux";
+import debounce from "lodash.debounce";
 
 const Sloatbooking = ({ closeModal, doctorid }) => {
   const [date, setDate] = useState();
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const handleDate = async (newDate) => {
-    const selectedDate = newDate.toLocaleDateString();
-    setDate(selectedDate);
+  const { socket } = useSelector((state) => state.socket);
+
+  const fetchTime = async (selectedDate) => {
     try {
-      const { data, status } = await axios.get(
+      const { data } = await axios.get(
         `${backendUrl}/display-slots?doctorId=${doctorid}&selectedDate=${selectedDate}`
       );
-      if (status === 200) setResult(data);
+      setResult(data);
+      setError(null);
     } catch (error) {
       const { data, status } = error.response;
       if (status === 409) {
-        setError(data.message)
+        setError(data.message);
+        setResult(null);
       }
     }
   };
+
+  const handleDate = useCallback(
+    debounce((newDate) => {
+      const selectedDate = newDate.toLocaleDateString();
+      setDate(selectedDate);
+      fetchTime(selectedDate);
+    }, 300),
+    []
+  );
+
+  const socketEvent = useCallback(() => {
+    if (socket) {
+      const allocateTime = (data) => {
+        if (data.doctorId === doctorid) fetchTime();
+      };
+      const cancelTime = (data) => {
+        if (data.doctorId === doctorid) fetchTime();
+      };
+      socket.on("slotAllocated", allocateTime);
+      socket.on("canceltime", cancelTime);
+
+      return () => {
+        socket.off("slotAllocated", allocateTime);
+        socket.off("canceltime", cancelTime);
+      };
+    }
+  }, [socket, doctorid, date]);
+
+  useEffect(() => {
+    const cleanup = socketEvent();
+    fetchTime(date);
+    return cleanup;
+  }, [socketEvent, date]);
 
   const slotStatuses = useMemo(
     () => [
@@ -66,12 +102,6 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
         </div>
         <p className="text-sm">selected Date: {date}</p>
         {date && <AllocatedTimes timeResult={result} errorMessage={error} />}
-
-        <div className="flex items-end justify-end">
-          <button className="p-2 rounded-lg text-white text-sm bg-gradient-to-r from-teal-700 to-blue-900">
-            Make payment
-          </button>
-        </div>
       </div>
     </div>
   );
