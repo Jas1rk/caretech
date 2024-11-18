@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useFetchDoctor from "../../../Hooks/UseFetchDoctor";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import dummy from "../../../assets/Public/dummy.jpg";
-import { DoctorSloatBooking, Footer, Header } from "../..";
+import { DoctorSloatBooking, Footer, Header, Warning } from "../..";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,15 +16,22 @@ import { useSelector } from "react-redux";
 
 const Doctordetails = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryparams = new URLSearchParams(location.search);
   const doctorid = queryparams.get("doctorid");
   const { doctor } = useFetchDoctor(doctorid);
-  const { userData } = useSelector((state) => state.user);
-  // const [localUserData, setLocalUserData] = useState(
-  //   JSON.parse(sessionStorage.getItem("userData"))
-  // );
+  const { userData, isAuthUser } = useSelector((state) => state.user);
   const [openBookPage, setOpenBookPage] = useState(false);
 
+  const handleBookNow = async () => {
+    if (!isAuthUser) {
+      const result = await Warning();
+
+      if (result.isConfirmed) navigate("/login");
+      return;
+    }
+    setOpenBookPage(true);
+  };
 
   // useEffect(() => {
   //   const getUserData = JSON.parse(sessionStorage.getItem('userData'));
@@ -33,7 +40,6 @@ const Doctordetails = () => {
   //     setLocalUserData(getUserData);
   //   }
   // }, [sessionStorage.getItem('userData')]);
-
 
   // const handleFollowDr = async (drid) => {
   //   try {
@@ -114,7 +120,7 @@ const Doctordetails = () => {
             </div>
             <button
               className="flex justify-center items-center mt-5  cursor-pointer bg-gradient-to-r from-teal-700 to-blue-900 outline-none border-none p-1 rounded-md text-white w-full transform transition duration-500 ease-in-out hover:scale-110 "
-              onClick={() => setOpenBookPage(true)}
+              onClick={handleBookNow}
             >
               Book now
             </button>
@@ -200,7 +206,10 @@ const Doctordetails = () => {
       {!openBookPage ? (
         <Footer />
       ) : (
-        <DoctorSloatBooking closeModal={() => setOpenBookPage(false)} doctorid={doctorid} />
+        <DoctorSloatBooking
+          closeModal={() => setOpenBookPage(false)}
+          doctorid={doctorid}
+        />
       )}
     </>
   );
