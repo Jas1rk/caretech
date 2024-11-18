@@ -14,6 +14,7 @@ const handleDisplayTimes = async (req, res) => {
       { $unwind: "$timeAllocation" },
       { $project: { _id: 0, times: "$timeAllocation.selectedTimes" } },
     ]);
+    console.log("here is the times and date",findDoctorWithDate)
     findDoctorWithDate.length > 0
       ? res.status(200).json(findDoctorWithDate)
       : res

@@ -3,21 +3,28 @@ import React, { useEffect, useMemo, useState } from "react";
 import Calender from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { backendUrl } from "../../../service/backendUrl";
+import AllocatedTimes from "./AllocatedTimes";
+import { toast } from "sonner";
 
 const Sloatbooking = ({ closeModal, doctorid }) => {
   const [date, setDate] = useState();
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   const handleDate = async (newDate) => {
-    const selectedDate = newDate.toLocaleDateString()
+    const selectedDate = newDate.toLocaleDateString();
     setDate(selectedDate);
-    try{
-      const response = await axios.get(`${backendUrl}/display-slots?doctorId=${doctorid}&selectedDate=${selectedDate}`)
-    }catch(err){
-      console.log(err.message)
+    try {
+      const { data, status } = await axios.get(
+        `${backendUrl}/display-slots?doctorId=${doctorid}&selectedDate=${selectedDate}`
+      );
+      if (status === 200) setResult(data);
+    } catch (error) {
+      const { data, status } = error.response;
+      if (status === 409) {
+        setError(data.message)
+      }
     }
-  
   };
-
-
 
   const slotStatuses = useMemo(
     () => [
@@ -48,7 +55,7 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
               <span className="text-sm">{data.label}</span>
             </div>
           ))}
-        </div> 
+        </div>
         <div className="items-center justify-center  flex m-3">
           <Calender
             className="border-none rounded-lg bg-white shadow-lg p-2"
@@ -58,6 +65,7 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
           />
         </div>
         <p className="text-sm">selected Date: {date}</p>
+        {date && <AllocatedTimes timeResult={result} errorMessage={error} />}
 
         <div className="flex items-end justify-end">
           <button className="p-2 rounded-lg text-white text-sm bg-gradient-to-r from-teal-700 to-blue-900">
