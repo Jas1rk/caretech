@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import { MakingPayment } from "../..";
 import { toast } from "sonner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCouch } from "@fortawesome/free-solid-svg-icons";
 
-const AllocatedTimes = ({ timeResult, errorMessage }) => {
+const AllocatedTimes = ({ timeResult, errorMessage, selectedDate }) => {
   const [selectedTimes, setSelectedTimes] = useState([]);
 
   const handleSlotSelected = (time) => {
-    if (selectedTimes.length === 4) {
-      toast.error("You can select only 4 slot");
-      return;
-    }
     if (selectedTimes.includes(time)) {
       setSelectedTimes(selectedTimes.filter((selected) => selected !== time));
       return;
     }
-    setSelectedTimes([...selectedTimes, time]);
-  
+    if (selectedTimes.length < 4) {
+      setSelectedTimes([...selectedTimes, time]);
+    } else {
+      toast.info("only 4 slots can select");
+    }
   };
 
   return (
@@ -26,30 +27,42 @@ const AllocatedTimes = ({ timeResult, errorMessage }) => {
             <p className="font-bold text-sm text-center">{errorMessage}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-4 gap-4 p-3">
-            {timeResult.map((slot, tindex) =>
-              slot.times.map((time, index) => (
-                <div
-                  className={`p-1 rounded-md cursor-pointer ${
-                    selectedTimes.includes(time)
-                      ? "bg-[#35da26] border border-green-300"
-                      : "bg-[#eaff45] border border-yellow-300"
-                  }`}
-                  key={`${tindex}-${index}`}
-                >
-                  <p
-                    className="text-center"
+          <div>
+            <p className="text-sm text-center font-bold">Slot Fee ₹1000</p>
+            <div className="grid grid-cols-4 gap-4 p-3">
+              {timeResult.map((slot, tindex) =>
+                slot.times.map((time, index) => (
+                  <div
+                    className={`p-1 flex justify-center items-center gap-1 rounded-md cursor-pointer ${
+                      selectedTimes.includes(time)
+                        ? "bg-[#35da26] border border-green-300"
+                        : "bg-[#eaff45] border border-yellow-300"
+                    }`}
+                    key={`${tindex}-${index}`}
                     onClick={() => handleSlotSelected(time)}
                   >
-                    {time}
-                  </p>
-                </div>
-              ))
-            )}
+                    <FontAwesomeIcon icon={faCouch} />
+                    <p>{time}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        )}
+        {timeResult && selectedTimes.length > 0 && (
+          <div>
+            <p className="text-sm font-bold text-center">{`Total: ₹${
+              1000 * selectedTimes.length
+            }`}</p>
           </div>
         )}
       </div>
-      {timeResult && selectedTimes.length > 0 && <MakingPayment />}
+      {timeResult && selectedTimes.length > 0 && (
+        <MakingPayment
+          selectedDate={selectedDate}
+          selectedTimes={selectedTimes}
+        />
+      )}
     </>
   );
 };
