@@ -7,6 +7,8 @@ const { verifyAccessToken } = require("../Utils/jwt");
 const landingPageController = require("../Controllers/User/lanidingPageController");
 const followController = require("../Controllers/User/FollowRequest");
 const slotBookingController = require("../Controllers/User/slotBooking");
+const paymentController = require('../Controllers/User/paymentController')
+
 
 const {
   userRegister,
