@@ -28,6 +28,8 @@ const { userFollowDoctor } = followController;
 
 const { handleDisplayTimes } = slotBookingController;
 
+const {paymentSuccess} = paymentController
+
 userRouter
   .post("/register", userRegister)
   .post("/otp", verifyOtp)
@@ -48,6 +50,8 @@ userRouter
   .get("/doctors", fetchDoctors)
   .get("/doctor-details/:doctorid", doctorDetails)
   .post("/follow-doctor", verifyAccessToken, userFollowDoctor)
-  .get("/display-slots", handleDisplayTimes);
+  .get("/display-slots", handleDisplayTimes)
+  .post('/payment-success',paymentSuccess)
+
 
 module.exports = userRouter;

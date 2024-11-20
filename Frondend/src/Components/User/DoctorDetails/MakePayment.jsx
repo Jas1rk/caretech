@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import Logo from "../../../assets/Logo/Logo";
+import user_Api from "../../../service/Userinstance";
+
 
 const MakePayment = ({ selectedDate, selectedTimes }) => {
   const { userData } = useSelector((state) => state.user);
@@ -16,7 +18,9 @@ const MakePayment = ({ selectedDate, selectedTimes }) => {
       name: "CareTech",
       description: "Booking Payment",
       image: Logo,
-      handler: handleSuccess,
+      "handler": async(response) => {
+         handleSuccess(response)
+      },
       prefill: {
         name: userData.username,
         email: userData.email,
@@ -39,8 +43,12 @@ const MakePayment = ({ selectedDate, selectedTimes }) => {
     rzp.open();
   };
 
-  const handleSuccess = (response) => {
-    console.log("here is the response",response)
+  const handleSuccess = async(response) => {
+    try{
+      const response = await user_Api.post()
+    }catch(err){
+      console.log(err.message)
+    }
   };
   return (
     <>
