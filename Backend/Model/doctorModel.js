@@ -4,8 +4,8 @@ const doctorSchema = new mongoose.Schema(
     nameOfDoctor: {
       type: String,
     },
-    degreeOfDoctor:{
-      type:String
+    degreeOfDoctor: {
+      type: String,
     },
     emailOfDoctor: {
       type: String,
@@ -13,7 +13,7 @@ const doctorSchema = new mongoose.Schema(
     mobileOfDoctor: {
       type: Number,
     },
-    passwordOfDoctor:{
+    passwordOfDoctor: {
       type: String,
     },
     aboutDoctor: {
@@ -29,51 +29,68 @@ const doctorSchema = new mongoose.Schema(
     certificate: {
       type: String,
     },
-    isVerified:{
-      type:Boolean,
-      default:false
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
-    isBlocked:{
-      type:Boolean,
-      default:false
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
-    profileImageOfDoctor:{
-      type:String,
-
+    profileImageOfDoctor: {
+      type: String,
     },
-    yearsOfExperience:{
-      type:Number
+    yearsOfExperience: {
+      type: Number,
     },
-    stateOfDoctor:{
-      type:String
+    stateOfDoctor: {
+      type: String,
     },
-    countryOfDoctor:{
-      type:String
+    countryOfDoctor: {
+      type: String,
     },
-    locationOfDoctor:{
-      type:String
+    locationOfDoctor: {
+      type: String,
     },
-    aboutOfDoctor:{
-      type:String
+    aboutOfDoctor: {
+      type: String,
     },
-    doctorFollowers:[{
-      userId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+    doctorFollowers: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        followStatus: {
+          type: Boolean,
+          default: false,
+        },
       },
-      followStatus:{
-        type:Boolean,
-        default:false
-      } 
-    }],
-    timeAllocation:[{
-      storedDate:{
-        type:String
+    ],
+    timeAllocation: [
+      {
+        storedDate: {
+          type: String,
+        },
+        selectedTimes: {
+          type: [String],
+        },
       },
-      selectedTimes:{
-        type:[String]
-      }
-    }]
+    ],
+    sotBookingForPatients: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        bookingStatus: {
+          type: String,
+        },
+        bookingCost:{
+          type:Number
+        }
+      },
+    ],
   },
   { versionKey: false }
 );
