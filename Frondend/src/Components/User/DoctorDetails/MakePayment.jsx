@@ -18,8 +18,8 @@ const MakePayment = ({ selectedDate, selectedTimes }) => {
       name: "CareTech",
       description: "Booking Payment",
       image: Logo,
-      "handler": async(response) => {
-         handleSuccess(response)
+      handler: async(response) => {
+         console.log(response,"====response")
       },
       prefill: {
         name: userData.username,
@@ -35,6 +35,7 @@ const MakePayment = ({ selectedDate, selectedTimes }) => {
       },
     };
     const rzp = new window.Razorpay(options);
+    console.log(options,"here ith")
     rzp.on("payment.failed", (response) => {
       toast.error(`Payment failed: ${response.error.description}`);
       console.error("Payment failed", response.error);
@@ -43,13 +44,13 @@ const MakePayment = ({ selectedDate, selectedTimes }) => {
     rzp.open();
   };
 
-  const handleSuccess = async(response) => {
-    try{
-      const response = await user_Api.post()
-    }catch(err){
-      console.log(err.message)
-    }
-  };
+  // const handleSuccess = async(response) => {
+  //   try{
+  //     const response = await user_Api.post('/user/')
+  //   }catch(err){
+  //     console.log(err.message)
+  //   }
+  // };
   return (
     <>
       <div className="flex items-end justify-end">
