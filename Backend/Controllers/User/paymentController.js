@@ -12,6 +12,8 @@ let razorPayInstance = new Razorpay({
 
 const paymentSuccess = async (req, res) => {
   try {
+    const {response} = req.body
+
   } catch (err) {
     console.log(err.message);
   }
