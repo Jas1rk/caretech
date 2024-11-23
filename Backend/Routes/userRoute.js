@@ -28,7 +28,7 @@ const { userFollowDoctor } = followController;
 
 const { handleDisplayTimes } = slotBookingController;
 
-const {paymentSuccess} = paymentController
+const {proceedPayment,paymentSuccess} = paymentController
 
 userRouter
   .post("/register", userRegister)
@@ -51,6 +51,7 @@ userRouter
   .get("/doctor-details/:doctorid", doctorDetails)
   .post("/follow-doctor", verifyAccessToken, userFollowDoctor)
   .get("/display-slots", handleDisplayTimes)
+  .post('/proceed-to-payment',proceedPayment)
   .post('/payment-success',paymentSuccess)
 
 
