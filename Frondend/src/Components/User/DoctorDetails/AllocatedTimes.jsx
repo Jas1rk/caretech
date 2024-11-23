@@ -61,6 +61,7 @@ const AllocatedTimes = ({ timeResult, errorMessage, selectedDate }) => {
         <MakingPayment
           selectedDate={selectedDate}
           selectedTimes={selectedTimes}
+          toast={toast}
         />
       )}
     </>
