@@ -14,20 +14,23 @@ let razorPayInstance = new Razorpay({
 const proceedPayment = async (req, res) => {
   try {
     const { totalAmount } = req.body;
-    const receiptId = `receipt_${uuidv4()}`;
-
+    const receiptId = uuidv4();
+   
     const options = {
       amount: totalAmount * 100,
       currency: "INR",
-      receipt: receiptId,
+      receipt: "" + receiptId,
     };
-
-    const order = await razorPayInstance.orders.create(options);
-    if (order) {
-      res.status(200).json({ razorpayOrder: order });
-    } else {
-      res.status(500).json({ message: "Failed to make payment try again!" });
-    }
+    
+    await razorPayInstance.orders.create(options, (error, order) => {
+      if (!error) {
+        console.log("here is the ordder", order);
+        res.status(200).json({ razorpayOrder: order });
+      } else {
+        console.log("in the else case", error);
+        res.status(400).json({ message: "Failed to make payment try again!" });
+      }
+    });
   } catch (err) {
     console.log(err.message);
   }
