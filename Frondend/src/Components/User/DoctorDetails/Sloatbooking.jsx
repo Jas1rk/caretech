@@ -106,6 +106,7 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
             timeResult={result}
             errorMessage={error}
             selectedDate={date}
+            doctorId={doctorid}
           />
         )}
       </div>

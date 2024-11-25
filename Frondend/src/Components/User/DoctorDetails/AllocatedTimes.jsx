@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCouch } from "@fortawesome/free-solid-svg-icons";
 
-const AllocatedTimes = ({ timeResult, errorMessage, selectedDate }) => {
+const AllocatedTimes = ({ timeResult, errorMessage, selectedDate,doctorId }) => {
   const [selectedTimes, setSelectedTimes] = useState([]);
 
   const handleSlotSelected = (time) => {
@@ -62,6 +62,7 @@ const AllocatedTimes = ({ timeResult, errorMessage, selectedDate }) => {
           selectedDate={selectedDate}
           selectedTimes={selectedTimes}
           toast={toast}
+          doctorId={doctorId}
         />
       )}
     </>
