@@ -51,8 +51,8 @@ userRouter
   .get("/doctor-details/:doctorid", doctorDetails)
   .post("/follow-doctor", verifyAccessToken, userFollowDoctor)
   .get("/display-slots", handleDisplayTimes)
-  .post('/proceed-to-payment',proceedPayment)
-  .post('/payment-success',paymentSuccess)
+  .post('/proceed-to-payment',verifyAccessToken,proceedPayment)
+  .post('/payment-success',verifyAccessToken,paymentSuccess)
 
 
 module.exports = userRouter;

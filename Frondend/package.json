@@ -17,6 +17,7 @@
     "aos": "^2.3.4",
     "axios": "^1.7.2",
     "cropperjs": "^1.6.2",
+    "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "lodash.debounce": "^4.0.8",
     "react": "^18.3.1",

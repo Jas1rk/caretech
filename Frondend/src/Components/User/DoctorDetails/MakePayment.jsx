@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Logo from "../../../assets/Logo/Logo";
 import user_Api from "../../../service/Userinstance";
+import { loadScript } from "./loadrazorpay";
 
-const MakePayment = ({ selectedDate, selectedTimes, toast }) => {
+const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
   const { userData } = useSelector((state) => state.user);
   let price = 1000;
   const total = price * selectedTimes.length;
+
+  useEffect(() => {
+    loadScript(toast);
+    return () => {
+      const script = document.querySelector(
+        'script[src="https://checkout.razorpay.com/v1/checkout.js"]'
+      );
+      if (script) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
 
   const proceedToPayment = async () => {
     try {
@@ -14,28 +27,38 @@ const MakePayment = ({ selectedDate, selectedTimes, toast }) => {
         totalAmount: total,
       });
       if ([200].includes(status)) {
-        const { amount, receipt } = data.razorpayOrder;
-        razorpayOpen({ totalAmount: amount, paymentId, receipt });
+        const { amount, id, receipt } = data.razorpayOrder;
+        razorpayOpen({ totalAmount: amount, paymentId: receipt, order_id: id });
       }
     } catch (error) {
-      const { data, status } = response.error;
-      if (status === 400) toast.error(data.message);
+      const { response } = error;
+      if (response?.status === 500) {
+        toast.error(response.data.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
   };
 
-  const razorpayOpen = ({ totalAmount, paymentId }) => {
+  const razorpayOpen = ({ totalAmount, paymentId, order_id }) => {
     const options = {
-      key: "rzp_test_ymZP4ImziZlWcK",
-      amount: totalAmount * 100,
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: totalAmount,
       currency: "INR",
       name: "CareTech",
       description: "Booking Payment",
       image: Logo,
-      order_id: paymentId,
-      handler: async (response) => {
-        console.log(response, "<==>Payment success response");
-        await handleSuccess(response);
-      },
+      order_id: order_id,
+      handler: (response) =>
+        handleSuccess(
+          response,
+          paymentId,
+          totalAmount,
+          selectedDate,
+          selectedTimes,
+         {userId: userData.id},
+          doctorId
+        ),
       prefill: {
         name: userData.username,
         email: userData.email,
@@ -58,16 +81,32 @@ const MakePayment = ({ selectedDate, selectedTimes, toast }) => {
     rzp.open();
   };
 
-  const handleSuccess = async (response) => {
+  const handleSuccess = async (
+    response,
+    paymentId,
+    totalAmount,
+    selectedDate,
+    selectedTimes,
+    userId,
+    doctorId
+  ) => {
     const { razorpay_payment_id, razorpay_signature } = response;
-    console.log(razorpay_signature, "the payment id is here");
     try {
-      console.log(response, "====here is the response");
-      // const response = await user_Api.post("/user/");
+      const response = await user_Api.post("/payment-success", {
+        razorpay_payment_id,
+        razorpay_signature,
+        paymentId,
+        totalAmount,
+        selectedDate,
+        selectedTimes,
+        userId,
+        doctorId,
+      });
     } catch (err) {
       console.log(err.message);
     }
   };
+
   return (
     <>
       <div className="flex items-end justify-end">
