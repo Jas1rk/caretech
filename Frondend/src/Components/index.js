@@ -15,6 +15,7 @@ export {default as DoctorDetails} from './User/DoctorDetails/Doctordetails'
 export {default as DoctorSloatBooking} from './User/DoctorDetails/Sloatbooking'
 export {default as AllocatedTimes} from './User/DoctorDetails/AllocatedTimes'
 export {default as MakingPayment} from './User/DoctorDetails/MakePayment'
+export {default as BookingSuccessConfirm} from './User/DoctorDetails/BookingConfirm'
 //////////////admin side/////////////////////////////////////
 export {default as AdminLogin} from './Admin/AdminLogin/Adminlogin'
 export {default as AdminNavbar} from './Admin/AdminNavbar/Adminnavbar'

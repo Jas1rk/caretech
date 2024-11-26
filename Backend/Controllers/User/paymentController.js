@@ -1,5 +1,5 @@
 const Razorpay = require("razorpay");
-const Crypto = require("crypto");
+const crypto = require("crypto");
 const dotenv = require("dotenv");
 dotenv.config();
 const { v4: uuidv4 } = require("uuid");
@@ -37,6 +37,7 @@ const paymentSuccess = async (req, res) => {
     const {
       razorpay_payment_id,
       razorpay_signature,
+      razorpay_order_id,
       paymentId,
       totalAmount,
       selectedDate,
@@ -44,13 +45,61 @@ const paymentSuccess = async (req, res) => {
       userId: { userId: extractedUserId },
       doctorId,
     } = req.body;
-   
-    const [findUser,findDoctor] = await Promise.all([
+
+    const hmacSignature = crypto
+      .createHmac("sha256", razorpayKeySecret)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest("hex");
+
+    if (hmacSignature !== razorpay_signature) {
+      return res.status(409).json({ message: "Invalid payment signature" });
+    }
+
+    const [companyShare, doctorShare] = [0.6, 0.4].map(
+      (share) => share * totalAmount
+    );
+
+    const [findUser, findDoctor] = await Promise.all([
       User.findOne({ _id: extractedUserId }),
       Doctor.findOne({ _id: doctorId }),
     ]);
-    
+ 
+    const dateAndTime = findDoctor.timeAllocation.find(
+      (allocate) => allocate.storedDate === selectedDate
+    );
+
+    const updateTimes = dateAndTime.selectedTimes.filter((time) => !selectedTimes.includes(time))
    
+    const bookingDetails = {
+      userId: findUser,
+      paymentId: paymentId,
+      bookingStatus: "Processing",
+      bookingCost: doctorShare,
+    };
+    
+    await Doctor.updateOne(
+      { _id: doctorId, "timeAllocation.storedDate": selectedDate },
+      { $push: { sotBookingForPatients: bookingDetails } },
+    );
+
+
+    const newBooking = {
+      userId: findUser,
+      bookingId: paymentId,
+      slots: [
+        {
+          doctorId: findDoctor,
+          bookedDate: selectedDate,
+          BookedSeats: selectedTimes,
+        },
+      ],
+      shareOfCompany: companyShare,
+    };
+
+
+    const booked = await Booking.create(newBooking);
+    console.log("here is the data", booked);
+    res.status(200).json(booked);
   } catch (err) {
     console.log(err.message);
   }
