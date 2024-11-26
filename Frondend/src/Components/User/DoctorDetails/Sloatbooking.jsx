@@ -7,7 +7,7 @@ import AllocatedTimes from "./AllocatedTimes";
 import { useSelector } from "react-redux";
 import debounce from "lodash.debounce";
 
-const Sloatbooking = ({ closeModal, doctorid }) => {
+const Sloatbooking = ({ closeModal, doctorid ,bookingPageOpen}) => {
   const [date, setDate] = useState();
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -107,6 +107,7 @@ const Sloatbooking = ({ closeModal, doctorid }) => {
             errorMessage={error}
             selectedDate={date}
             doctorId={doctorid}
+            onCloseModal={closeModal}
           />
         )}
       </div>

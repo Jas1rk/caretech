@@ -209,6 +209,7 @@ const Doctordetails = () => {
         <DoctorSloatBooking
           closeModal={() => setOpenBookPage(false)}
           doctorid={doctorid}
+          bookingPageOpen={openBookPage}
         />
       )}
     </>

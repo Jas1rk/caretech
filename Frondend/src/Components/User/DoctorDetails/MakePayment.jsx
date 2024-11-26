@@ -3,11 +3,19 @@ import { useSelector } from "react-redux";
 import Logo from "../../../assets/Logo/Logo";
 import user_Api from "../../../service/Userinstance";
 import { loadScript } from "./loadrazorpay";
+import { BookingSuccessConfirm } from "../..";
 
-const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
+const MakePayment = ({
+  selectedDate,
+  selectedTimes,
+  toast,
+  doctorId,
+  onCloseModal,
+}) => {
   const { userData } = useSelector((state) => state.user);
   let price = 1000;
   const total = price * selectedTimes.length;
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     loadScript(toast);
@@ -27,6 +35,7 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
         totalAmount: total,
       });
       if ([200].includes(status)) {
+        onCloseModal();
         const { amount, id, receipt } = data.razorpayOrder;
         razorpayOpen({ totalAmount: amount, paymentId: receipt, order_id: id });
       }
@@ -56,7 +65,7 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
           totalAmount,
           selectedDate,
           selectedTimes,
-         {userId: userData.id},
+          { userId: userData.id },
           doctorId
         ),
       prefill: {
@@ -75,7 +84,6 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
     const rzp = new window.Razorpay(options);
     rzp.on("payment.failed", (response) => {
       toast.error(`Payment failed: ${response.error.description}`);
-      console.error("Payment failed", response.error);
     });
 
     rzp.open();
@@ -90,11 +98,13 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
     userId,
     doctorId
   ) => {
-    const { razorpay_payment_id, razorpay_signature } = response;
+    const { razorpay_payment_id, razorpay_signature, razorpay_order_id } =
+      response;
     try {
       const response = await user_Api.post("/payment-success", {
         razorpay_payment_id,
         razorpay_signature,
+        razorpay_order_id,
         paymentId,
         totalAmount,
         selectedDate,
@@ -102,8 +112,18 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
         userId,
         doctorId,
       });
-    } catch (err) {
-      console.log(err.message);
+      console.log(response, "is here please check it out ");
+      if (response.status === 200) {
+        toast.info("helllo")
+        setShowConfirm(true);
+      }
+    } catch (error) {
+      const { response } = error;
+      if (response?.status === 409) {
+        toast.error(response.data.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
   };
 
@@ -117,6 +137,7 @@ const MakePayment = ({ selectedDate, selectedTimes, toast, doctorId }) => {
           Make payment
         </button>
       </div>
+      {showConfirm && <BookingSuccessConfirm />}
     </>
   );
 };

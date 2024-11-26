@@ -6,6 +6,10 @@ const BookingSchema = new mongoose.Schema(
       ref: "User",
     },
 
+    bookingId: {
+      type: String,
+    },
+
     slots: [
       {
         doctorId: {
@@ -18,10 +22,11 @@ const BookingSchema = new mongoose.Schema(
         BookedSeats: {
           type: [String],
         },
+        
       },
     ],
 
-    SeatAmountForCompany: {
+    shareOfCompany: {
       type: Number,
       default: 0,
     },
