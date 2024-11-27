@@ -46,12 +46,13 @@ const paymentSuccess = async (req, res) => {
       doctorId,
     } = req.body;
 
-    const hmacSignature = crypto
-      .createHmac("sha256", razorpayKeySecret)
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest("hex");
+    const isValidSignature = validSignature(
+      razorpay_payment_id,
+      razorpay_signature,
+      razorpay_order_id
+    );
 
-    if (hmacSignature !== razorpay_signature) {
+    if (!isValidSignature) {
       return res.status(409).json({ message: "Invalid payment signature" });
     }
 
@@ -63,25 +64,27 @@ const paymentSuccess = async (req, res) => {
       User.findOne({ _id: extractedUserId }),
       Doctor.findOne({ _id: doctorId }),
     ]);
- 
+
     const dateAndTime = findDoctor.timeAllocation.find(
       (allocate) => allocate.storedDate === selectedDate
     );
+    const times = dateAndTime.selectedTimes;
 
-    const updateTimes = dateAndTime.selectedTimes.filter((time) => !selectedTimes.includes(time))
-   
+    const updateSlot =
+      times.length === 1
+        ? { $pull: { timeAllocation: { storedDate: selectedDate } } }
+        : {
+            $pull: {
+              "timeAllocation.$.selectedTimes": { $in: selectedTimes },
+            },
+          };
+          
     const bookingDetails = {
       userId: findUser,
       paymentId: paymentId,
       bookingStatus: "Processing",
       bookingCost: doctorShare,
     };
-    
-    await Doctor.updateOne(
-      { _id: doctorId, "timeAllocation.storedDate": selectedDate },
-      { $push: { sotBookingForPatients: bookingDetails } },
-    );
-
 
     const newBooking = {
       userId: findUser,
@@ -96,13 +99,37 @@ const paymentSuccess = async (req, res) => {
       shareOfCompany: companyShare,
     };
 
+    const slotUpdate = {
+      $push: { sotBookingForPatients: bookingDetails },
+      ...updateSlot,
+    };
 
-    const booked = await Booking.create(newBooking);
-    console.log("here is the data", booked);
-    res.status(200).json(booked);
+    await Promise.all([
+      Doctor.updateOne(
+        {
+          _id: doctorId,
+          "timeAllocation.storedDate": selectedDate,
+        },
+        slotUpdate
+      ),
+      Booking.create(newBooking),
+    ]);
+    res.status(200).json({ bookingDetails, newBooking });
   } catch (err) {
     console.log(err.message);
   }
+};
+
+const validSignature = (
+  razorpay_payment_id,
+  razorpay_signature,
+  razorpay_order_id
+) => {
+  const hmacSignature = crypto
+    .createHmac("sha256", razorpayKeySecret)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+    .digest("hex");
+  return hmacSignature === razorpay_signature;
 };
 
 module.exports = {
