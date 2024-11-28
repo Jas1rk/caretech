@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 const Doctor = require("../../Model/doctorModel");
 const Booking = require("../../Model/BookingModel");
 const User = require("../../Model/userModel");
+const Notification = require('../../Model/notificationModel')
 
 const { razorpayKeyId, razorpayKeySecret } = process.env;
 
@@ -78,7 +79,7 @@ const paymentSuccess = async (req, res) => {
               "timeAllocation.$.selectedTimes": { $in: selectedTimes },
             },
           };
-          
+
     const bookingDetails = {
       userId: findUser,
       paymentId: paymentId,

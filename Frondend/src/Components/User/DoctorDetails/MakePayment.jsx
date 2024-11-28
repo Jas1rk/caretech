@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Logo from "../../../assets/Logo/Logo";
 import user_Api from "../../../service/Userinstance";
 import { loadScript } from "./loadrazorpay";
+import BookingConfirm from "./BookingConfirm";
+import { useNavigate } from "react-router-dom";
 import { BookingSuccessConfirm } from "../..";
 
 const MakePayment = ({
@@ -35,7 +37,7 @@ const MakePayment = ({
         totalAmount: total,
       });
       if ([200].includes(status)) {
-        onCloseModal();
+        // onCloseModal();
         const { amount, id, receipt } = data.razorpayOrder;
         razorpayOpen({ totalAmount: amount, paymentId: receipt, order_id: id });
       }
@@ -101,7 +103,7 @@ const MakePayment = ({
     const { razorpay_payment_id, razorpay_signature, razorpay_order_id } =
       response;
     try {
-      const response = await user_Api.post("/payment-success", {
+      const { data, status } = await user_Api.post("/payment-success", {
         razorpay_payment_id,
         razorpay_signature,
         razorpay_order_id,
@@ -112,9 +114,7 @@ const MakePayment = ({
         userId,
         doctorId,
       });
-      console.log(response, "is here please check it out ");
-      if (response.status === 200) {
-        toast.info("helllo")
+      if ([200].includes(status)) {
         setShowConfirm(true);
       }
     } catch (error) {
@@ -127,16 +127,18 @@ const MakePayment = ({
     }
   };
 
+  // navigate("/payment/success", { state: { paymentStatus: "completed" } });
   return (
     <>
       <div className="flex items-end justify-end">
         <button
           className="p-2 rounded-lg text-white text-sm bg-gradient-to-r from-teal-700 to-blue-900"
-          onClick={proceedToPayment}
+          onClick={() => proceedToPayment()}
         >
           Make payment
         </button>
       </div>
+      {console.log("here is ===",showConfirm)} 
       {showConfirm && <BookingSuccessConfirm />}
     </>
   );
