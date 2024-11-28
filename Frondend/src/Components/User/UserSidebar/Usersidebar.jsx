@@ -14,6 +14,12 @@ import { useDispatch } from "react-redux";
 import "./Usersidebar.css";
 import { ConfirmAlert } from "../..";
 
+const sidebar = [
+  { url: "/profile", icon: faUserEdit, title: "Profile" },
+  { url: "/booking-history", icon: faBookBookmark, title: "My Bookings" },
+  { url: "/following-doctors", icon: faPeopleGroup, title: "Following Doctors" },
+  { url: "/wallet", icon: faUserEdit, title: "Wallet" },
+];
 
 const Usersidebar = () => {
   const location = useLocation();
@@ -37,54 +43,26 @@ const Usersidebar = () => {
   return (
     <div className="User-sidebar-main-container">
       <ul className="userSidebar-ul">
-        <li
-          className={`userSidebar-list ${
-            isActive === "/profile" ? "active" : ""
-          }`}
-          onClick={() => handleActive()}
-        >
-          <FontAwesomeIcon icon={faUserEdit} className="user-profile-icon" />
-          <Link to="/profile" className="profile-link">
-            Profile
-          </Link>
-        </li>
-        <li className="userSidebar-list">
-          <FontAwesomeIcon
-            icon={faBookBookmark}
-            className="user-profile-icon"
-          />
-          <Link to="/profile" className="profile-link">
-            My Bookings
-          </Link>
-        </li>
-        <li className="userSidebar-list">
-          <FontAwesomeIcon
-            icon={faPeopleGroup}
-            className="user-profile-icon"
-          />
-          <Link to="/profile" className="profile-link">
-            Following Doctors
-          </Link>
-        </li>
-        <li className="userSidebar-list">
-          <FontAwesomeIcon icon={faUserNurse} className="user-profile-icon" />
-          <Link to="/profile" className="profile-link">
-            Patient Details
-          </Link>
-        </li>
-        <li className="userSidebar-list">
-          <FontAwesomeIcon icon={faWallet} className="user-profile-icon" />
-          <Link to="/profile" className="profile-link">
-            Wallet
-          </Link>
-        </li>
+        {sidebar.map((data, index) => (
+          <li key={index}
+            className={`userSidebar-list ${
+              isActive === data.url ? "active" : ""
+            }`}
+            onClick={() => handleActive()}
+          >
+            <FontAwesomeIcon icon={data.icon} className="user-profile-icon" />
+            <Link to={data.url} className="profile-link">
+              {data.title}
+            </Link>
+          </li>
+        ))}
+
         <li className="userSidebar-list" onClick={handleUserLogout}>
           <FontAwesomeIcon
             icon={faRightToBracket}
             className="user-profile-icon"
           />
           <p className="profile-link">Logout</p>
-          
         </li>
       </ul>
     </div>
