@@ -16,6 +16,7 @@ import {
   DoctorSloatAllocation,
   Error404,
   BookingHistoryView,
+  DoctorUsersBookingDetails,
 } from "./Components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -69,7 +70,8 @@ function App() {
           <Route path="/doctor/doctorotp" element={<DoctorOtp />} />
           <Route path="/doctor/doctorregister" element={<DoctorRegister />} />
           <Route path="/doctor/doctorprofile"  element={<IsDoctor><DoctorProfile /></IsDoctor> }/>
-          <Route  path="/doctor/sloat-allocation"element={<IsDoctor><DoctorSloatAllocation /></IsDoctor> }/>
+          <Route path="/doctor/sloat-allocation"element={<IsDoctor><DoctorSloatAllocation /></IsDoctor> }/>
+          <Route path="/doctor/booking-details" element={<IsDoctor><DoctorUsersBookingDetails/></IsDoctor>}/>
            
           <Route path="*" element={<Error404 />} />
         </Routes>
