@@ -7,8 +7,8 @@ const { verifyAccessToken } = require("../Utils/jwt");
 const landingPageController = require("../Controllers/User/lanidingPageController");
 const followController = require("../Controllers/User/FollowRequest");
 const slotBookingController = require("../Controllers/User/slotBooking");
-const paymentController = require('../Controllers/User/paymentController')
-
+const paymentController = require("../Controllers/User/paymentController");
+const bookingHistoryController = require("../Controllers/User/bookingHistory");
 
 const {
   userRegister,
@@ -28,7 +28,9 @@ const { userFollowDoctor } = followController;
 
 const { handleDisplayTimes } = slotBookingController;
 
-const {proceedPayment,paymentSuccess} = paymentController
+const { proceedPayment, paymentSuccess } = paymentController;
+
+const { viewBookingHistory } = bookingHistoryController;
 
 userRouter
   .post("/register", userRegister)
@@ -51,8 +53,8 @@ userRouter
   .get("/doctor-details/:doctorid", doctorDetails)
   .post("/follow-doctor", verifyAccessToken, userFollowDoctor)
   .get("/display-slots", handleDisplayTimes)
-  .post('/proceed-to-payment',verifyAccessToken,proceedPayment)
-  .post('/payment-success',verifyAccessToken,paymentSuccess)
-
+  .post("/proceed-to-payment", verifyAccessToken, proceedPayment)
+  .post("/payment-success", verifyAccessToken, paymentSuccess)
+  .get("/view-booking-history", verifyAccessToken, viewBookingHistory);
 
 module.exports = userRouter;
