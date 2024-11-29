@@ -24,7 +24,6 @@ const viewBookingHistory = async (req, res) => {
         },
       },
     ]);
-    console.log("The DAms",fetchBookHistory)
     res.status(200).json(fetchBookHistory)
   } catch (error) {
     res.status(500).json(error.message)

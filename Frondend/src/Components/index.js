@@ -36,6 +36,8 @@ export { default as DoctorNavbar } from "./Doctor/DoctorHeader/Doctorheader";
 export { default as DoctorSidebar } from "./Doctor/DoctorSidebar/Doctorsidebar";
 export { default as DoctorSloatAllocation } from "./Doctor/SloatAllocate/Sloatallocation";
 export { default as DoctorDisplaySlot } from "./Doctor/SloatAllocate/Displayslot";
+export { default as DoctorUsersBookingDetails } from "./Doctor/DoctorBookedDetails/Bookingdetails";
+export { default as DoctorViewBookingDetails } from "./Doctor/DoctorBookedDetails/ViewDetails";
 
 ////////////////commen/////////////////////////////////////////
 export { default as Pagination } from "./Commen/Pagination/Pagination";

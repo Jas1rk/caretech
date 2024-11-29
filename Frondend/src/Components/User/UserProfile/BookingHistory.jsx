@@ -9,6 +9,7 @@ const BookingHistory = () => {
   const [viewMore, setViewMore] = useState(false);
   const { userData } = useSelector((state) => state.user);
   const [historyResult, setHistoryResult] = useState(null);
+  
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -28,8 +29,7 @@ const BookingHistory = () => {
   }, []);
 
   const handleView = (history) => {
-    setHistoryResult(history)
-    setViewMore(true)
+    setViewMore(history)
   }
 
   return (
@@ -107,7 +107,7 @@ const BookingHistory = () => {
       {viewMore && (
         <HistoryViewMore
           closeModal={() => setViewMore(false)}
-          viewMoreResult={historyResult}
+          viewMoreResult={viewMore}
         />
       )}
     </>

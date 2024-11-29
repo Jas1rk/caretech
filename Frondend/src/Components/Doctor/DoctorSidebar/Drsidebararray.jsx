@@ -11,7 +11,7 @@ import {
 export const sidebarItems = [
   { path: "/", label: "Home", icon: faHome },
   { path: "/doctor/doctorprofile", label: "Profile", icon: faUserDoctor },
-  { path: "/doctor/appointment", label: "Bookings", icon: faBook },
+  { path: "/doctor/booking-details", label: "Bookings", icon: faBook },
   { path: "/doctor/followers", label: "Followers", icon: faPeopleGroup },
   {
     path: "/doctor/sloat-allocation",
