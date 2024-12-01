@@ -13,6 +13,7 @@ import DoctorRoutes from "./Routes/DoctorRoutes";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
