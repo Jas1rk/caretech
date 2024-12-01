@@ -3,6 +3,7 @@ import { DoctorNavbar, DoctorViewBookingDetails, Pagination } from "../..";
 import { toast } from "sonner";
 import doctor_Api from "../../../service/Doctorinstance";
 import { useSelector } from "react-redux";
+import dummy from "../../../assets/Public/dummy.jpg";
 
 const Bookingdetails = () => {
   const [openView, setOpenView] = useState(false);
@@ -13,9 +14,10 @@ const Bookingdetails = () => {
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        const response = await doctor_Api(
+        const response = await doctor_Api.get(
           `/doctor/fetch-booking-details?doctor_id=${doctorData.id}`
         );
+        console.log('here is the data',response)
       } catch (error) {
         if (error.message) {
           const { data, status } = error.response;
@@ -34,7 +36,7 @@ const Bookingdetails = () => {
         <table className="table-auto w-full bor text-left ">
           <thead>
             <tr className="bg-black text-white">
-              {["#", "User Name", "Appointment Date", "Status", "Action"].map(
+              {["#","Profile", "User Name", "Appointment Date", "Status", "Action"].map(
                 (table, index) => (
                   <th className=" px-4 py-2" key={index}>
                     {table}
@@ -49,6 +51,13 @@ const Bookingdetails = () => {
               .map((_, data) => (
                 <tr key={data}>
                   <td className="border border-gray-300 px-4 py-2">1</td>
+                  <td className="px-4 py-2">
+                    <img
+                      src={dummy}
+                      alt="dr"
+                      className="w-9 h-9 rounded-full"
+                    />
+                  </td>
                   <td className="border border-gray-300 px-4 py-2">John Doe</td>
                   <td className="border border-gray-300 px-4 py-2">
                     2024-12-01
@@ -80,4 +89,6 @@ const Bookingdetails = () => {
   );
 };
 
+
 export default Bookingdetails;
+// src={`../src/assets/images/${history?.doctorDetails[0]?.profileImageOfDoctor}`}
