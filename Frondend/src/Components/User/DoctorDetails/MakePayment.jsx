@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import Logo from "../../../assets/Logo/Logo";
 import user_Api from "../../../service/Userinstance";
 import { loadScript } from "./loadrazorpay";
-import BookingConfirm from "./BookingConfirm";
-import { useNavigate } from "react-router-dom";
 import { BookingSuccessConfirm } from "../..";
 
 const MakePayment = ({
@@ -54,7 +52,7 @@ const MakePayment = ({
   const razorpayOpen = ({ totalAmount, paymentId, order_id }) => {
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: totalAmount,
+      amount: totalAmount * 100,
       currency: "INR",
       name: "CareTech",
       description: "Booking Payment",

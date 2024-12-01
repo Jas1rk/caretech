@@ -48,7 +48,7 @@ const BookingHistory = () => {
                   "Booking Status",
                   "Action",
                 ].map((data, index) => (
-                  <th className="px-4 py-3 text-left first:rounded-tl-lg last:rounded-tr-lg">
+                  <th className="px-4 py-3 text-left first:rounded-tl-lg last:rounded-tr-lg" key={index}>
                     {data}
                   </th>
                 ))}
