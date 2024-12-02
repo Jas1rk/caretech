@@ -9,7 +9,6 @@ const BookingHistory = () => {
   const [viewMore, setViewMore] = useState(false);
   const { userData } = useSelector((state) => state.user);
   const [historyResult, setHistoryResult] = useState(null);
-  
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -17,6 +16,7 @@ const BookingHistory = () => {
         const { data, status } = await user_Api.get(
           `/view-booking-history?userId=${userData.id}`
         );
+        console.log(data);
         if ([200].includes(status)) setHistoryResult(data);
       } catch (error) {
         if (error.response) {
@@ -29,8 +29,8 @@ const BookingHistory = () => {
   }, []);
 
   const handleView = (history) => {
-    setViewMore(history)
-  }
+    setViewMore(history);
+  };
 
   return (
     <>
@@ -48,7 +48,10 @@ const BookingHistory = () => {
                   "Booking Status",
                   "Action",
                 ].map((data, index) => (
-                  <th className="px-4 py-3 text-left first:rounded-tl-lg last:rounded-tr-lg" key={index}>
+                  <th
+                    className="px-4 py-3 text-left first:rounded-tl-lg last:rounded-tr-lg"
+                    key={index}
+                  >
                     {data}
                   </th>
                 ))}
@@ -69,24 +72,19 @@ const BookingHistory = () => {
                     {history?.slots?.bookedDate}
                   </td>
                   <td className=" text-sm ">
-                    {history?.doctorDetails[0]?.sotBookingForPatients[0]
-                      ?.bookingStatus === "Processing" ? (
-                      <div className="bg-yellow-100 rounded-2xl text-center text-yellow-800 border border-yellow-600 px-1 py-1">
-                        {
-                          history?.doctorDetails[0]?.sotBookingForPatients[0]
-                            ?.bookingStatus
-                        }
-                      </div>
-                    ) : (
-                      <td className=" text-sm ">
-                        <div className="bg-green-300 rounded-2xl text-center text-green-800 border border-green-800 px-1 py-1">
-                          {
-                            history?.doctorDetails[0]?.sotBookingForPatients[0]
-                              ?.bookingStatus
-                          }
-                        </div>
-                      </td>
-                    )}
+                    <div
+                      className={`${
+                        history?.doctorDetails[0]?.sotBookingForPatients[0]
+                          ?.bookingStatus === "Processing"
+                          ? "bg-yellow-100 text-yellow-800 border-yellow-600"
+                          : "bg-green-100 text-green-800 border-green-600"
+                      } rounded-2xl text-center  border  px-1 py-1`}
+                    >
+                      {history?.doctorDetails[0]?.sotBookingForPatients[0]
+                        ?.bookingStatus === "Processing"
+                        ? "processing"
+                        : "confirmed"}
+                    </div>
                   </td>
 
                   <td className=" text-sm text-gray-700">

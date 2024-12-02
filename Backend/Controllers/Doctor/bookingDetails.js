@@ -33,10 +33,9 @@ const fetchUsersBookings = async (req, res) => {
             "slots.BookedSeats": 1,
           },
         },
-        {$sort:{_id: -1}}
+        { $sort: { _id: -1 } },
       ]),
     ]);
-    console.log(fetchDetails, fetchBooking);
     res.status(200).json({ fetchDetails, fetchBooking });
   } catch (error) {
     res.status(500).json(error.message);
@@ -45,9 +44,16 @@ const fetchUsersBookings = async (req, res) => {
 
 const changeStatus = async (req, res) => {
   try {
+    const { bookingId } = req.body;
+    const updateStatus = await Doctor.updateOne(
+      { "sotBookingForPatients.paymentId": bookingId },
+      { $set: { "sotBookingForPatients.$.bookingStatus": "Confirmed" } }
+    );
+    console.log(updateStatus, "The Damn");
+    res.status(200).json({ message: "Booking Accepted and Status Changed" });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

@@ -1,8 +1,22 @@
 import React from "react";
+import { toast } from "sonner";
+import doctor_Api from "../../../service/Doctorinstance";
 
 const ViewDetails = ({ closeModal, bookingResult }) => {
-  const handleAccept = (bookingId) => {
-    console.log(bookingId);
+  const handleAccept = async (bookingId) => {
+    try {
+      const { data, status } = await doctor_Api.post("/doctor/change-status", {
+        bookingId,
+      });
+      console.log(data)
+      if ([200].includes(status)) toast.success(data.message);
+      closeModal()
+    } catch (error) {
+      if (error.response) {
+        const { data, status } = error.response;
+        if ([500].includes(status)) toast.error(data.message);
+      }
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ const ViewDetails = ({ closeModal, bookingResult }) => {
             <div className="mt-3">
               <button
                 className="bg-[#136a8a] text-white w-full rounded-lg px-4 py-1 text-sm"
-                onClick={() => handleAccept(bookingResult._id)}
+                onClick={() => handleAccept(bookingResult?.bookingId)}
               >
                 Accept
               </button>
