@@ -28,7 +28,7 @@ const Bookingdetails = () => {
     fetchBookingDetails();
   }, [doctorData.id]);
 
- /// pagination logic
+  /// pagination logic
 
   return (
     <>
@@ -101,8 +101,17 @@ const Bookingdetails = () => {
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
                     <button
-                      className="bg-black text-white rounded-md px-4 py-1"
+                      className={`bg-black text-white rounded-md px-4 py-1 ${
+                        bookings?.sotBookingForPatients?.bookingStatus ===
+                        "Confirmed"
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
                       onClick={() => setOpenView(correspondingData)}
+                      disabled={
+                        bookings?.sotBookingForPatients?.bookingStatus ===
+                        "Confirmed"
+                      }
                     >
                       view
                     </button>
@@ -125,4 +134,3 @@ const Bookingdetails = () => {
 };
 
 export default Bookingdetails;
-
